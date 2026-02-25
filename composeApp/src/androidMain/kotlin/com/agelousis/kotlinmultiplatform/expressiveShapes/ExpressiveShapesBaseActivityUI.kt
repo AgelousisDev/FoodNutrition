@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.expressiveShapes.ui
+package com.agelousis.kotlinmultiplatform.expressiveShapes
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
@@ -15,11 +15,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.agelousis.kotlinmultiplatform.expressiveShapes.ExpressiveShapesBaseActivity
 import com.agelousis.kotlinmultiplatform.expressiveShapes.extensions.ExpressiveShapesBaseActivityNavigation
 import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
 import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
@@ -62,7 +60,7 @@ fun ExpressiveShapesBaseActivityView(
             )
         },
         content = { contentPadding ->
-            TransactionHistoryManagementBaseNavigation(
+            Navigation(
                 contentPadding = contentPadding,
                 viewModel = viewModel,
                 backStack = backStack
@@ -72,21 +70,19 @@ fun ExpressiveShapesBaseActivityView(
 }
 
 @Composable
-private fun TransactionHistoryManagementBaseNavigation(
+private fun Navigation(
     contentPadding: PaddingValues,
     viewModel: ExpressiveShapesBaseViewModel,
     backStack: SnapshotStateList<ExpressiveShapesNavigationScreen>
 ) {
-    val context = LocalContext.current
     LaunchedEffect(
         key1 = backStack.size
     ) {
         backStack.lastOrNull()?.handleTopAppBar(
-            context = context,
             viewModel = viewModel
         )
     }
-    (context as? ExpressiveShapesBaseActivity)?.ExpressiveShapesBaseActivityNavigation(
+    ExpressiveShapesBaseActivityNavigation(
         contentPadding = contentPadding,
         viewModel = viewModel,
         backStack = backStack
