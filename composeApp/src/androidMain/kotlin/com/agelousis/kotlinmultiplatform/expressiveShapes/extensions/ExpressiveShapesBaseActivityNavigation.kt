@@ -1,5 +1,6 @@
 package com.agelousis.kotlinmultiplatform.expressiveShapes.extensions
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -9,10 +10,11 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.agelousis.kotlinmultiplatform.expressiveShapes.ExpressiveShapesBaseActivity
 import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
+import com.agelousis.kotlinmultiplatform.expressiveShapes.ui.ExpressiveShapesScreenView
 import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
 
 @Composable
-fun ExpressiveShapesBaseActivity.TransactionHistoryManagementBaseActivityNavigation(
+fun ExpressiveShapesBaseActivity.ExpressiveShapesBaseActivityNavigation(
     contentPadding: PaddingValues,
     viewModel: ExpressiveShapesBaseViewModel,
     backStack: SnapshotStateList<ExpressiveShapesNavigationScreen>
@@ -28,7 +30,7 @@ fun ExpressiveShapesBaseActivity.TransactionHistoryManagementBaseActivityNavigat
         },
         entryProvider = entryProvider {
             entry<ExpressiveShapesNavigationScreen.ExpressiveShapesScreen> {
-
+                ExpressiveShapesScreenView()
             }
         }
     )

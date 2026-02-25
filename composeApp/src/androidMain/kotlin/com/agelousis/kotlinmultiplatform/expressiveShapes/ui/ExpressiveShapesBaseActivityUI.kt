@@ -6,10 +6,10 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.expressiveShapes.ExpressiveShapesBaseActivity
-import com.agelousis.kotlinmultiplatform.expressiveShapes.extensions.TransactionHistoryManagementBaseActivityNavigation
+import com.agelousis.kotlinmultiplatform.expressiveShapes.extensions.ExpressiveShapesBaseActivityNavigation
 import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
 import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
 
@@ -36,12 +36,12 @@ fun ExpressiveShapesBaseActivityView(
     }
     Scaffold(
         topBar = {
-            LargeTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
                         text = viewModel.appBarTitle
                             ?: "",
-                        style = MaterialTheme.typography.displayLarge,
+                        style = MaterialTheme.typography.titleLarge,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -86,7 +86,7 @@ private fun TransactionHistoryManagementBaseNavigation(
             viewModel = viewModel
         )
     }
-    (context as? ExpressiveShapesBaseActivity)?.TransactionHistoryManagementBaseActivityNavigation(
+    (context as? ExpressiveShapesBaseActivity)?.ExpressiveShapesBaseActivityNavigation(
         contentPadding = contentPadding,
         viewModel = viewModel,
         backStack = backStack
