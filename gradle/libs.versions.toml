@@ -22,6 +22,7 @@ nav3Version = "1.0.0-alpha06"
 nav3LifecycleVersion = "2.10.0-alpha08"
 navigation3 = "1.0.0-alpha06"
 jetbrainsIconsExtendedVersion = "1.7.3"
+componentsResourcesVersion = "1.10.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -47,7 +48,6 @@ jetbrains-lifecycle-viewmodel-navigation3 = { module = "org.jetbrains.androidx.l
 jetbrains-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptiveVersion" }
 jetbrains-material3-window-size = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClassVersion" }
 jetbrains-compose-material-icons-extended = { group = "org.jetbrains.compose.material", name = "material-icons-extended", version.ref = "jetbrainsIconsExtendedVersion" }
-
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

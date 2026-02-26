@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.expressiveShapes
+package com.agelousis.kotlinmultiplatform.expressiveShapes.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
@@ -21,11 +21,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.expressiveShapes.extensions.ExpressiveShapesBaseActivityNavigation
 import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
 import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
+import com.agelousis.kotlinmultiplatform.utils.SuccessUnitBlock
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpressiveShapesBaseActivityView(
-    viewModel: ExpressiveShapesBaseViewModel
+    viewModel: ExpressiveShapesBaseViewModel,
+    onBackPress: SuccessUnitBlock
 ) {
     val backStack = remember {
         mutableStateListOf<ExpressiveShapesNavigationScreen>(
@@ -46,9 +49,7 @@ fun ExpressiveShapesBaseActivityView(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = {
-
-                        }
+                        onClick = onBackPress
                     ) {
                         Icon(
                             imageVector = viewModel.navigationIcon
@@ -69,6 +70,7 @@ fun ExpressiveShapesBaseActivityView(
     )
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Navigation(
     contentPadding: PaddingValues,
@@ -94,7 +96,8 @@ private fun Navigation(
 fun ExpressiveShapesBaseActivityViewPreview() {
     MaterialTheme {
         ExpressiveShapesBaseActivityView(
-            viewModel = viewModel()
+            viewModel = viewModel(),
+            onBackPress = {}
         )
     }
 }

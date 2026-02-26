@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.agelousis.kotlinmultiplatform.expressiveShapes.ui.ExpressiveShapesBaseActivityView
 
 class ExpressiveShapesBaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +15,8 @@ class ExpressiveShapesBaseActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 ExpressiveShapesBaseActivityView(
-                    viewModel = viewModel()
+                    viewModel = viewModel(),
+                    onBackPress = ::finish
                 )
             }
         }
