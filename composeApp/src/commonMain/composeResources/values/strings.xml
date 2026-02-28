@@ -1,4 +1,22 @@
 <resources>
     <string name="key_app_name_label">Kotlin Multiplatform</string>
     <string name="key_expressive_shapes_label">Expressive Shapes</string>
+    <string-array name="key_ketogenic_super_food_array">
+        <item>Avocado</item>
+        <item>Flax seed</item>
+        <item>Chia seed</item>
+        <item>Olive oil</item>
+        <item>Eggs</item>
+        <item>Ghee</item>
+        <item>Cocoa butter</item>
+    </string-array>
+    <string-array name="key_ketogenic_super_food_descriptions_array">
+        <item>Rich in healthy fats and fiber.</item>
+        <item>Excellent source of omega-3 fatty acids.</item>
+        <item>Packed with fiber and antioxidants.</item>
+        <item>High in monounsaturated fats.</item>
+        <item>Versatile protein source with healthy fats.</item>
+        <item>Clarified butter with a high smoke point.</item>
+        <item>Healthy fat from cocoa beans.</item>
+    </string-array>
 </resources>

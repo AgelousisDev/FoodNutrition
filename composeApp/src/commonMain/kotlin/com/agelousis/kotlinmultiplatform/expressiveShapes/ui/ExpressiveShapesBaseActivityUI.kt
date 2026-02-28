@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -60,6 +62,17 @@ fun ExpressiveShapesBaseActivityView(
                 }
             )
         },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = {}
+            ) {
+                Text(
+                    text = "Click me",
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
         content = { contentPadding ->
             Navigation(
                 contentPadding = contentPadding,
