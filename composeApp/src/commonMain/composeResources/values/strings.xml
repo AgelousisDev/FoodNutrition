@@ -1,6 +1,7 @@
 <resources>
     <string name="key_app_name_label">Kotlin Multiplatform</string>
     <string name="key_expressive_shapes_label">Expressive Shapes</string>
+    <string name="key_ketogenic_super_foods_label">Ketogenic Super Foods</string>
     <string-array name="key_ketogenic_super_food_array">
         <item>Avocado</item>
         <item>Flax seed</item>
@@ -11,12 +12,12 @@
         <item>Cocoa butter</item>
     </string-array>
     <string-array name="key_ketogenic_super_food_descriptions_array">
-        <item>Rich in healthy fats and fiber.</item>
-        <item>Excellent source of omega-3 fatty acids.</item>
-        <item>Packed with fiber and antioxidants.</item>
-        <item>High in monounsaturated fats.</item>
-        <item>Versatile protein source with healthy fats.</item>
-        <item>Clarified butter with a high smoke point.</item>
-        <item>Healthy fat from cocoa beans.</item>
+        <item>Rich in healthy\nfats and fiber.</item>
+        <item>Excellent source of\nomega-3 fatty acids.</item>
+        <item>Packed with\nfiber and antioxidants.</item>
+        <item>High in\nmonounsaturated fats.</item>
+        <item>Versatile protein source\nwith healthy fats.</item>
+        <item>Clarified butter with\na high smoke point.</item>
+        <item>Healthy fat\nfrom cocoa beans.</item>
     </string-array>
 </resources>

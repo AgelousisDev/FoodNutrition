@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -53,8 +55,6 @@ fun ScalingHorizontalPagerView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HorizontalPager(
-            modifier = Modifier
-                .fillMaxWidth(),
             state = pagerState,
             contentPadding = PaddingValues(
                 horizontal = 90.dp
@@ -110,14 +110,15 @@ private fun PagerView(
             containerColor = Color.White
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        )
+            defaultElevation = 12.dp
+        ),
+        shape = CircleShape
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    all = 24.dp
+                    vertical = 40.dp
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
@@ -204,8 +205,23 @@ private fun PagerView(
 @Composable
 fun ScalingHorizontalPagerViewPreview() {
     MaterialTheme {
-        ScalingHorizontalPagerView(
-            scalingHorizontalPagerDataList = KetogenicSuperFood.entries
-        )
+        Box(
+            modifier = Modifier
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(
+                        size = 16.dp
+                    )
+                )
+                .fillMaxWidth()
+                .height(
+                    height = 300.dp
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            ScalingHorizontalPagerView(
+                scalingHorizontalPagerDataList = KetogenicSuperFood.entries
+            )
+        }
     }
 }

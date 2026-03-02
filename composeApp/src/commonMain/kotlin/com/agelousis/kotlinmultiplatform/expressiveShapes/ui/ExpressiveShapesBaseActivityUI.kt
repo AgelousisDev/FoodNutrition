@@ -24,7 +24,10 @@ import com.agelousis.kotlinmultiplatform.expressiveShapes.extensions.ExpressiveS
 import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
 import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
 import com.agelousis.kotlinmultiplatform.utils.SuccessUnitBlock
+import kotlinmultiplatform.composeapp.generated.resources.Res
+import kotlinmultiplatform.composeapp.generated.resources.key_ketogenic_super_foods_label
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +54,12 @@ fun ExpressiveShapesBaseActivityView(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = onBackPress
+                        onClick = {
+                            if (backStack.size == 1)
+                                backStack.removeLastOrNull()
+                            else
+                                onBackPress()
+                        }
                     ) {
                         Icon(
                             imageVector = viewModel.navigationIcon
@@ -64,10 +72,16 @@ fun ExpressiveShapesBaseActivityView(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = {}
+                onClick = {
+                    backStack.add(
+                        element = ExpressiveShapesNavigationScreen.KetogenicSuperFoodsScreen
+                    )
+                }
             ) {
                 Text(
-                    text = "Click me",
+                    text = stringResource(
+                        resource = Res.string.key_ketogenic_super_foods_label
+                    ),
                     style = MaterialTheme.typography.labelLarge
                 )
             }

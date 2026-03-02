@@ -9,6 +9,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
 import com.agelousis.kotlinmultiplatform.expressiveShapes.ui.ExpressiveShapesScreenView
+import com.agelousis.kotlinmultiplatform.expressiveShapes.ui.KetogenicSuperFoodsScreenView
 import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
 
 @Composable
@@ -29,6 +30,9 @@ fun ExpressiveShapesBaseActivityNavigation(
         entryProvider = entryProvider {
             entry<ExpressiveShapesNavigationScreen.ExpressiveShapesScreen> {
                 ExpressiveShapesScreenView()
+            }
+            entry<ExpressiveShapesNavigationScreen.KetogenicSuperFoodsScreen> {
+                KetogenicSuperFoodsScreenView()
             }
         }
     )
