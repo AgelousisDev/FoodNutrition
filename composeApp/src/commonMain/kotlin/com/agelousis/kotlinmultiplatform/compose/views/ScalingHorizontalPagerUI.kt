@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -31,8 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,11 +59,13 @@ fun ScalingHorizontalPagerView(
         pageCount = scalingHorizontalPagerDataList::size
     )
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HorizontalPager(
             modifier = Modifier
+                .fillMaxWidth()
                 .draggable(
                     orientation = Orientation.Horizontal,
                     state = rememberDraggableState { delta ->
@@ -78,9 +78,8 @@ fun ScalingHorizontalPagerView(
                 ),
             state = pagerState,
             contentPadding = PaddingValues(
-                horizontal = 90.dp
-            ),
-            pageSpacing = 0.dp
+                horizontal = 100.dp
+            )
         ) { page ->
             PagerView(
                 pagerState = pagerState,
@@ -92,9 +91,7 @@ fun ScalingHorizontalPagerView(
             AnimatedDotsIndicatorView(
                 modifier = Modifier
                     .padding(
-                        start = 24.dp,
-                        top = 24.dp,
-                        end = 24.dp
+                        top = 24.dp
                     ),
                 pagerState = pagerState,
                 spaceBetween = 12.dp,
@@ -109,123 +106,118 @@ private fun PagerView(
     index: Int,
     scalingHorizontalPagerData: ScalingHorizontalPagerData
 ) {
-    val density = LocalDensity.current
-    val screenWidth = LocalWindowInfo.current.containerSize.width
-    Card(
-        modifier = Modifier
-            .width(
-                width = with(
-                    receiver = density
-                ) {
-                    (screenWidth / 2).toDp()
-                }
-            )
-            .graphicsLayer {
-                // Calculate how far this page is from the current center
-                val pageOffset = (
-                        (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
-                        ).absoluteValue
-
-                // Apply lerp for scale (0.85f for side cards, 1f for center)
-                val scale = lerp(
-                    start = 0.7f,
-                    stop = 1f,
-                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                )
-                scaleX = scale
-                scaleY = scale
-            },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 12.dp
-        ),
-        shape = CircleShape
+    Box(
+        contentAlignment = Alignment.Center
     ) {
-        Column(
+        Card(
             modifier = Modifier
-                .padding(
-                    vertical = 40.dp
-                )
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(
-                space = 16.dp
-            )
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(
-                        size = 36.dp
-                    )
-                    .background(
-                        color = ArcticWhiteColor,
-                        shape = RoundedCornerShape(
-                            size = 8.dp
-                        )
-                    ),
-                contentAlignment = Alignment.Center
+                .graphicsLayer {
+                    // Calculate how far this page is from the current center
+                    val pageOffset = (
+                            (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
+                            ).absoluteValue
 
+                    // Apply lerp for scale (0.7f for side cards, 1f for center)
+                    val scale = lerp(
+                        start = 0.7f,
+                        stop = 1f,
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                    )
+                    scaleX = scale
+                    scaleY = scale
+                    alpha = lerp(
+                        start = 0.5f,
+                        stop = 1f,
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                    )
+                },
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp
+            ),
+            shape = CircleShape
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(
+                        all = 32.dp
+                    )
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                when(val icon = scalingHorizontalPagerData.icon) {
-                    is DrawableResource ->
-                        Icon(
-                            painter = painterResource(
-                                resource = icon
-                            ),
-                            contentDescription = null,
-                            tint = BlueSapphire
+                Box(
+                    modifier = Modifier
+                        .size(
+                            size = 48.dp
                         )
-                    is ImageVector ->
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = icon.name,
-                            tint = BlueSapphire
+                        .background(
+                            color = ArcticWhiteColor,
+                            shape = RoundedCornerShape(
+                                size = 12.dp
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+
+                ) {
+                    when(val icon = scalingHorizontalPagerData.icon) {
+                        is DrawableResource ->
+                            Icon(
+                                painter = painterResource(
+                                    resource = icon
+                                ),
+                                contentDescription = null,
+                                tint = BlueSapphire,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        is ImageVector ->
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = icon.name,
+                                tint = BlueSapphire,
+                                modifier = Modifier.size(24.dp)
+                            )
+                    }
+                }
+                
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 16.dp
                         )
+                )
+
+                scalingHorizontalPagerData.label?.let { label ->
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = DarkGreySecondary,
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 8.dp
+                        )
+                )
+
+                scalingHorizontalPagerData.description?.let { description ->
+                    Text(
+                        text = description,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = GraniteGrayColor,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
                 }
             }
-            //val (title, description, button) = additionalBocProduct data resources
-            scalingHorizontalPagerData.label?.let { label ->
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = DarkGreySecondary,
-                        textAlign = TextAlign.Center
-                    )
-                )
-            }
-            scalingHorizontalPagerData.description?.let { description ->
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        color = GraniteGrayColor,
-                        textAlign = TextAlign.Center
-                    )
-                )
-            }
-            /*TextButton(
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = ArcticWhiteColor
-                ),
-                shape = RoundedCornerShape(
-                    size = 12.dp
-                ),
-                onClick = {
-                    additionalBocProductSelection(
-                        scalingHorizontalPagerData
-                    )
-                }
-            ) {
-                Text(
-                    text = button,
-                    style = MaterialTheme.typography.body2.copy(
-                        fontWeight = FontWeight.Medium,
-                        color = BlueSapphire
-                    )
-                )
-            }*/
         }
     }
 }
@@ -244,7 +236,7 @@ fun ScalingHorizontalPagerViewPreview() {
                 )
                 .fillMaxWidth()
                 .height(
-                    height = 300.dp
+                    height = 400.dp
                 ),
             contentAlignment = Alignment.Center
         ) {

@@ -1,0 +1,205 @@
+package com.agelousis.kotlinmultiplatform.expressiveShapes.ui.views
+
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import kotlin.text.iterator
+
+/*@Composable
+fun NutritionInfoView(
+    modifier: Modifier = Modifier,
+    ingredientsDataResponseModel: IngredientsDataResponseModel
+) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(
+            size = 16.dp
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(
+                    all = 24.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                space = 8.dp
+            )
+        ) {
+            Text(
+                text = stringResource(id = R.string.key_nutrition_facts_label),
+                style = headerFont.bold
+            )
+            HorizontalDivider()
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.key_serving_size_label),
+                    style = MaterialTheme.typography.bodyLarge.bold,
+                    modifier = Modifier
+                        .align(
+                            alignment = Alignment.CenterStart
+                        )
+                )
+                Text(
+                    text = "(%d%s)".format(
+                        ingredientsDataResponseModel.totalWeight?.toInt(),
+                        "g"
+                    ),
+                    style = MaterialTheme.typography.bodyLarge.bold,
+                    modifier = Modifier
+                        .align(
+                            alignment = Alignment.CenterEnd
+                        )
+                )
+            }
+            HorizontalDivider(
+                modifier = Modifier
+                    .clip(
+                        shape = RoundedCornerShape(
+                            size = 4.dp
+                        )
+                    ),
+                thickness = 8.dp
+            )
+            Text(
+                text = stringResource(id = R.string.key_amount_per_serving_label),
+                style = MaterialTheme.typography.bodyLarge.bold
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.key_calories_label),
+                    style = headerFont.bold,
+                    modifier = Modifier
+                        .align(
+                            alignment = Alignment.CenterStart
+                        )
+                )
+                Text(
+                    text = ingredientsDataResponseModel.nutrientInfoModelList.firstOrNull { nutritionInfoModelPair ->
+                        nutritionInfoModelPair.first == NutrientType.ENERC_KCAL
+                    }?.second?.let { nutrientInfoModel ->
+                        nutrientInfoModel.quantity?.toInt()?.toString()
+                            ?: return@let null
+                    } ?: "",
+                    style = headerFont.bold,
+                    modifier = Modifier
+                        .align(
+                            alignment = Alignment.CenterEnd
+                        )
+                )
+            }
+            HorizontalDivider(
+                modifier = Modifier
+                    .clip(
+                        shape = RoundedCornerShape(
+                            size = 4.dp
+                        )
+                    ),
+                thickness = 4.dp
+            )
+            Text(
+                text = stringResource(id  = R.string.key_daily_value_label),
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier
+                    .align(
+                        alignment = Alignment.End
+                    )
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 4.dp
+                )
+            ) {
+                for (nutritionInfoModelPair in (ingredientsDataResponseModel.nutrientInfoModelList)) {
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = if (nutritionInfoModelPair.first.hasPadding) 16.dp else 0.dp
+                            )
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 8.dp
+                        )
+                    ) {
+                        LinkText(
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = if (nutritionInfoModelPair.first.hasPadding) 16.dp else 0.dp
+                                )
+                                .weight(
+                                    weight = 0.8f
+                                )
+                                .basicMarquee(),
+                            linkTextData = nutritionInfoModelPair.second linkTextDataModelList nutritionInfoModelPair.first
+                            /*linkTextData = nutritionInfoPair.first.split("[bold]").takeIf {
+                                it.size > 1
+                            }?.mapIndexed { index, s ->
+                                LinkTextData(
+                                    text = s.replace("[padding]", ""),
+                                    fontWeight = if (index == 0) FontWeight.Bold else FontWeight.Light
+                                )
+                            } ?: listOf(
+                                LinkTextData(
+                                    text = nutritionInfoPair.first.replace("[padding]", ""),
+                                    fontWeight = FontWeight.Light
+                                )
+                            )*/,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = "${"%.2f".format(nutritionInfoModelPair.third.quantity ?: 0.0)}${nutritionInfoModelPair.third.unit}",
+                            style = MaterialTheme.typography.bodyLarge.bold,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier
+                                .weight(
+                                    weight = 0.2f
+                                )
+                                .basicMarquee()
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun NutritionInfoViewPreview() {
+    MaterialTheme {
+        NutritionInfoView(
+            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
+                ?: return@BarcodeScannerTheme
+        )
+    }
+}*/
