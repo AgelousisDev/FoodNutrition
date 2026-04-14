@@ -10,7 +10,9 @@ fun MainViewController() = ComposeUIViewController {
     ExpressiveShapesBaseActivityView(
         viewModel = viewModel { ExpressiveShapesBaseViewModel() },
         onBackPress = {
-            exit(0)
+            exit(
+                arg0 = 0
+            )
         }
     )
 }
