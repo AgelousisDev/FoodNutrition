@@ -112,8 +112,8 @@ compose.desktop {
     }
 }
 
+// At the bottom of composeApp/build.gradle.kts
 dependencies {
-    // Add KSP processors for each target
     val ktorfitKsp = "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}"
 
     add("kspCommonMainMetadata", ktorfitKsp)
@@ -122,7 +122,7 @@ dependencies {
     add("kspIosArm64", ktorfitKsp)
 }
 
-// Link the generated KSP directory to your common source set
+// Ensure the IDE looks in the generated folder
 kotlin.sourceSets.commonMain {
     kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
 }
