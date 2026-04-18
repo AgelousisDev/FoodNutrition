@@ -20,9 +20,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import kotlin.text.iterator
 
-@Composable
+/*@Composable
 fun NutritionInfoView(
     modifier: Modifier = Modifier,
     ingredientsDataResponseModel: IngredientsDataResponseModel
@@ -202,4 +203,4 @@ fun NutritionInfoViewPreview() {
                 ?: return@BarcodeScannerTheme
         )
     }
-}
+}*/

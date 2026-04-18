@@ -16,19 +16,14 @@ object NetworkHelper {
     private val httpClient =
         HttpClient {
             // Logging Interceptor (Equivalent to HttpLoggingInterceptor)
-            install(
-                plugin = Logging
-            ) {
+            install(Logging) {
                 level = LogLevel.BODY
                 logger = Logger.DEFAULT
             }
 
             // Content Negotiation (Equivalent to GsonConverterFactory)
-            install(
-                plugin = ContentNegotiation
-            ) {
-                json(
-                    json = Json {
+            install(ContentNegotiation) {
+                json(Json {
                         ignoreUnknownKeys = true
                         isLenient = true
                         encodeDefaults = true

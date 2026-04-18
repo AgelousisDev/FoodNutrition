@@ -6,7 +6,10 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.composeHotReload)
+    //alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.ktorfit)
+    alias(libs.plugins.googleKsp)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -107,4 +110,19 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+dependencies {
+    // Add KSP processors for each target
+    val ktorfitKsp = "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}"
+
+    add("kspCommonMainMetadata", ktorfitKsp)
+    add("kspAndroid", ktorfitKsp)
+    add("kspIosSimulatorArm64", ktorfitKsp)
+    add("kspIosArm64", ktorfitKsp)
+}
+
+// Link the generated KSP directory to your common source set
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
 }

@@ -7,4 +7,16 @@ plugins {
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.googleKsp) apply false
+    alias(libs.plugins.ktorfit) apply false
+}
+
+subprojects {
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "de.jensklingenberg.ktorfit" && requested.name == "compiler-plugin") {
+                useVersion("2.1.0-2.1.0")
+            }
+        }
+    }
 }

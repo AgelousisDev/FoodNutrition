@@ -1,8 +1,6 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
-import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
-import com.agelousis.kotlinmultiplatform.network.models.NutrientInfoModel
 import com.agelousis.kotlinmultiplatform.utils.toModel
 
 val INGREDIENTS_DATA_RESPONSE_MOCK_MODEL =
@@ -21,7 +19,7 @@ data class IngredientsDataResponseModel(
     val ingredients: List<IngredientModel>?
 ) {
 
-    val nutrientInfoModelList: List<Triple<NutrientType, NutrientInfoModel, NutrientInfoModel>>
+    /*val nutrientInfoModelList: List<Triple<NutrientType, NutrientInfoModel, NutrientInfoModel>>
         get() {
             val nutrientInfoModelPairList =
                 mutableListOf<Triple<NutrientType, NutrientInfoModel, NutrientInfoModel>>()
@@ -53,6 +51,6 @@ data class IngredientsDataResponseModel(
                     )
             }
             return nutrientInfoModelPairList
-        }
+        }*/
 
 }
