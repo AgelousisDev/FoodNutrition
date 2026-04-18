@@ -77,6 +77,7 @@ fun ScalingHorizontalPagerView(
                     },
                 ),
             state = pagerState,
+            beyondViewportPageCount = 1,
             contentPadding = PaddingValues(
                 horizontal = 100.dp
             )
@@ -236,7 +237,7 @@ fun ScalingHorizontalPagerViewPreview() {
                 )
                 .fillMaxWidth()
                 .height(
-                    height = 400.dp
+                    height = 500.dp
                 ),
             contentAlignment = Alignment.Center
         ) {

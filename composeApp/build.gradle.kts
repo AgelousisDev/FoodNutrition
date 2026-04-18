@@ -48,6 +48,13 @@ kotlin {
             implementation(libs.jetbrains.lifecycle.viewmodel.navigation3)
             implementation(libs.jetbrains.adaptive)
             implementation(libs.jetbrains.material3.window.size)
+
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktorfit.lib)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
