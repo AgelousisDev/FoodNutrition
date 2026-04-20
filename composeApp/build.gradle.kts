@@ -7,9 +7,9 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     //alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.ktorfit)
-    alias(libs.plugins.googleKsp)
+    alias(libs.plugins.ktorfit) version "2.1.0"
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.googleKsp)
 }
 
 kotlin {
@@ -66,6 +66,19 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
         }
+        commonMain.configure {
+            // This is the CRITICAL line for common code visibility
+            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+        }
+        androidMain.configure {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+    }
+    sourceSets.commonMain.configure {
+        kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+    }
+    sourceSets.androidMain.configure {
+        kotlin.srcDir("build/generated/ksp/debug/kotlin")
     }
 }
 
@@ -112,17 +125,12 @@ compose.desktop {
     }
 }
 
-// At the bottom of composeApp/build.gradle.kts
-dependencies {
-    val ktorfitKsp = "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}"
-
-    add("kspCommonMainMetadata", ktorfitKsp)
-    add("kspAndroid", ktorfitKsp)
-    add("kspIosSimulatorArm64", ktorfitKsp)
-    add("kspIosArm64", ktorfitKsp)
+ksp {
+    arg("ktorfit.errors", "1")
 }
 
-// Ensure the IDE looks in the generated folder
-kotlin.sourceSets.commonMain {
-    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+dependencies {
+    implementation(libs.ktorfit.lib)
+    // Use the matching KSP version for Kotlin 2.1.0
+    add("ksp", "de.jensklingenberg.ktorfit:ktorfit-ksp:2.1.0-1.0.27")
 }

@@ -10,20 +10,17 @@ import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Query
 
 interface EdamamAPI {
-
-    @GET(value = "/api/food-database/v2/parser")
-    fun foodParser(
+    @GET(value = "api/food-database/v2/parser")
+    suspend fun foodParser(
         @Query(value = "app_id") appId: String = ApiConstants.EDAMAM_APPLICATION_ID,
         @Query(value = "app_key") appKey: String = ApiConstants.EDAMAM_APPLICATION_KEY,
         @Query(value = "upc") upc: String? = null
-    ): FoodParserResponseModel?
+    ): FoodParserResponseModel
 
-    @POST(value = "/api/food-database/v2/nutrients")
-    fun requestNutrients(
+    @POST(value = "api/food-database/v2/nutrients")
+    suspend fun requestNutrients(
         @Query(value = "app_id") appId: String = ApiConstants.EDAMAM_APPLICATION_ID,
         @Query(value = "app_key") appKey: String = ApiConstants.EDAMAM_APPLICATION_KEY,
         @Body ingredientsDataRequestModel: IngredientsDataRequestModel
-    ): IngredientsDataResponseModel?
-
-
+    ): IngredientsDataResponseModel
 }
