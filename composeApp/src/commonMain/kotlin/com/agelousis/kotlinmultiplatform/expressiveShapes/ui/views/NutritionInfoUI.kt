@@ -17,13 +17,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
+import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
-import kotlin.text.iterator
+import kotlinmultiplatform.composeapp.generated.resources.Res
+import kotlinmultiplatform.composeapp.generated.resources.key_amount_per_serving_label
+import kotlinmultiplatform.composeapp.generated.resources.key_calories_label
+import kotlinmultiplatform.composeapp.generated.resources.key_daily_value_label
+import kotlinmultiplatform.composeapp.generated.resources.key_nutrition_facts_label
+import kotlinmultiplatform.composeapp.generated.resources.key_serving_size_label
+import org.jetbrains.compose.resources.stringResource
 
-/*@Composable
+@Composable
 fun NutritionInfoView(
     modifier: Modifier = Modifier,
     ingredientsDataResponseModel: IngredientsDataResponseModel
@@ -47,8 +56,12 @@ fun NutritionInfoView(
             )
         ) {
             Text(
-                text = stringResource(id = R.string.key_nutrition_facts_label),
-                style = headerFont.bold
+                text = stringResource(
+                    resource = Res.string.key_nutrition_facts_label
+                ),
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.Bold
+                )
             )
             HorizontalDivider()
             Box(
@@ -56,23 +69,26 @@ fun NutritionInfoView(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(id = R.string.key_serving_size_label),
-                    style = MaterialTheme.typography.bodyLarge.bold,
                     modifier = Modifier
                         .align(
                             alignment = Alignment.CenterStart
-                        )
+                        ),
+                    text = stringResource(
+                        resource = Res.string.key_serving_size_label
+                    ),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 Text(
-                    text = "(%d%s)".format(
-                        ingredientsDataResponseModel.totalWeight?.toInt(),
-                        "g"
-                    ),
-                    style = MaterialTheme.typography.bodyLarge.bold,
                     modifier = Modifier
                         .align(
                             alignment = Alignment.CenterEnd
-                        )
+                        ),
+                    text = "${ingredientsDataResponseModel.totalWeight?.toInt()}g",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
             }
             HorizontalDivider(
@@ -85,33 +101,43 @@ fun NutritionInfoView(
                 thickness = 8.dp
             )
             Text(
-                text = stringResource(id = R.string.key_amount_per_serving_label),
-                style = MaterialTheme.typography.bodyLarge.bold
+                text = stringResource(
+                    resource = Res.string.key_amount_per_serving_label
+                ),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold
+                )
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(id = R.string.key_calories_label),
-                    style = headerFont.bold,
                     modifier = Modifier
                         .align(
                             alignment = Alignment.CenterStart
-                        )
+                        ),
+                    text = stringResource(
+                        resource = Res.string.key_calories_label
+                    ),
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 Text(
+                    modifier = Modifier
+                        .align(
+                            alignment = Alignment.CenterEnd
+                        ),
                     text = ingredientsDataResponseModel.nutrientInfoModelList.firstOrNull { nutritionInfoModelPair ->
-                        nutritionInfoModelPair.first == NutrientType.ENERC_KCAL
+                        nutritionInfoModelPair.first == NutrientType.ENERGY_KCAL
                     }?.second?.let { nutrientInfoModel ->
                         nutrientInfoModel.quantity?.toInt()?.toString()
                             ?: return@let null
                     } ?: "",
-                    style = headerFont.bold,
-                    modifier = Modifier
-                        .align(
-                            alignment = Alignment.CenterEnd
-                        )
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
             }
             HorizontalDivider(
@@ -124,12 +150,14 @@ fun NutritionInfoView(
                 thickness = 4.dp
             )
             Text(
-                text = stringResource(id  = R.string.key_daily_value_label),
-                style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
                     .align(
                         alignment = Alignment.End
-                    )
+                    ),
+                text = stringResource(
+                    resource  = Res.string.key_daily_value_label
+                ),
+                style = MaterialTheme.typography.labelMedium
             )
             Column(
                 modifier = Modifier
@@ -152,7 +180,7 @@ fun NutritionInfoView(
                             space = 8.dp
                         )
                     ) {
-                        LinkText(
+                        Text(
                             modifier = Modifier
                                 .padding(
                                     horizontal = if (nutritionInfoModelPair.first.hasPadding) 16.dp else 0.dp
@@ -161,31 +189,20 @@ fun NutritionInfoView(
                                     weight = 0.8f
                                 )
                                 .basicMarquee(),
-                            linkTextData = nutritionInfoModelPair.second linkTextDataModelList nutritionInfoModelPair.first
-                            /*linkTextData = nutritionInfoPair.first.split("[bold]").takeIf {
-                                it.size > 1
-                            }?.mapIndexed { index, s ->
-                                LinkTextData(
-                                    text = s.replace("[padding]", ""),
-                                    fontWeight = if (index == 0) FontWeight.Bold else FontWeight.Light
-                                )
-                            } ?: listOf(
-                                LinkTextData(
-                                    text = nutritionInfoPair.first.replace("[padding]", ""),
-                                    fontWeight = FontWeight.Light
-                                )
-                            )*/,
+                            text = nutritionInfoModelPair.first.label,
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Text(
-                            text = "${"%.2f".format(nutritionInfoModelPair.third.quantity ?: 0.0)}${nutritionInfoModelPair.third.unit}",
-                            style = MaterialTheme.typography.bodyLarge.bold,
-                            textAlign = TextAlign.End,
                             modifier = Modifier
                                 .weight(
                                     weight = 0.2f
                                 )
-                                .basicMarquee()
+                                .basicMarquee(),
+                            text = "${(nutritionInfoModelPair.third.quantity ?: 0.0)}${nutritionInfoModelPair.third.unit}",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            textAlign = TextAlign.End
                         )
                     }
                 }
@@ -200,7 +217,7 @@ fun NutritionInfoViewPreview() {
     MaterialTheme {
         NutritionInfoView(
             ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                ?: return@BarcodeScannerTheme
+                ?: return@MaterialTheme
         )
     }
-}*/
+}

@@ -1,7 +1,9 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NutrientModel(
     @SerialName(value = "ENERC_KCAL") val calories: Double?,
     @SerialName(value = "FAT") val fat: Double?,

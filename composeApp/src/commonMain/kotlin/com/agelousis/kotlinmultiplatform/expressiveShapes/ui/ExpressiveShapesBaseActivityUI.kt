@@ -20,6 +20,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.agelousis.kotlinmultiplatform.compose.views.ErrorMessage
 import com.agelousis.kotlinmultiplatform.expressiveShapes.extensions.ExpressiveShapesBaseActivityNavigation
 import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
 import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
@@ -40,6 +41,7 @@ fun ExpressiveShapesBaseActivityView(
             ExpressiveShapesNavigationScreen.ExpressiveShapesScreen
         )
     }
+    viewModel.ErrorMessage()
     Scaffold(
         topBar = {
             TopAppBar(

@@ -1,5 +1,8 @@
 package com.agelousis.kotlinmultiplatform.network.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class NutrientInfoModel(
     val label: String?,
     val quantity: Double?,

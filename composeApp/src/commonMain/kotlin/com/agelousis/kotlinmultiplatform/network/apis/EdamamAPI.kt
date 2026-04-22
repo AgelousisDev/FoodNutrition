@@ -14,7 +14,8 @@ interface EdamamAPI {
     suspend fun foodParser(
         @Query(value = "app_id") appId: String = ApiConstants.EDAMAM_APPLICATION_ID,
         @Query(value = "app_key") appKey: String = ApiConstants.EDAMAM_APPLICATION_KEY,
-        @Query(value = "upc") upc: String? = null
+        @Query(value = "ingr") product: String,
+        @Query(value = "nutrition-type") nutritionType: String = "logging"
     ): FoodParserResponseModel
 
     @POST(value = "api/food-database/v2/nutrients")

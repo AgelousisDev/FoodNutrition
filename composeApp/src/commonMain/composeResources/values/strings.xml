@@ -20,4 +20,41 @@
         <item>Clarified butter with\na high smoke point.</item>
         <item>Healthy fat\nfrom cocoa beans.</item>
     </string-array>
+    <string name="key_ok">OK</string>
+    <string name="key_nutrients_label">Nutrients</string>
+    <string name="key_error_label">Error</string>
+    <string name="key_ok_label">OK</string>
+    <string name="key_nutrition_facts_label">Nutrition Facts</string>
+    <string name="key_serving_size_label">Serving Size</string>
+    <string name="key_amount_per_serving_label">Amount Per Serving</string>
+    <string name="key_calories_label">Calories</string>
+    <string name="key_daily_value_label">% Daily Value*</string>
+    <string-array name="key_nutrition_info_array">
+        <item>Total Fat[bold] %.2fg</item>
+        <item>[padding]Saturated Fat %.2fg</item>
+        <item>Fatty acids, total monounsaturated %.2fg</item>
+        <item>Fatty acids, total polyunsaturated %.2fg</item>
+        <item>[padding]Trans Fat %.2fg</item>
+        <item>Cholesterol[bold] %.2fmg</item>
+        <item>Sodium[bold] %.2fmg</item>
+        <item>Total Carbohydrate[bold] %.2fg</item>
+        <item>[padding]Dietary Fiber %.2fg</item>
+        <item>[padding]Total Sugars %.2fg</item>
+        <item>[padding]Includes %.2fg Added Sugars</item>
+        <item>Protein[bold] %.2fg</item>
+        <item>Vitamin D %.2fmg</item>
+        <item>Calcium %.2fmg</item>
+        <item>Iron %.2fmg</item>
+        <item>Potassium %.2fg</item>
+        <item>Vitamin C %.2fmg</item>
+        <item>Carbohydrate (net) %.2fg</item>
+        <item>Magnesium	%.2fmg</item>
+        <item>Phosphorus, P	%.2fmg</item>
+        <item>Thiamin %2.fmg</item>
+    </string-array>
+    <string-array name="key_food_info_array">
+        <item>Category</item>
+        <item>Brand</item>
+        <item>Food Contents</item>
+    </string-array>
 </resources>

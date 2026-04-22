@@ -1,5 +1,8 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class FoodModel(
     val brand: String?,
     val category: String?,

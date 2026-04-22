@@ -25,7 +25,7 @@ jetbrainsIconsExtendedVersion = "1.7.3"
 componentsResourcesVersion = "1.10.1"
 kotlinx-serialization = "1.11.0"
 ktor = "3.0.0"
-ktorfit = "2.1.0"
+ktorfit = "2.2.0"
 ksp = "2.1.0-1.0.29"
 
 [libraries]

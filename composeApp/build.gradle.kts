@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     //alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.ktorfit) version "2.1.0"
+    alias(libs.plugins.ktorfit) version libs.versions.ktorfit
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.googleKsp)
 }

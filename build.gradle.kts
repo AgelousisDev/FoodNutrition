@@ -14,7 +14,7 @@ plugins {
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.googleKsp) version "2.1.0-1.0.29" apply false
-    alias(libs.plugins.ktorfit) version "2.1.0" apply false
+    alias(libs.plugins.ktorfit) version "2.2.0" apply false
 }
 
 
