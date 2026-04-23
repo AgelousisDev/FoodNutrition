@@ -7,8 +7,106 @@ import com.agelousis.kotlinmultiplatform.utils.toModel
 import kotlinx.serialization.Serializable
 
 val INGREDIENTS_DATA_RESPONSE_MOCK_MODEL =
-    "{\\r\\n  \\\"uri\\\": \\\"http:\\/\\/www.edamam.com\\/ontologies\\/edamam.owl#8a27374c-55ae-45d7-8a31-2a1e850f82e4\\\",\\r\\n  \\\"calories\\\": 32160,\\r\\n  \\\"totalWeight\\\": 20100,\\r\\n  \\\"dietLabels\\\": [],\\r\\n  \\\"healthLabels\\\": [\\r\\n    \\\"VEGAN\\\",\\r\\n    \\\"VEGETARIAN\\\",\\r\\n    \\\"PESCATARIAN\\\",\\r\\n    \\\"PALEO\\\",\\r\\n    \\\"SPECIFIC_CARBS\\\",\\r\\n    \\\"DAIRY_FREE\\\",\\r\\n    \\\"GLUTEN_FREE\\\",\\r\\n    \\\"WHEAT_FREE\\\",\\r\\n    \\\"EGG_FREE\\\",\\r\\n    \\\"MILK_FREE\\\",\\r\\n    \\\"PEANUT_FREE\\\",\\r\\n    \\\"TREE_NUT_FREE\\\",\\r\\n    \\\"SOY_FREE\\\",\\r\\n    \\\"FISH_FREE\\\",\\r\\n    \\\"SHELLFISH_FREE\\\",\\r\\n    \\\"PORK_FREE\\\",\\r\\n    \\\"RED_MEAT_FREE\\\",\\r\\n    \\\"CRUSTACEAN_FREE\\\",\\r\\n    \\\"CELERY_FREE\\\",\\r\\n    \\\"MUSTARD_FREE\\\",\\r\\n    \\\"SESAME_FREE\\\",\\r\\n    \\\"LUPINE_FREE\\\",\\r\\n    \\\"MOLLUSK_FREE\\\",\\r\\n    \\\"ALCOHOL_FREE\\\",\\r\\n    \\\"NO_OIL_ADDED\\\",\\r\\n    \\\"NO_SUGAR_ADDED\\\",\\r\\n    \\\"KOSHER\\\"\\r\\n  ],\\r\\n  \\\"cautions\\\": [\\r\\n    \\\"SULFITES\\\"\\r\\n  ],\\r\\n  \\\"totalNutrients\\\": {\\r\\n    \\\"ENERC_KCAL\\\": {\\r\\n      \\\"label\\\": \\\"Energy\\\",\\r\\n      \\\"quantity\\\": 32160,\\r\\n      \\\"unit\\\": \\\"kcal\\\"\\r\\n    },\\r\\n    \\\"FAT\\\": {\\r\\n      \\\"label\\\": \\\"Fat\\\",\\r\\n      \\\"quantity\\\": 2954.7,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"FASAT\\\": {\\r\\n      \\\"label\\\": \\\"Saturated\\\",\\r\\n      \\\"quantity\\\": 428.13,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"FATRN\\\": {\\r\\n      \\\"label\\\": \\\"Trans\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"FAMS\\\": {\\r\\n      \\\"label\\\": \\\"Monounsaturated\\\",\\r\\n      \\\"quantity\\\": 1969.8000000000002,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"FAPU\\\": {\\r\\n      \\\"label\\\": \\\"Polyunsaturated\\\",\\r\\n      \\\"quantity\\\": 365.82,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"CHOCDF\\\": {\\r\\n      \\\"label\\\": \\\"Carbs\\\",\\r\\n      \\\"quantity\\\": 1714.53,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"CHOCDF.net\\\": {\\r\\n      \\\"label\\\": \\\"Carbohydrates (net)\\\",\\r\\n      \\\"quantity\\\": 367.8299999999999,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"FIBTG\\\": {\\r\\n      \\\"label\\\": \\\"Fiber\\\",\\r\\n      \\\"quantity\\\": 1346.7,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"SUGAR\\\": {\\r\\n      \\\"label\\\": \\\"Sugars\\\",\\r\\n      \\\"quantity\\\": 132.66000000000003,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"SUGAR.added\\\": {\\r\\n      \\\"label\\\": \\\"Sugars, added\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"PROCNT\\\": {\\r\\n      \\\"label\\\": \\\"Protein\\\",\\r\\n      \\\"quantity\\\": 402,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"CHOLE\\\": {\\r\\n      \\\"label\\\": \\\"Cholesterol\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"NA\\\": {\\r\\n      \\\"label\\\": \\\"Sodium\\\",\\r\\n      \\\"quantity\\\": 1407.0000000000002,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"CA\\\": {\\r\\n      \\\"label\\\": \\\"Calcium\\\",\\r\\n      \\\"quantity\\\": 2412,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"MG\\\": {\\r\\n      \\\"label\\\": \\\"Magnesium\\\",\\r\\n      \\\"quantity\\\": 5829,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"K\\\": {\\r\\n      \\\"label\\\": \\\"Potassium\\\",\\r\\n      \\\"quantity\\\": 97485.00000000001,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"FE\\\": {\\r\\n      \\\"label\\\": \\\"Iron\\\",\\r\\n      \\\"quantity\\\": 110.55000000000001,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"ZN\\\": {\\r\\n      \\\"label\\\": \\\"Zinc\\\",\\r\\n      \\\"quantity\\\": 128.64000000000001,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"P\\\": {\\r\\n      \\\"label\\\": \\\"Phosphorus\\\",\\r\\n      \\\"quantity\\\": 10452,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"VITA_RAE\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin A\\\",\\r\\n      \\\"quantity\\\": 1407.0000000000002,\\r\\n      \\\"unit\\\": \\\"\\u00B5g\\\"\\r\\n    },\\r\\n    \\\"VITC\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin C\\\",\\r\\n      \\\"quantity\\\": 2010,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"THIA\\\": {\\r\\n      \\\"label\\\": \\\"Thiamin (B1)\\\",\\r\\n      \\\"quantity\\\": 13.467,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"RIBF\\\": {\\r\\n      \\\"label\\\": \\\"Riboflavin (B2)\\\",\\r\\n      \\\"quantity\\\": 26.130000000000003,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"NIA\\\": {\\r\\n      \\\"label\\\": \\\"Niacin (B3)\\\",\\r\\n      \\\"quantity\\\": 349.73999999999995,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"VITB6A\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin B6\\\",\\r\\n      \\\"quantity\\\": 51.657000000000004,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"FOLDFE\\\": {\\r\\n      \\\"label\\\": \\\"Folate equivalent (total)\\\",\\r\\n      \\\"quantity\\\": 16281.000000000002,\\r\\n      \\\"unit\\\": \\\"\\u00B5g\\\"\\r\\n    },\\r\\n    \\\"FOLFD\\\": {\\r\\n      \\\"label\\\": \\\"Folate (food)\\\",\\r\\n      \\\"quantity\\\": 16281.000000000002,\\r\\n      \\\"unit\\\": \\\"\\u00B5g\\\"\\r\\n    },\\r\\n    \\\"FOLAC\\\": {\\r\\n      \\\"label\\\": \\\"Folic acid\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"\\u00B5g\\\"\\r\\n    },\\r\\n    \\\"VITB12\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin B12\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"\\u00B5g\\\"\\r\\n    },\\r\\n    \\\"VITD\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin D\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"\\u00B5g\\\"\\r\\n    },\\r\\n    \\\"TOCPHA\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin E\\\",\\r\\n      \\\"quantity\\\": 416.07,\\r\\n      \\\"unit\\\": \\\"mg\\\"\\r\\n    },\\r\\n    \\\"VITK1\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin K\\\",\\r\\n      \\\"quantity\\\": 4221,\\r\\n      \\\"unit\\\": \\\"\\u00B5g\\\"\\r\\n    },\\r\\n    \\\"Sugar.alcohol\\\": {\\r\\n      \\\"label\\\": \\\"Sugar alcohol\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"WATER\\\": {\\r\\n      \\\"label\\\": \\\"Water\\\",\\r\\n      \\\"quantity\\\": 14713.200000000003,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    }\\r\\n  },\\r\\n  \\\"totalDaily\\\": {\\r\\n    \\\"ENERC_KCAL\\\": {\\r\\n      \\\"label\\\": \\\"Energy\\\",\\r\\n      \\\"quantity\\\": 1372.452789928518,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"FAT\\\": {\\r\\n      \\\"label\\\": \\\"Fat\\\",\\r\\n      \\\"quantity\\\": 3782.8230022404778,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"FASAT\\\": {\\r\\n      \\\"label\\\": \\\"Saturated\\\",\\r\\n      \\\"quantity\\\": 1827.07777659234,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"CHOCDF\\\": {\\r\\n      \\\"label\\\": \\\"Carbs\\\",\\r\\n      \\\"quantity\\\": 585.351114904513,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"CHOCDF.net\\\": {\\r\\n      \\\"label\\\": \\\"Carbohydrates (net)\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"g\\\"\\r\\n    },\\r\\n    \\\"FIBTG\\\": {\\r\\n      \\\"label\\\": \\\"Fiber\\\",\\r\\n      \\\"quantity\\\": 3543.9473684210525,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"PROCNT\\\": {\\r\\n      \\\"label\\\": \\\"Protein\\\",\\r\\n      \\\"quantity\\\": 343.1131974821295,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"CHOLE\\\": {\\r\\n      \\\"label\\\": \\\"Cholesterol\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"NA\\\": {\\r\\n      \\\"label\\\": \\\"Sodium\\\",\\r\\n      \\\"quantity\\\": 93.80000000000003,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"CA\\\": {\\r\\n      \\\"label\\\": \\\"Calcium\\\",\\r\\n      \\\"quantity\\\": 185.53846153846155,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"MG\\\": {\\r\\n      \\\"label\\\": \\\"Magnesium\\\",\\r\\n      \\\"quantity\\\": 1387.857142857143,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"K\\\": {\\r\\n      \\\"label\\\": \\\"Potassium\\\",\\r\\n      \\\"quantity\\\": 2867.205882352942,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"FE\\\": {\\r\\n      \\\"label\\\": \\\"Iron\\\",\\r\\n      \\\"quantity\\\": 614.1666666666667,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"ZN\\\": {\\r\\n      \\\"label\\\": \\\"Zinc\\\",\\r\\n      \\\"quantity\\\": 1169.4545454545457,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"P\\\": {\\r\\n      \\\"label\\\": \\\"Phosphorus\\\",\\r\\n      \\\"quantity\\\": 836.16,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"VITA_RAE\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin A\\\",\\r\\n      \\\"quantity\\\": 156.33333333333337,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"VITC\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin C\\\",\\r\\n      \\\"quantity\\\": 2233.3333333333335,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"THIA\\\": {\\r\\n      \\\"label\\\": \\\"Thiamin (B1)\\\",\\r\\n      \\\"quantity\\\": 1122.25,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"RIBF\\\": {\\r\\n      \\\"label\\\": \\\"Riboflavin (B2)\\\",\\r\\n      \\\"quantity\\\": 2010.0000000000002,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"NIA\\\": {\\r\\n      \\\"label\\\": \\\"Niacin (B3)\\\",\\r\\n      \\\"quantity\\\": 2185.8749999999995,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"VITB6A\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin B6\\\",\\r\\n      \\\"quantity\\\": 3038.6470588235297,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"FOLDFE\\\": {\\r\\n      \\\"label\\\": \\\"Folate equivalent (total)\\\",\\r\\n      \\\"quantity\\\": 4070.2500000000005,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"VITB12\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin B12\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"VITD\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin D\\\",\\r\\n      \\\"quantity\\\": 0,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"TOCPHA\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin E\\\",\\r\\n      \\\"quantity\\\": 2773.8,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    },\\r\\n    \\\"VITK1\\\": {\\r\\n      \\\"label\\\": \\\"Vitamin K\\\",\\r\\n      \\\"quantity\\\": 3517.5,\\r\\n      \\\"unit\\\": \\\"%\\\"\\r\\n    }\\r\\n  },\\r\\n  \\\"ingredients\\\": [\\r\\n    {\\r\\n      \\\"parsed\\\": [\\r\\n        {\\r\\n          \\\"quantity\\\": 100,\\r\\n          \\\"measure\\\": \\\"whole\\\",\\r\\n          \\\"food\\\": \\\"avocado\\\",\\r\\n          \\\"foodId\\\": \\\"food_b0yuze4b1g3afpanijno5abtiu28\\\",\\r\\n          \\\"weight\\\": 20100,\\r\\n          \\\"retainedWeight\\\": 20100,\\r\\n          \\\"measureURI\\\": \\\"http:\\/\\/www.edamam.com\\/ontologies\\/edamam.owl#Measure_unit\\\",\\r\\n          \\\"status\\\": \\\"OK\\\"\\r\\n        }\\r\\n      ]\\r\\n    }\\r\\n  ]\\r\\n}"
-        .toModel<IngredientsDataResponseModel>()
+    """
+    {
+      "uri": "http://www.edamam.com/ontologies/edamam.owl#81e8f8a3-e4f1-4602-b47c-d968668ddf76",
+      "calories": 160,
+      "totalWeight": 100,
+      "dietLabels": [],
+      "healthLabels": [
+        "VEGAN", "VEGETARIAN", "PESCATARIAN", "PALEO", "SPECIFIC_CARBS",
+        "DAIRY_FREE", "GLUTEN_FREE", "WHEAT_FREE", "EGG_FREE", "MILK_FREE",
+        "PEANUT_FREE", "TREE_NUT_FREE", "SOY_FREE", "FISH_FREE", "SHELLFISH_FREE",
+        "PORK_FREE", "RED_MEAT_FREE", "CRUSTACEAN_FREE", "CELERY_FREE", 
+        "MUSTARD_FREE", "SESAME_FREE", "LUPINE_FREE", "MOLLUSK_FREE", 
+        "ALCOHOL_FREE", "NO_OIL_ADDED", "NO_SUGAR_ADDED", "KOSHER"
+      ],
+      "cautions": [
+        "SULFITES"
+      ],
+      "totalNutrients": {
+        "ENERC_KCAL": { "label": "Energy", "quantity": 160, "unit": "kcal" },
+        "FAT": { "label": "Fat", "quantity": 14.7, "unit": "g" },
+        "FASAT": { "label": "Saturated", "quantity": 2.13, "unit": "g" },
+        "FATRN": { "label": "Trans", "quantity": 0, "unit": "g" },
+        "FAMS": { "label": "Monounsaturated", "quantity": 9.8, "unit": "g" },
+        "FAPU": { "label": "Polyunsaturated", "quantity": 1.82, "unit": "g" },
+        "CHOCDF": { "label": "Carbs", "quantity": 8.53, "unit": "g" },
+        "CHOCDF.net": { "label": "Carbohydrates (net)", "quantity": 1.8299999999999992, "unit": "g" },
+        "FIBTG": { "label": "Fiber", "quantity": 6.7, "unit": "g" },
+        "SUGAR": { "label": "Sugars", "quantity": 0.66, "unit": "g" },
+        "SUGAR.added": { "label": "Sugars, added", "quantity": 0, "unit": "g" },
+        "PROCNT": { "label": "Protein", "quantity": 2, "unit": "g" },
+        "CHOLE": { "label": "Cholesterol", "quantity": 0, "unit": "mg" },
+        "NA": { "label": "Sodium", "quantity": 7.000000000000001, "unit": "mg" },
+        "CA": { "label": "Calcium", "quantity": 12, "unit": "mg" },
+        "MG": { "label": "Magnesium", "quantity": 28.999999999999996, "unit": "mg" },
+        "K": { "label": "Potassium", "quantity": 485.00000000000006, "unit": "mg" },
+        "FE": { "label": "Iron", "quantity": 0.55, "unit": "mg" },
+        "ZN": { "label": "Zinc", "quantity": 0.64, "unit": "mg" },
+        "P": { "label": "Phosphorus", "quantity": 52, "unit": "mg" },
+        "VITA_RAE": { "label": "Vitamin A", "quantity": 7.000000000000001, "unit": "µg" },
+        "VITC": { "label": "Vitamin C", "quantity": 10, "unit": "mg" },
+        "THIA": { "label": "Thiamin (B1)", "quantity": 0.067, "unit": "mg" },
+        "RIBF": { "label": "Riboflavin (B2)", "quantity": 0.13, "unit": "mg" },
+        "NIA": { "label": "Niacin (B3)", "quantity": 1.7399999999999998, "unit": "mg" },
+        "VITB6A": { "label": "Vitamin B6", "quantity": 0.257, "unit": "mg" },
+        "FOLDFE": { "label": "Folate equivalent (total)", "quantity": 81, "unit": "µg" },
+        "FOLFD": { "label": "Folate (food)", "quantity": 81, "unit": "µg" },
+        "FOLAC": { "label": "Folic acid", "quantity": 0, "unit": "µg" },
+        "VITB12": { "label": "Vitamin B12", "quantity": 0, "unit": "µg" },
+        "VITD": { "label": "Vitamin D", "quantity": 0, "unit": "µg" },
+        "TOCPHA": { "label": "Vitamin E", "quantity": 2.07, "unit": "mg" },
+        "VITK1": { "label": "Vitamin K", "quantity": 21, "unit": "µg" },
+        "Sugar.alcohol": { "label": "Sugar alcohol", "quantity": 0, "unit": "g" },
+        "WATER": { "label": "Water", "quantity": 73.2, "unit": "g" }
+      },
+      "totalDaily": {
+        "ENERC_KCAL": { "label": "Energy", "quantity": 6.828123332977702, "unit": "%" },
+        "FAT": { "label": "Fat", "quantity": 18.82001493651979, "unit": "%" },
+        "FASAT": { "label": "Saturated", "quantity": 9.089939187026566, "unit": "%" },
+        "CHOCDF": { "label": "Carbs", "quantity": 2.9121946015149893, "unit": "%" },
+        "CHOCDF.net": { "label": "Carbohydrates (net)", "quantity": 0, "unit": "g" },
+        "FIBTG": { "label": "Fiber", "quantity": 17.63157894736842, "unit": "%" },
+        "PROCNT": { "label": "Protein", "quantity": 1.7070308332444255, "unit": "%" },
+        "CHOLE": { "label": "Cholesterol", "quantity": 0, "unit": "%" },
+        "NA": { "label": "Sodium", "quantity": 0.46666666666666673, "unit": "%" },
+        "CA": { "label": "Calcium", "quantity": 0.9230769230769231, "unit": "%" },
+        "MG": { "label": "Magnesium", "quantity": 6.904761904761903, "unit": "%" },
+        "K": { "label": "Potassium", "quantity": 14.264705882352944, "unit": "%" },
+        "FE": { "label": "Iron", "quantity": 3.055555555555556, "unit": "%" },
+        "ZN": { "label": "Zinc", "quantity": 5.818181818181818, "unit": "%" },
+        "P": { "label": "Phosphorus", "quantity": 4.16, "unit": "%" },
+        "VITA_RAE": { "label": "Vitamin A", "quantity": 0.7777777777777779, "unit": "%" },
+        "VITC": { "label": "Vitamin C", "quantity": 11.11111111111111, "unit": "%" },
+        "THIA": { "label": "Thiamin (B1)", "quantity": 5.583333333333334, "unit": "%" },
+        "RIBF": { "label": "Riboflavin (B2)", "quantity": 10, "unit": "%" },
+        "NIA": { "label": "Niacin (B3)", "quantity": 10.874999999999998, "unit": "%" },
+        "VITB6A": { "label": "Vitamin B6", "quantity": 15.117647058823529, "unit": "%" },
+        "FOLDFE": { "label": "Folate equivalent (total)", "quantity": 20.25, "unit": "%" },
+        "VITB12": { "label": "Vitamin B12", "quantity": 0, "unit": "%" },
+        "VITD": { "label": "Vitamin D", "quantity": 0, "unit": "%" },
+        "TOCPHA": { "label": "Vitamin E", "quantity": 13.799999999999999, "unit": "%" },
+        "VITK1": { "label": "Vitamin K", "quantity": 17.5, "unit": "%" }
+      },
+      "ingredients": [
+        {
+          "parsed": [
+            {
+              "quantity": 100,
+              "measure": "gram",
+              "food": "avocado",
+              "foodId": "food_b0yuze4b1g3afpanijno5abtiu28",
+              "weight": 100,
+              "retainedWeight": 100,
+              "measureURI": "http://www.edamam.com/ontologies/edamam.owl#Measure_gram",
+              "status": "OK"
+            }
+          ]
+        }
+      ]
+    }
+    """.trimIndent().toModel<IngredientsDataResponseModel?>()
 
 @Serializable
 data class IngredientsDataResponseModel(
@@ -23,18 +121,15 @@ data class IngredientsDataResponseModel(
     val ingredients: List<IngredientModel>?
 ) {
 
-    val nutrientInfoModelList: List<Triple<NutrientType, NutrientInfoModel, NutrientInfoModel>>
-        get() = NutrientType.entries.mapNotNull { nutrientType ->
+    val nutrientInfoModelList: List<Triple<NutrientType, NutrientInfoModel?, NutrientInfoModel?>>
+        get() = NutrientType.entries.map { nutrientType ->
             val info = totalNutrients?.get(nutrientType.value)
             val dailyInfo = totalDaily?.get(nutrientType.value)
-            if (info != null && dailyInfo != null)
-                Triple(
-                    first = nutrientType,
-                    second = info,
-                    third = dailyInfo
-                )
-            else
-                null
+            Triple(
+                first = nutrientType,
+                second = info,
+                third = dailyInfo
+            )
         }
 
 }

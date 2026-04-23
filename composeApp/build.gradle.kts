@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     //alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.ktorfit) version libs.versions.ktorfit
+    alias(libs.plugins.ktorfit)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.googleKsp)
 }
@@ -131,6 +131,5 @@ ksp {
 
 dependencies {
     implementation(libs.ktorfit.lib)
-    // Use the matching KSP version for Kotlin 2.1.0
-    add("ksp", "de.jensklingenberg.ktorfit:ktorfit-ksp:2.1.0-1.0.27")
+    add("ksp", libs.ktorfit.ksp)
 }

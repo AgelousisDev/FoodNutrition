@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +15,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
+import com.agelousis.kotlinmultiplatform.utils.format
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_amount_per_serving_label
 import kotlinmultiplatform.composeapp.generated.resources.key_calories_label
@@ -166,7 +169,7 @@ fun NutritionInfoView(
                     space = 4.dp
                 )
             ) {
-                for (nutritionInfoModelPair in (ingredientsDataResponseModel.nutrientInfoModelList)) {
+                for ((index, nutritionInfoModelPair) in (ingredientsDataResponseModel.nutrientInfoModelList.withIndex())) {
                     HorizontalDivider(
                         modifier = Modifier
                             .padding(
@@ -185,24 +188,25 @@ fun NutritionInfoView(
                                 .padding(
                                     horizontal = if (nutritionInfoModelPair.first.hasPadding) 16.dp else 0.dp
                                 )
-                                .weight(
-                                    weight = 0.8f
-                                )
                                 .basicMarquee(),
                             text = nutritionInfoModelPair.first.label,
                             style = MaterialTheme.typography.bodyLarge
                         )
+                        val (quantity, unit) = remember {
+                            val quantity = (nutritionInfoModelPair.second?.quantity ?: 0.0) format 1
+                            quantity to (nutritionInfoModelPair.second?.unit ?: "")
+                        }
                         Text(
                             modifier = Modifier
-                                .weight(
-                                    weight = 0.2f
+                                .fillMaxWidth(
+                                    fraction = 1f
                                 )
                                 .basicMarquee(),
-                            text = "${(nutritionInfoModelPair.third.quantity ?: 0.0)}${nutritionInfoModelPair.third.unit}",
+                            text = "$quantity${if (index == 0) " " else ""}$unit",
                             style = MaterialTheme.typography.bodyLarge.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            textAlign = TextAlign.End
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End
+                            )
                         )
                     }
                 }
@@ -216,6 +220,8 @@ fun NutritionInfoView(
 fun NutritionInfoViewPreview() {
     MaterialTheme {
         NutritionInfoView(
+            modifier = Modifier
+                .fillMaxSize(),
             ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
                 ?: return@MaterialTheme
         )

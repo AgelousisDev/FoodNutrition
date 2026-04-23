@@ -4,24 +4,24 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FoodModel(
-    val brand: String?,
-    val category: String?,
-    val categoryLabel: String?,
-    val foodContentsLabel: String?,
-    val image: String?,
-    val foodId: String?,
-    val knownAs: String?,
-    var label: String?,
-    val nutrients: NutrientModel?,
-    val servingSizes: List<ServingSizeModel>?,
-    val quantity: Double?,
-    val measure: String?,
-     val food: String?,
-    val weight: Double?,
-    val retainedWeight: Double?,
-    val servingsPerContainer: Double?,
-    val measureUri: String?,
-    val status: String?
+    val brand: String? = null,
+    val category: String? = null,
+    val categoryLabel: String? = null,
+    val foodContentsLabel: String? = null,
+    val image: String? = null,
+    val foodId: String? = null,
+    val knownAs: String? = null,
+    var label: String? = null,
+    val nutrients: NutrientModel? = null,
+    val servingSizes: List<ServingSizeModel>? = null,
+    val quantity: Double? = null,
+    val measure: String? = null,
+     val food: String? = null,
+    val weight: Double? = null,
+    val retainedWeight: Double? = null,
+    val servingsPerContainer: Double? = null,
+    val measureUri: String? = null,
+    val status: String? = null
 ) {
 
     val foodInfoList
