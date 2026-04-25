@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -73,7 +72,10 @@ fun ScalingHorizontalPagerView(
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(
+            space = 8.dp
+        )
     ) {
         HorizontalPager(
             modifier = Modifier
@@ -91,7 +93,7 @@ fun ScalingHorizontalPagerView(
             state = pagerState,
             beyondViewportPageCount = 1,
             contentPadding = PaddingValues(
-                horizontal = 100.dp
+                horizontal = 90.dp
             )
         ) { page ->
             PagerView(
@@ -102,10 +104,6 @@ fun ScalingHorizontalPagerView(
         }
         if (pagerState.pageCount > 1)
             AnimatedDotsIndicatorView(
-                modifier = Modifier
-                    .padding(
-                        top = 24.dp
-                    ),
                 pagerState = pagerState,
                 spaceBetween = 12.dp,
                 dotsCount = scalingHorizontalPagerDataList.size
@@ -119,117 +117,119 @@ private fun PagerView(
     index: Int,
     scalingHorizontalPagerData: ScalingHorizontalPagerData
 ) {
-    Box(
-        contentAlignment = Alignment.Center
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .graphicsLayer {
+                // Calculate how far this page is from the current center
+                val pageOffset = (
+                        (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
+                        ).absoluteValue
+
+                // Apply lerp for scale (0.7f for side cards, 1f for center)
+                val scale = lerp(
+                    start = 0.7f,
+                    stop = 1.2f,
+                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                )
+                scaleX = scale
+                scaleY = scale
+                alpha = lerp(
+                    start = 0.5f,
+                    stop = 1f,
+                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                )
+            }
+            .padding(
+                all = 24.dp
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
+        ),
+        shape = RoundedCornerShape(
+            size = 32.dp
+        )
     ) {
-        Card(
+        Column(
             modifier = Modifier
-                .graphicsLayer {
-                    // Calculate how far this page is from the current center
-                    val pageOffset = (
-                            (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
-                            ).absoluteValue
-
-                    // Apply lerp for scale (0.7f for side cards, 1f for center)
-                    val scale = lerp(
-                        start = 0.7f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    )
-                    scaleX = scale
-                    scaleY = scale
-                    alpha = lerp(
-                        start = 0.5f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    )
-                },
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            ),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
-            ),
-            shape = CircleShape
+                .fillMaxWidth()
+                .padding(
+                    vertical = 12.dp
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Column(
+            Box(
                 modifier = Modifier
-                    .padding(
-                        all = 32.dp
+                    .size(
+                        size = 48.dp
                     )
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                    .background(
+                        color = ArcticWhiteColor,
+                        shape = RoundedCornerShape(
+                            size = 12.dp
+                        )
+                    ),
+                contentAlignment = Alignment.Center
+
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(
-                            size = 48.dp
+                when(val icon = scalingHorizontalPagerData.icon) {
+                    is DrawableResource ->
+                        Icon(
+                            painter = painterResource(
+                                resource = icon
+                            ),
+                            contentDescription = null,
+                            tint = BlueSapphire,
+                            modifier = Modifier.size(24.dp)
                         )
-                        .background(
-                            color = ArcticWhiteColor,
-                            shape = RoundedCornerShape(
-                                size = 12.dp
-                            )
-                        ),
-                    contentAlignment = Alignment.Center
-
-                ) {
-                    when(val icon = scalingHorizontalPagerData.icon) {
-                        is DrawableResource ->
-                            Icon(
-                                painter = painterResource(
-                                    resource = icon
-                                ),
-                                contentDescription = null,
-                                tint = BlueSapphire,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        is ImageVector ->
-                            Icon(
-                                imageVector = icon,
-                                contentDescription = icon.name,
-                                tint = BlueSapphire,
-                                modifier = Modifier.size(24.dp)
-                            )
-                    }
+                    is ImageVector ->
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = icon.name,
+                            tint = BlueSapphire,
+                            modifier = Modifier.size(24.dp)
+                        )
                 }
-                
-                Spacer(
-                    modifier = Modifier
-                        .height(
-                            height = 16.dp
-                        )
-                )
+            }
 
-                scalingHorizontalPagerData.label?.let { label ->
-                    Text(
-                        text = label,
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = DarkGreySecondary,
-                            textAlign = TextAlign.Center
-                        )
+            Spacer(
+                modifier = Modifier
+                    .height(
+                        height = 16.dp
                     )
-                }
+            )
 
-                Spacer(
-                    modifier = Modifier
-                        .height(
-                            height = 8.dp
-                        )
-                )
-
-                scalingHorizontalPagerData.description?.let { description ->
-                    Text(
-                        text = description,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = GraniteGrayColor,
-                            textAlign = TextAlign.Center
-                        ),
-                        modifier = Modifier.padding(horizontal = 16.dp)
+            scalingHorizontalPagerData.label?.let { label ->
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = DarkGreySecondary,
+                        textAlign = TextAlign.Center
                     )
-                }
+                )
+            }
+
+            Spacer(
+                modifier = Modifier
+                    .height(
+                        height = 8.dp
+                    )
+            )
+
+            scalingHorizontalPagerData.description?.let { description ->
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = GraniteGrayColor,
+                        textAlign = TextAlign.Center
+                    ),
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
             }
         }
     }

@@ -20,7 +20,7 @@ fun ExpressiveShapesBaseActivityNavigation(
     NavDisplay(
         modifier = Modifier
             .padding(
-                paddingValues = contentPadding
+                top = contentPadding.calculateTopPadding()
             ),
         backStack = backStack,
         onBack = {
