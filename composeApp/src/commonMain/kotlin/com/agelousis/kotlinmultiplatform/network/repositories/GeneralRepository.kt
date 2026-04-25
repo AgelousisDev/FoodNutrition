@@ -20,7 +20,7 @@ object GeneralRepository {
         try {
             val response = api.requestInitializationBlock()
             successModelBlock(response)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             failureBlock(
                 ErrorModel(
                     message = e.message

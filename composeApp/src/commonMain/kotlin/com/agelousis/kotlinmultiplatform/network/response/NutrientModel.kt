@@ -5,27 +5,27 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NutrientModel(
-    @SerialName(value = "ENERC_KCAL") val calories: Double?,
-    @SerialName(value = "FAT") val fat: Double?,
-    @SerialName(value = "FASAT") val saturatedFat: Double?,
-    @SerialName(value = "FATRN") val transFat: Double?,
-    @SerialName(value = "CHOLE") val cholesterol: Double?,
-    @SerialName(value = "NA") val sodium: Double?,
-    @SerialName(value = "CHOCDF") val totalCarbohydrate: Double?,
-    @SerialName(value = "FIBTG") val dietaryFiber: Double?,
-    @SerialName(value = "SUGAR") val totalSugars: Double?,
-    @SerialName(value = "SUGAR.added") val addedSugar: Double?,
-    @SerialName(value = "PROCNT") val protein: Double?,
-    @SerialName(value = "VITD") val vitaminD: Double?,
-    @SerialName(value = "CA") val calcium: Double?,
-    @SerialName(value = "FE") val iron: Double?,
-    @SerialName(value = "K") val potassium: Double?,
-    @SerialName(value = "VITC") val vitaminC: Double?,
-    @SerialName(value = "FAMS") val totalFattyAcidsMonounsaturated: Double?,
-    @SerialName(value = "FAPU") val totalFattyAcidsPolyunsaturated: Double?,
-    @SerialName(value = "MG") val magnesium: Double?,
-    @SerialName(value = "P") val phosphorus: Double?,
-    @SerialName(value = "THIA") val thiamin: Double?
+    @SerialName(value = "ENERC_KCAL") val calories: Double? = null,
+    @SerialName(value = "FAT") val fat: Double? = null,
+    @SerialName(value = "FASAT") val saturatedFat: Double? = null,
+    @SerialName(value = "FATRN") val transFat: Double? = null,
+    @SerialName(value = "CHOLE") val cholesterol: Double? = null,
+    @SerialName(value = "NA") val sodium: Double? = null,
+    @SerialName(value = "CHOCDF") val totalCarbohydrate: Double? = null,
+    @SerialName(value = "FIBTG") val dietaryFiber: Double? = null,
+    @SerialName(value = "SUGAR") val totalSugars: Double? = null,
+    @SerialName(value = "SUGAR.added") val addedSugar: Double? = null,
+    @SerialName(value = "PROCNT") val protein: Double? = null,
+    @SerialName(value = "VITD") val vitaminD: Double? = null,
+    @SerialName(value = "CA") val calcium: Double? = null,
+    @SerialName(value = "FE") val iron: Double? = null,
+    @SerialName(value = "K") val potassium: Double? = null,
+    @SerialName(value = "VITC") val vitaminC: Double? = null,
+    @SerialName(value = "FAMS") val totalFattyAcidsMonounsaturated: Double? = null,
+    @SerialName(value = "FAPU") val totalFattyAcidsPolyunsaturated: Double? = null,
+    @SerialName(value = "MG") val magnesium: Double? = null,
+    @SerialName(value = "P") val phosphorus: Double? = null,
+    @SerialName(value = "THIA") val thiamin: Double? = null
 ) {
 
     val nutritionValues

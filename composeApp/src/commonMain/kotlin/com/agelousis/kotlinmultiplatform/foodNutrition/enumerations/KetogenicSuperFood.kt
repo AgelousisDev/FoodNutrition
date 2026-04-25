@@ -48,4 +48,10 @@ enum class KetogenicSuperFood: ScalingHorizontalPagerData {
             predicate = String::isNotEmpty
         )
 
+    val foodName
+        get() = name.replace(
+            oldValue = "_",
+            newValue = " "
+        ).lowercase()
+
 }

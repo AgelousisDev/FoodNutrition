@@ -76,7 +76,7 @@ fun KetogenicSuperFoodsScreenView(
         }
         //endregion
         //region Food nutrition
-        (viewModel foodData selectedKetogenicSuperFood.name.lowercase())?.let { dataResponseModel ->
+        (viewModel foodData selectedKetogenicSuperFood.foodName)?.let { dataResponseModel ->
             item {
                 NutritionInfoView(
                     modifier = Modifier
@@ -101,8 +101,8 @@ private fun RequestData(
         key1 = selectedKetogenicSuperFood
     ) {
         //request Food nutrition
-        if ((viewModel foodData selectedKetogenicSuperFood.name.lowercase()) == null)
-            viewModel requestFoodNutrition selectedKetogenicSuperFood.name.lowercase()
+        if ((viewModel foodData selectedKetogenicSuperFood.foodName) == null)
+            viewModel requestFoodNutrition selectedKetogenicSuperFood.foodName
         //endregion
     }
 }

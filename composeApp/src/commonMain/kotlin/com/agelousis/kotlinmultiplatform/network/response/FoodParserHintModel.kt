@@ -1,6 +1,9 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class FoodParserHintModel(
-    val foodModel: FoodModel?,
-    val measures: List<MeasureModel>?
+    val food: FoodModel? = null,
+    val measures: List<MeasureModel>? = null
 )

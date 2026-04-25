@@ -1,14 +1,19 @@
 package com.agelousis.kotlinmultiplatform.network
 
+import com.agelousis.kotlinmultiplatform.network.apis.EdamamAPI
+import com.agelousis.kotlinmultiplatform.network.apis.createEdamamAPI
 import com.agelousis.kotlinmultiplatform.network.utils.ApiConstants
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.client.request.header
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -18,7 +23,7 @@ object NetworkHelper {
         HttpClient {
             // Logging Interceptor (Equivalent to HttpLoggingInterceptor)
             install(Logging) {
-                level = LogLevel.BODY
+                level = LogLevel.INFO
                 logger = Logger.SIMPLE
             }
 
@@ -31,6 +36,13 @@ object NetworkHelper {
                     }
                 )
             }
+
+            defaultRequest {
+                header(
+                    key = HttpHeaders.ContentType,
+                    ContentType.Application.Json
+                )
+            }
         }
 
     val ktorfit: Ktorfit by lazy {
@@ -39,5 +51,7 @@ object NetworkHelper {
             .httpClient(httpClient)
             .build()
     }
+
+    val edamamApi: EdamamAPI by lazy { ktorfit.createEdamamAPI() }
 
 }

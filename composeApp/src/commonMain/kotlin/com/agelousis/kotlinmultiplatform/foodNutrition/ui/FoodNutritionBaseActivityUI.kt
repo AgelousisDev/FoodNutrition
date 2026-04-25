@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,10 +23,7 @@ import com.agelousis.kotlinmultiplatform.foodNutrition.extensions.ExpressiveShap
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.utils.SuccessUnitBlock
-import kotlinmultiplatform.composeapp.generated.resources.Res
-import kotlinmultiplatform.composeapp.generated.resources.key_ketogenic_super_foods_label
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,7 +67,7 @@ fun FoodNutritionBaseActivityView(
                 }
             )
         },
-        floatingActionButton = {
+        /*floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
                     backStack.add(
@@ -88,7 +83,7 @@ fun FoodNutritionBaseActivityView(
                 )
             }
         },
-        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButtonPosition = FabPosition.End,*/
         content = { contentPadding ->
             Navigation(
                 contentPadding = contentPadding,
