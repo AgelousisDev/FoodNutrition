@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.expressiveShapes.ui
+package com.agelousis.kotlinmultiplatform.foodNutrition.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

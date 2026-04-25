@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.expressiveShapes.enumerations
+package com.agelousis.kotlinmultiplatform.foodNutrition.enumerations
 
 import androidx.compose.runtime.Composable
 import com.agelousis.kotlinmultiplatform.compose.theme.AvocadoIcon

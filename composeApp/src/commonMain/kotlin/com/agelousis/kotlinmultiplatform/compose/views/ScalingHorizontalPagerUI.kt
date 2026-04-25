@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +42,8 @@ import com.agelousis.kotlinmultiplatform.compose.theme.BlueSapphire
 import com.agelousis.kotlinmultiplatform.compose.theme.DarkGreySecondary
 import com.agelousis.kotlinmultiplatform.compose.theme.GraniteGrayColor
 import com.agelousis.kotlinmultiplatform.compose.util.ScalingHorizontalPagerData
-import com.agelousis.kotlinmultiplatform.expressiveShapes.enumerations.KetogenicSuperFood
+import com.agelousis.kotlinmultiplatform.foodNutrition.enumerations.KetogenicSuperFood
+import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -50,7 +52,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun ScalingHorizontalPagerView(
     modifier: Modifier = Modifier,
-    scalingHorizontalPagerDataList: List<ScalingHorizontalPagerData>
+    scalingHorizontalPagerDataList: List<ScalingHorizontalPagerData>,
+    pagerViewBlock: SuccessBlock<ScalingHorizontalPagerData>
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(
@@ -58,6 +61,15 @@ fun ScalingHorizontalPagerView(
         initialPageOffsetFraction = 0f,
         pageCount = scalingHorizontalPagerDataList::size
     )
+    LaunchedEffect(
+        key1 = pagerState.currentPage
+    ) {
+        pagerViewBlock(
+            scalingHorizontalPagerDataList[
+                    pagerState.currentPage
+            ]
+        )
+    }
     Column(
         modifier = modifier
             .fillMaxWidth(),
@@ -242,7 +254,8 @@ fun ScalingHorizontalPagerViewPreview() {
             contentAlignment = Alignment.Center
         ) {
             ScalingHorizontalPagerView(
-                scalingHorizontalPagerDataList = KetogenicSuperFood.entries
+                scalingHorizontalPagerDataList = KetogenicSuperFood.entries,
+                pagerViewBlock = {}
             )
         }
     }

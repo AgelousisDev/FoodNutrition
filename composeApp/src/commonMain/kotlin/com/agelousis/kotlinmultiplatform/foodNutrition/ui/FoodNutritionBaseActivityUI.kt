@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.expressiveShapes.ui
+package com.agelousis.kotlinmultiplatform.foodNutrition.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.compose.views.ErrorMessage
-import com.agelousis.kotlinmultiplatform.expressiveShapes.extensions.ExpressiveShapesBaseActivityNavigation
-import com.agelousis.kotlinmultiplatform.expressiveShapes.navigation.ExpressiveShapesNavigationScreen
-import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
+import com.agelousis.kotlinmultiplatform.foodNutrition.extensions.ExpressiveShapesBaseActivityNavigation
+import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
+import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.utils.SuccessUnitBlock
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_ketogenic_super_foods_label
@@ -32,13 +32,13 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpressiveShapesBaseActivityView(
-    viewModel: ExpressiveShapesBaseViewModel,
+fun FoodNutritionBaseActivityView(
+    viewModel: FoodNutritionBaseViewModel,
     onBackPress: SuccessUnitBlock
 ) {
     val backStack = remember {
-        mutableStateListOf<ExpressiveShapesNavigationScreen>(
-            ExpressiveShapesNavigationScreen.ExpressiveShapesScreen
+        mutableStateListOf<FoodNutritionNavigationScreen>(
+            FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen
         )
     }
     viewModel.ErrorMessage()
@@ -57,7 +57,7 @@ fun ExpressiveShapesBaseActivityView(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (backStack.size == 1)
+                            if (backStack.size > 1)
                                 backStack.removeLastOrNull()
                             else
                                 onBackPress()
@@ -76,7 +76,7 @@ fun ExpressiveShapesBaseActivityView(
             ExtendedFloatingActionButton(
                 onClick = {
                     backStack.add(
-                        element = ExpressiveShapesNavigationScreen.KetogenicSuperFoodsScreen
+                        element = FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen
                     )
                 }
             ) {
@@ -103,8 +103,8 @@ fun ExpressiveShapesBaseActivityView(
 @Composable
 private fun Navigation(
     contentPadding: PaddingValues,
-    viewModel: ExpressiveShapesBaseViewModel,
-    backStack: SnapshotStateList<ExpressiveShapesNavigationScreen>
+    viewModel: FoodNutritionBaseViewModel,
+    backStack: SnapshotStateList<FoodNutritionNavigationScreen>
 ) {
     LaunchedEffect(
         key1 = backStack.size
@@ -122,9 +122,9 @@ private fun Navigation(
 
 @Preview
 @Composable
-fun ExpressiveShapesBaseActivityViewPreview() {
+fun FoodNutritionBaseActivityViewPreview() {
     MaterialTheme {
-        ExpressiveShapesBaseActivityView(
+        FoodNutritionBaseActivityView(
             viewModel = viewModel(),
             onBackPress = {}
         )

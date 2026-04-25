@@ -1,30 +1,22 @@
-package com.agelousis.kotlinmultiplatform.expressiveShapes.navigation
+package com.agelousis.kotlinmultiplatform.foodNutrition.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel.ExpressiveShapesBaseViewModel
+import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import kotlinmultiplatform.composeapp.generated.resources.Res
-import kotlinmultiplatform.composeapp.generated.resources.key_expressive_shapes_label
 import kotlinmultiplatform.composeapp.generated.resources.key_ketogenic_super_foods_label
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.getString
 
 @Serializable
-sealed class ExpressiveShapesNavigationScreen {
+sealed class FoodNutritionNavigationScreen {
 
     @OptIn(ExperimentalResourceApi::class)
     suspend infix fun handleTopAppBar(
-        viewModel: ExpressiveShapesBaseViewModel
+        viewModel: FoodNutritionBaseViewModel
     ) {
         when (this) {
-            ExpressiveShapesScreen -> {
-                viewModel.navigationIcon = Icons.AutoMirrored.Filled.ArrowBack
-                viewModel.appBarTitle = getString(
-                    resource = Res.string.key_expressive_shapes_label
-                )
-                viewModel.navigationBarActions.clear()
-            }
             KetogenicSuperFoodsScreen -> {
                 viewModel.navigationIcon = Icons.AutoMirrored.Filled.ArrowBack
                 viewModel.appBarTitle = getString(
@@ -36,9 +28,6 @@ sealed class ExpressiveShapesNavigationScreen {
     }
 
     @Serializable
-    data object ExpressiveShapesScreen: ExpressiveShapesNavigationScreen()
-
-    @Serializable
-    data object KetogenicSuperFoodsScreen: ExpressiveShapesNavigationScreen()
+    data object KetogenicSuperFoodsScreen: FoodNutritionNavigationScreen()
 
 }

@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.expressiveShapes.viewModel
+package com.agelousis.kotlinmultiplatform.foodNutrition.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.agelousis.kotlinmultiplatform.network.NetworkHelper
@@ -15,15 +15,15 @@ import kotlin.getValue
 
 //region Edamam APIs
 
-private val ExpressiveShapesBaseViewModel.foodDataStateMap by lazy {
+val FoodNutritionBaseViewModel.foodDataStateMap by lazy {
     mutableMapOf<String, IngredientsDataResponseModel>()
 }
 
-infix fun ExpressiveShapesBaseViewModel.foodData(
-    foodId: String
-) = foodDataStateMap[foodId]
+infix fun FoodNutritionBaseViewModel.foodData(
+    product: String
+) = foodDataStateMap[product]
 
-fun ExpressiveShapesBaseViewModel.getFoodNutrition(
+infix fun FoodNutritionBaseViewModel.requestFoodNutrition(
     product: String
 ) {
     viewModelScope.launch {
@@ -47,7 +47,7 @@ fun ExpressiveShapesBaseViewModel.getFoodNutrition(
 
 }
 
-private suspend fun ExpressiveShapesBaseViewModel.parseFood(
+private suspend fun FoodNutritionBaseViewModel.parseFood(
     product: String,
     successBlock: SuspendedSuccessBlock<FoodParserResponseModel?>
 ) {
@@ -66,7 +66,7 @@ private suspend fun ExpressiveShapesBaseViewModel.parseFood(
     )
 }
 
-private suspend fun ExpressiveShapesBaseViewModel.getFullyNutrition(
+private suspend fun FoodNutritionBaseViewModel.getFullyNutrition(
     foodId: String,
     successBlock: SuspendedSuccessBlock<IngredientsDataResponseModel?>
 ) {
