@@ -1,14 +1,15 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,6 +39,8 @@ fun KetogenicSuperFoodsScreenView(
 ) {
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
     val isOnPreview = LocalInspectionMode.current
+    val windowInfo = LocalWindowInfo.current
+    val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
     val (selectedKetogenicSuperFood, setKetogenicSuperFood) = remember {
         mutableStateOf(
             value = KetogenicSuperFood.entries[0]
@@ -48,10 +52,15 @@ fun KetogenicSuperFoodsScreenView(
         selectedKetogenicSuperFood = selectedKetogenicSuperFood
     )
     //endregion
-    LazyColumn(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(
-            space = 24.dp
+    LazyVerticalGrid(
+        modifier = modifier
+            .fillMaxSize(),
+        columns = GridCells.Fixed(
+            count =
+                if (isLandscape)
+                    3
+                else
+                    1
         ),
         contentPadding = PaddingValues(
             bottom = if (isOnPreview) 24.dp else navigationBarsPadding.calculateBottomPadding()
@@ -77,7 +86,17 @@ fun KetogenicSuperFoodsScreenView(
         //endregion
         //region Food nutrition
         (viewModel foodData selectedKetogenicSuperFood.foodName)?.let { dataResponseModel ->
-            item {
+            item(
+                span = {
+                    GridItemSpan(
+                        currentLineSpan =
+                            if (!isLandscape)
+                                1
+                            else
+                                2
+                    )
+                }
+            ) {
                 NutritionInfoView(
                     modifier = Modifier
                         .padding(
@@ -111,6 +130,29 @@ private fun RequestData(
 @Preview(heightDp = 1400)
 @Composable
 fun KetogenicSuperFoodsScreenViewPreview() {
+    MaterialTheme {
+        KetogenicSuperFoodsScreenView(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(
+                        size = 16.dp
+                    )
+                ),
+            viewModel = viewModel<FoodNutritionBaseViewModel>().also { viewModel ->
+                viewModel.foodDataStateMap[
+                    KetogenicSuperFood.AVOCADO.name.lowercase()
+                ] = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
+                    ?: return@MaterialTheme
+            }
+        )
+    }
+}
+
+@Preview(widthDp = 1200, heightDp = 800)
+@Composable
+fun KetogenicSuperFoodsScreenViewLandscapePreview() {
     MaterialTheme {
         KetogenicSuperFoodsScreenView(
             modifier = Modifier

@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,6 +55,8 @@ fun ScalingHorizontalPagerView(
     scalingHorizontalPagerDataList: List<ScalingHorizontalPagerData>,
     pagerViewBlock: SuccessBlock<ScalingHorizontalPagerData>
 ) {
+    val windowInfo = LocalWindowInfo.current
+    val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -93,7 +96,11 @@ fun ScalingHorizontalPagerView(
             state = pagerState,
             beyondViewportPageCount = 1,
             contentPadding = PaddingValues(
-                horizontal = 90.dp
+                horizontal =
+                    if(!isLandscape)
+                        90.dp
+                    else
+                        12.dp
             )
         ) { page ->
             PagerView(
