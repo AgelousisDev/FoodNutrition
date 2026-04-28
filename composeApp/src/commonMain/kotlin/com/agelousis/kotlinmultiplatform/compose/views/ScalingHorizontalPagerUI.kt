@@ -100,7 +100,7 @@ fun ScalingHorizontalPagerView(
                     if(!isLandscape)
                         90.dp
                     else
-                        12.dp
+                        48.dp
             )
         ) { page ->
             PagerView(
