@@ -8,9 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
+import com.agelousis.kotlinmultiplatform.foodNutrition.ui.FoodDetailsScreenView
 import com.agelousis.kotlinmultiplatform.foodNutrition.ui.FoodSearchScreenView
 import com.agelousis.kotlinmultiplatform.foodNutrition.ui.KetogenicSuperFoodsScreenView
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
+import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 
 @Composable
 fun ExpressiveShapesBaseActivityNavigation(
@@ -30,7 +32,19 @@ fun ExpressiveShapesBaseActivityNavigation(
         entryProvider = entryProvider {
             entry<FoodNutritionNavigationScreen.FoodSearchScreen> {
                 FoodSearchScreenView(
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    foodDetailsRedirection = IngredientsDataResponseModel@ {
+                        backStack.add(
+                            element = FoodNutritionNavigationScreen.FoodDetailsScreen(
+                                ingredientsDataResponseModel = this@IngredientsDataResponseModel
+                            )
+                        )
+                    }
+                )
+            }
+            entry<FoodNutritionNavigationScreen.FoodDetailsScreen> { (ingredientsDataResponseModel) ->
+                FoodDetailsScreenView(
+                    ingredientsDataResponseModel = ingredientsDataResponseModel
                 )
             }
             entry<FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen> {

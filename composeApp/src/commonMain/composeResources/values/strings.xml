@@ -59,4 +59,14 @@
         <item>Brand</item>
         <item>Food Contents</item>
     </string-array>
+    <string name="key_search_label">Search</string>
+    <string name="key_recent_search_label">Recent search</string>
+    <string name="key_clear_all_label">Clear all</string>
+    <string name="key_recommend_for_you_label">Recommend for you</string>
+    <string name="key_free_delivery_label">Free delivery</string>
+    <string name="key_ratings_label">Ratings</string>
+    <string name="key_bookmark_label">Bookmark</string>
+    <string name="key_photo_label">Photo</string>
+    <string name="key_min_label">min</string>
+    <string name="key_miles_label">miles</string>
 </resources>

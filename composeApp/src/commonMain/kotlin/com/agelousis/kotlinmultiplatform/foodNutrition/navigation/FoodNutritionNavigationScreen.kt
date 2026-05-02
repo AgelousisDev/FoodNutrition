@@ -3,6 +3,7 @@ package com.agelousis.kotlinmultiplatform.foodNutrition.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
+import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_food_nutrition_screen_titles
 import kotlinx.serialization.Serializable
@@ -36,6 +37,10 @@ sealed class FoodNutritionNavigationScreen {
 
     @Serializable
     data object FoodSearchScreen: FoodNutritionNavigationScreen()
+    @Serializable
+    data class FoodDetailsScreen(
+        val ingredientsDataResponseModel: IngredientsDataResponseModel
+    ): FoodNutritionNavigationScreen()
     @Serializable
     data object KetogenicSuperFoodsScreen: FoodNutritionNavigationScreen()
 

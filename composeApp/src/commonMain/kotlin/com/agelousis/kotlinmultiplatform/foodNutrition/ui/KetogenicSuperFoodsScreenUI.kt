@@ -121,7 +121,9 @@ private fun RequestData(
     ) {
         //request Food nutrition
         if ((viewModel foodData selectedKetogenicSuperFood.foodName) == null)
-            viewModel requestFoodNutrition selectedKetogenicSuperFood.foodName
+            viewModel.requestFoodNutrition(
+                product = selectedKetogenicSuperFood.foodName
+            )
         //endregion
     }
 }

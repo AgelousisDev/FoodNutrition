@@ -7,6 +7,7 @@ import com.agelousis.kotlinmultiplatform.network.apis.EdamamAPI
 import com.agelousis.kotlinmultiplatform.network.apis.createEdamamAPI
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
 import com.agelousis.kotlinmultiplatform.network.repositories.GeneralRepository
+import com.agelousis.kotlinmultiplatform.network.repositories.SuccessBlock
 import com.agelousis.kotlinmultiplatform.network.repositories.SuspendedSuccessBlock
 import com.agelousis.kotlinmultiplatform.network.request.IngredientsDataRequestModel
 import com.agelousis.kotlinmultiplatform.network.response.FoodParserResponseModel
@@ -26,8 +27,9 @@ infix fun FoodNutritionBaseViewModel.foodData(
     product: String
 ) = foodDataStateMap[product]
 
-infix fun FoodNutritionBaseViewModel.requestFoodNutrition(
-    product: String
+fun FoodNutritionBaseViewModel.requestFoodNutrition(
+    product: String,
+    successBlock: SuccessBlock<IngredientsDataResponseModel> = {}
 ) {
     viewModelScope.launch(
         context = Dispatchers.Default
@@ -47,6 +49,9 @@ infix fun FoodNutritionBaseViewModel.requestFoodNutrition(
                                 product
                         ] = this@IngredientsDataResponseModel
                             ?: return@IngredientsDataResponseModel
+                        successBlock(
+                            this@IngredientsDataResponseModel
+                        )
                     }
                 )
             }
