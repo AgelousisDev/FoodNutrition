@@ -33,7 +33,7 @@ fun FoodNutritionBaseActivityView(
 ) {
     val backStack = remember {
         mutableStateListOf<FoodNutritionNavigationScreen>(
-            FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen
+            FoodNutritionNavigationScreen.FoodSearchScreen
         )
     }
     viewModel.ErrorMessage()
