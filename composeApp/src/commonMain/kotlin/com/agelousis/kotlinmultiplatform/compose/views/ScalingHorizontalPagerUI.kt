@@ -37,12 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.agelousis.kotlinmultiplatform.compose.theme.ArcticWhiteColor
-import com.agelousis.kotlinmultiplatform.compose.theme.BlueSapphire
-import com.agelousis.kotlinmultiplatform.compose.theme.DarkGreySecondary
-import com.agelousis.kotlinmultiplatform.compose.theme.GraniteGrayColor
+import com.agelousis.kotlinmultiplatform.theme.ArcticWhiteColor
+import com.agelousis.kotlinmultiplatform.theme.BlueSapphire
+import com.agelousis.kotlinmultiplatform.theme.DarkGreySecondary
+import com.agelousis.kotlinmultiplatform.theme.GraniteGrayColor
 import com.agelousis.kotlinmultiplatform.compose.util.ScalingHorizontalPagerData
 import com.agelousis.kotlinmultiplatform.foodNutrition.enumerations.KetogenicSuperFood
+import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
@@ -245,7 +246,7 @@ private fun PagerView(
 @Preview
 @Composable
 fun ScalingHorizontalPagerViewPreview() {
-    MaterialTheme {
+    AppTheme {
         Box(
             modifier = Modifier
                 .background(

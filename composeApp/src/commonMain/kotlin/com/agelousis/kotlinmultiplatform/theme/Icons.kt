@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.compose.theme
+package com.agelousis.kotlinmultiplatform.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor

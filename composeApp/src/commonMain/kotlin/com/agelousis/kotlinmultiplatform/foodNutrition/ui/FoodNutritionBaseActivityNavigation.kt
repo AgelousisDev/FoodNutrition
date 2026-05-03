@@ -1,4 +1,4 @@
-package com.agelousis.kotlinmultiplatform.foodNutrition.extensions
+package com.agelousis.kotlinmultiplatform.foodNutrition.ui
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -8,11 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
-import com.agelousis.kotlinmultiplatform.foodNutrition.ui.FoodDetailsScreenView
-import com.agelousis.kotlinmultiplatform.foodNutrition.ui.FoodSearchScreenView
-import com.agelousis.kotlinmultiplatform.foodNutrition.ui.KetogenicSuperFoodsScreenView
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
-import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 
 @Composable
 fun ExpressiveShapesBaseActivityNavigation(

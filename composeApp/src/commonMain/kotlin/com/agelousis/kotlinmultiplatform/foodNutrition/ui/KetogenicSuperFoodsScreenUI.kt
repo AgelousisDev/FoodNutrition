@@ -31,6 +31,7 @@ import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.foodData
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.foodDataStateMap
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.requestFoodNutrition
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
+import com.agelousis.kotlinmultiplatform.theme.AppTheme
 
 @Composable
 fun KetogenicSuperFoodsScreenView(
@@ -132,7 +133,7 @@ private fun RequestData(
 @Preview(heightDp = 1400)
 @Composable
 fun KetogenicSuperFoodsScreenViewPreview() {
-    MaterialTheme {
+    AppTheme {
         KetogenicSuperFoodsScreenView(
             modifier = Modifier
                 .fillMaxSize()
@@ -146,7 +147,7 @@ fun KetogenicSuperFoodsScreenViewPreview() {
                 viewModel.foodDataStateMap[
                     KetogenicSuperFood.AVOCADO.name.lowercase()
                 ] = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                    ?: return@MaterialTheme
+                    ?: return@AppTheme
             }
         )
     }
@@ -155,7 +156,7 @@ fun KetogenicSuperFoodsScreenViewPreview() {
 @Preview(widthDp = 1200, heightDp = 800)
 @Composable
 fun KetogenicSuperFoodsScreenViewLandscapePreview() {
-    MaterialTheme {
+    AppTheme {
         KetogenicSuperFoodsScreenView(
             modifier = Modifier
                 .fillMaxSize()
@@ -169,7 +170,7 @@ fun KetogenicSuperFoodsScreenViewLandscapePreview() {
                 viewModel.foodDataStateMap[
                     KetogenicSuperFood.AVOCADO.name.lowercase()
                 ] = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                    ?: return@MaterialTheme
+                    ?: return@AppTheme
             }
         )
     }

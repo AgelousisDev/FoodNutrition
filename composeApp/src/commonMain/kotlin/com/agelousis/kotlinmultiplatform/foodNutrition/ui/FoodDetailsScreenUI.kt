@@ -37,14 +37,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.agelousis.kotlinmultiplatform.compose.theme.Begonia
-import com.agelousis.kotlinmultiplatform.compose.theme.Butterscotch
-import com.agelousis.kotlinmultiplatform.compose.theme.GraniteGrayColor
-import com.agelousis.kotlinmultiplatform.compose.theme.Jasmine
-import com.agelousis.kotlinmultiplatform.compose.theme.LightPurple
+import com.agelousis.kotlinmultiplatform.theme.Begonia
+import com.agelousis.kotlinmultiplatform.theme.Butterscotch
+import com.agelousis.kotlinmultiplatform.theme.GraniteGrayColor
+import com.agelousis.kotlinmultiplatform.theme.Jasmine
+import com.agelousis.kotlinmultiplatform.theme.LightPurple
 import com.agelousis.kotlinmultiplatform.compose.views.DotsIndicatorView
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
+import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_bookmark_label
 import kotlinmultiplatform.composeapp.generated.resources.key_free_delivery_label
@@ -269,10 +270,10 @@ fun DetailStatItem(icon: @Composable () -> Unit, label: String, value: String) {
 @Preview
 @Composable
 fun FoodDetailsScreenViewPreview() {
-    MaterialTheme {
+    AppTheme {
         FoodDetailsScreenView(
             ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                ?: return@MaterialTheme
+                ?: return@AppTheme
         )
     }
 }
@@ -280,10 +281,10 @@ fun FoodDetailsScreenViewPreview() {
 @Preview(widthDp = 1200, heightDp = 800)
 @Composable
 fun FoodDetailsScreenViewInLandscapePreview() {
-    MaterialTheme {
+    AppTheme {
         FoodDetailsScreenView(
             ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                ?: return@MaterialTheme
+                ?: return@AppTheme
         )
     }
 }

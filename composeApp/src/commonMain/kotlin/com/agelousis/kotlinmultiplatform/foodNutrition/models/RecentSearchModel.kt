@@ -18,7 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.agelousis.kotlinmultiplatform.compose.theme.GraniteGrayColor
+import com.agelousis.kotlinmultiplatform.theme.GraniteGrayColor
 
 data class RecentSearchModel(
     val title: String,

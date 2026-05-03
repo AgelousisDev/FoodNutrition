@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.agelousis.kotlinmultiplatform.compose.theme.Butterscotch
-import com.agelousis.kotlinmultiplatform.compose.theme.GraniteGrayColor
+import com.agelousis.kotlinmultiplatform.theme.Butterscotch
+import com.agelousis.kotlinmultiplatform.theme.GraniteGrayColor
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_ratings_label
 import org.jetbrains.compose.resources.stringResource

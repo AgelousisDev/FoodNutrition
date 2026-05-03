@@ -21,9 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.agelousis.kotlinmultiplatform.compose.extensions.jumpingDotTransition
-import com.agelousis.kotlinmultiplatform.compose.theme.Butterscotch
-import com.agelousis.kotlinmultiplatform.compose.theme.GraniteGrayColor
-import com.agelousis.kotlinmultiplatform.compose.theme.Steel
+import com.agelousis.kotlinmultiplatform.theme.AppTheme
+import com.agelousis.kotlinmultiplatform.theme.Butterscotch
+import com.agelousis.kotlinmultiplatform.theme.GraniteGrayColor
+import com.agelousis.kotlinmultiplatform.theme.Steel
 import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 
 enum class DotIndicatorViewType {
@@ -171,7 +172,7 @@ fun AnimatedDotsIndicatorView(
 @Preview
 @Composable
 fun DotsIndicatorViewPreview() {
-    MaterialTheme {
+    AppTheme {
         Box(
             modifier = Modifier
                 .size(
@@ -200,7 +201,7 @@ fun DotsIndicatorViewPreview() {
 @Preview
 @Composable
 fun DotsIndicatorViewPreviewInCircle() {
-    MaterialTheme {
+    AppTheme {
         Box(
             modifier = Modifier
                 .size(
@@ -230,7 +231,7 @@ fun DotsIndicatorViewPreviewInCircle() {
 @Preview
 @Composable
 fun AnimatedDotsIndicatorViewPreview() {
-    MaterialTheme {
+    AppTheme {
         Box(
             modifier = Modifier
                 .size(

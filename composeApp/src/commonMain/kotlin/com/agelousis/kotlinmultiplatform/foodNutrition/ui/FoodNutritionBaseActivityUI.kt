@@ -19,9 +19,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.compose.views.ErrorMessage
-import com.agelousis.kotlinmultiplatform.foodNutrition.extensions.ExpressiveShapesBaseActivityNavigation
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
+import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.utils.SuccessUnitBlock
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
@@ -64,6 +64,12 @@ fun FoodNutritionBaseActivityView(
                             contentDescription = viewModel.navigationIcon?.name,
                         )
                     }
+                },
+                actions = {
+                    FoodNutritionBaseActivityNavigationBar(
+                        viewModel = viewModel,
+                        backStack = backStack
+                    )
                 }
             )
         },
@@ -118,7 +124,7 @@ private fun Navigation(
 @Preview
 @Composable
 fun FoodNutritionBaseActivityViewPreview() {
-    MaterialTheme {
+    AppTheme {
         FoodNutritionBaseActivityView(
             viewModel = viewModel(),
             onBackPress = {}

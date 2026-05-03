@@ -1,7 +1,9 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowLeft
+import androidx.compose.material.icons.outlined.Close
+import com.agelousis.kotlinmultiplatform.foodNutrition.enumerations.FoodNutritionBaseActivityNavigationBarAction
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import kotlinmultiplatform.composeapp.generated.resources.Res
@@ -20,8 +22,23 @@ sealed class FoodNutritionNavigationScreen {
         viewModel: FoodNutritionBaseViewModel
     ) {
         viewModel.appBarTitle = title()
-        viewModel.navigationIcon = Icons.AutoMirrored.Filled.ArrowBack
+        when(this) {
+            is FoodSearchScreen -> {
+                viewModel.navigationIcon = Icons.Outlined.Close
+            }
+
+            is FoodDetailsScreen -> {
+                viewModel.navigationIcon = Icons.AutoMirrored.Outlined.KeyboardArrowLeft
+            }
+
+            is KetogenicSuperFoodsScreen -> {
+                viewModel.navigationIcon = Icons.AutoMirrored.Outlined.KeyboardArrowLeft
+            }
+        }
         viewModel.navigationBarActions.clear()
+        viewModel.navigationBarActions.add(
+            element = FoodNutritionBaseActivityNavigationBarAction.KETOGENIC_SUPER_FOODS
+        )
     }
 
     @Serializable

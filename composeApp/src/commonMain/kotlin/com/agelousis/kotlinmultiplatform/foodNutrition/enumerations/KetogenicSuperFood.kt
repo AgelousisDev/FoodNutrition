@@ -1,13 +1,13 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.enumerations
 
 import androidx.compose.runtime.Composable
-import com.agelousis.kotlinmultiplatform.compose.theme.AvocadoIcon
-import com.agelousis.kotlinmultiplatform.compose.theme.ChiaSeedIcon
-import com.agelousis.kotlinmultiplatform.compose.theme.CocoaButterIcon
-import com.agelousis.kotlinmultiplatform.compose.theme.EggsIcon
-import com.agelousis.kotlinmultiplatform.compose.theme.FlaxSeedIcon
-import com.agelousis.kotlinmultiplatform.compose.theme.GheeIcon
-import com.agelousis.kotlinmultiplatform.compose.theme.OliveOilIcon
+import com.agelousis.kotlinmultiplatform.theme.AvocadoIcon
+import com.agelousis.kotlinmultiplatform.theme.ChiaSeedIcon
+import com.agelousis.kotlinmultiplatform.theme.CocoaButterIcon
+import com.agelousis.kotlinmultiplatform.theme.EggsIcon
+import com.agelousis.kotlinmultiplatform.theme.FlaxSeedIcon
+import com.agelousis.kotlinmultiplatform.theme.GheeIcon
+import com.agelousis.kotlinmultiplatform.theme.OliveOilIcon
 import com.agelousis.kotlinmultiplatform.compose.util.ScalingHorizontalPagerData
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_ketogenic_super_food_array
