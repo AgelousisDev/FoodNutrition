@@ -13,35 +13,36 @@ import org.jetbrains.compose.resources.getStringArray
 @Serializable
 sealed class FoodNutritionNavigationScreen {
 
-    companion object {
-        private val entries = arrayOf(
-            FoodSearchScreen,
-            KetogenicSuperFoodsScreen
-        )
-    }
+    abstract suspend fun title(): String
 
     @OptIn(ExperimentalResourceApi::class)
     suspend infix fun handleTopAppBar(
         viewModel: FoodNutritionBaseViewModel
     ) {
-        viewModel.appBarTitle = getStringArray(
-            resource = Res.array.key_food_nutrition_screen_titles
-        )[
-                entries.indexOf(
-                    element = this
-                )
-        ]
+        viewModel.appBarTitle = title()
         viewModel.navigationIcon = Icons.AutoMirrored.Filled.ArrowBack
         viewModel.navigationBarActions.clear()
     }
 
     @Serializable
-    data object FoodSearchScreen: FoodNutritionNavigationScreen()
+    data object FoodSearchScreen: FoodNutritionNavigationScreen() {
+        override suspend fun title() = getStringArray(
+            resource = Res.array.key_food_nutrition_screen_titles
+        )[0]
+    }
     @Serializable
     data class FoodDetailsScreen(
         val ingredientsDataResponseModel: IngredientsDataResponseModel
-    ): FoodNutritionNavigationScreen()
+    ): FoodNutritionNavigationScreen() {
+        override suspend fun title() = getStringArray(
+            resource = Res.array.key_food_nutrition_screen_titles
+        )[1]
+    }
     @Serializable
-    data object KetogenicSuperFoodsScreen: FoodNutritionNavigationScreen()
+    data object KetogenicSuperFoodsScreen: FoodNutritionNavigationScreen() {
+        override suspend fun title() = getStringArray(
+            resource = Res.array.key_food_nutrition_screen_titles
+        )[2]
+    }
 
 }

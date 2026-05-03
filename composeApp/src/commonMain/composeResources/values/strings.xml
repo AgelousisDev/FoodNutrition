@@ -2,6 +2,7 @@
     <string name="key_app_name_label">Nutrition</string>
     <string-array name="key_food_nutrition_screen_titles">
         <item>Food search</item>
+        <item>Nutrition</item>
         <item>Ketogenic Super Foods</item>
     </string-array>
     <string-array name="key_ketogenic_super_food_array">

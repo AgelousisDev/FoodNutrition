@@ -118,7 +118,8 @@ data class IngredientsDataResponseModel(
     val cautions: List<String?>,
     val totalNutrients: Map<String, NutrientInfoModel>?,
     val totalDaily: Map<String, NutrientInfoModel>?,
-    val ingredients: List<IngredientModel>?
+    val ingredients: List<IngredientModel>?,
+    val productImage: String? = null
 ) {
 
     val nutrientInfoModelList: List<Triple<NutrientType, NutrientInfoModel?, NutrientInfoModel?>>

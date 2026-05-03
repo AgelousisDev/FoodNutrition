@@ -22,23 +22,4 @@ data class FoodModel(
     val servingsPerContainer: Double? = null,
     val measureUri: String? = null,
     val status: String? = null
-) {
-
-    val foodInfoList
-        get() = arrayOf(
-            "$categoryLabel - $category",
-            brand,
-            foodContentsLabel?.replace(";", ",")
-        ).filterNotNull()
-
-    /*infix fun nutritionInfoPairList(
-        context: Context
-    ) = context.resources.getStringArray(R.array.key_nutrition_info_array).mapIndexed { index, s ->
-        s.format(
-            nutrients?.nutritionValues?.getOrNull(index = index) ?: 0.0) to
-                "%d%%".format(((100 * (nutrients?.nutritionValues?.getOrNull(index = index) ?: 0.0)) / (servingSizes?.firstOrNull { servingSizeModel ->
-                    servingSizeModel.label == ServingSizeMetricType.GRAM
-                }?.quantity ?: 0.0)).toInt())
-    }*/
-
-}
+)

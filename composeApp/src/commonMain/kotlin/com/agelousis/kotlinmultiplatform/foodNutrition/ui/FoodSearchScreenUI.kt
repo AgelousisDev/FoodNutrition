@@ -13,12 +13,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -86,7 +97,7 @@ fun FoodSearchScreenView(
             value = ""
         )
     }
-
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -95,6 +106,9 @@ fun FoodSearchScreenView(
             )
             .padding(
                 horizontal = 16.dp
+            )
+            .verticalScroll(
+                state = scrollState
             )
     ) {
         Spacer(
@@ -145,6 +159,7 @@ fun FoodSearchScreenView(
             },
             trailingIcon = {
                 IconButton(
+                    enabled = foodNameState.isNotEmpty(),
                     onClick = {
                         requestFoodNutrition(
                             viewModel = viewModel,
@@ -263,9 +278,17 @@ fun FoodSearchScreenView(
 
         //region Recommendations List
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(bottom = 16.dp),
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(
+                    weight = 1f
+                ),
+            verticalArrangement = Arrangement
+                .spacedBy(
+                    space = 16.dp
+                ),
+            contentPadding = PaddingValues(
+                bottom = 16.dp
+            )
         ) {
             items(
                 items = recommendationList

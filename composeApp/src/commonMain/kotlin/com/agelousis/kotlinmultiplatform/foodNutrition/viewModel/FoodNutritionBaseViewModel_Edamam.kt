@@ -37,20 +37,27 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
         parseFood(
             product = product,
             successBlock = FoodParserResponseModel@ {
-                val (foodId, measureUri) = (this@FoodParserResponseModel?.hints?.firstOrNull()?.food?.foodId
-                    ?: return@FoodParserResponseModel) to (this@FoodParserResponseModel.hints.firstOrNull()?.measures?.firstOrNull { measureModel ->
-                    measureModel.label == ServingSizeMetricType.GRAM.value
-                }?.uri)
+                val (foodId, measureUri, image) =
+                    Triple(
+                        first = this@FoodParserResponseModel?.hints?.firstOrNull()?.food?.foodId
+                            ?: return@FoodParserResponseModel,
+                        second = this@FoodParserResponseModel.hints.firstOrNull()?.measures?.firstOrNull { measureModel ->
+                            measureModel.label == ServingSizeMetricType.GRAM.value
+                        }?.uri,
+                        third = this@FoodParserResponseModel.hints.firstOrNull()?.food?.image
+                    )
                 getFullyNutrition(
                     foodId = foodId,
                     measureUri = measureUri,
                     successBlock = IngredientsDataResponseModel@ {
+                        val modelIngredients = this@IngredientsDataResponseModel?.copy(
+                            productImage = image
+                        ) ?: return@IngredientsDataResponseModel
                         foodDataStateMap[
                                 product
-                        ] = this@IngredientsDataResponseModel
-                            ?: return@IngredientsDataResponseModel
+                        ] = modelIngredients
                         successBlock(
-                            this@IngredientsDataResponseModel
+                            modelIngredients
                         )
                     }
                 )
