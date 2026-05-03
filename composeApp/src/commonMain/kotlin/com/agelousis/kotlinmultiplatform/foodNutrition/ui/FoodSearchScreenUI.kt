@@ -1,7 +1,6 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -102,25 +100,6 @@ fun FoodSearchScreenView(
         Spacer(
             modifier = Modifier
                 .height(
-                    height = 16.dp
-                )
-        )
-
-        //region Close Icon
-        IconButton(
-            onClick = {
-
-            }
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Close,
-                contentDescription = Icons.Outlined.Close.name
-            )
-        }
-        //endregion
-        Spacer(
-            modifier = Modifier
-                .height(
                     height = 24.dp
                 )
         )
@@ -202,7 +181,8 @@ fun FoodSearchScreenView(
 
         //region Recent Search Header
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -214,19 +194,21 @@ fun FoodSearchScreenView(
                     fontWeight = FontWeight.Bold
                 )
             )
-            Text(
-                text = stringResource(
-                    resource = Res.string.key_clear_all_label
-                ),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Butterscotch,
-                    fontWeight = FontWeight.Medium
-                ),
-                modifier = Modifier
-                    .clickable {
+            TextButton(
+                onClick = {
 
-                    }
-            )
+                }
+            ) {
+                Text(
+                    text = stringResource(
+                        resource = Res.string.key_clear_all_label
+                    ),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Butterscotch,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
         }
         //endregion
 
