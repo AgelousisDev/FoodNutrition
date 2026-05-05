@@ -48,6 +48,7 @@ import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.foodData
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.requestFoodNutrition
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
+import com.agelousis.kotlinmultiplatform.theme.WhiteTwo
 import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_clear_all_label
@@ -324,7 +325,7 @@ fun FoodSearchScreenViewInLandscapePreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(
-                    color = Color.White,
+                    color = WhiteTwo,
                     shape = RoundedCornerShape(
                         size = 16.dp
                     )
