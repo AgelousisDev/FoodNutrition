@@ -23,6 +23,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,94 +63,99 @@ fun FoodDetailsScreenView(
     modifier: Modifier = Modifier,
     ingredientsDataResponseModel: IngredientsDataResponseModel
 ) {
-    val pagerState = rememberPagerState { 3 }
-
+    val isOnPreview = LocalInspectionMode.current
+    val pagerState = rememberPagerState {
+        1
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
-            .verticalScroll(rememberScrollState())
+            .background(
+                color = Color.White
+            )
+            .verticalScroll(
+                state = rememberScrollState()
+            )
     ) {
-        // Image Slider
+        //region Image Slider
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(
+                    height = 300.dp
+                )
         ) {
             HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize(),
+                state = pagerState
             ) { page ->
                 Image(
-                    painter = ColorPainter(Color.LightGray),
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    painter = ColorPainter(
+                        color = Color.LightGray
+                    ),
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
             }
 
-            // Top Bar Icons
-            Row(
+            //region Top Bar Icons
+            IconButton(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Surface(
-                    onClick = {},
-                    shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.5f),
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Box(modifier = Modifier.size(20.dp).background(Color.Black, CircleShape))
-                    }
-                }
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Surface(
-                        onClick = {},
-                        shape = CircleShape,
-                        color = Color.White.copy(alpha = 0.5f),
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Box(modifier = Modifier.size(20.dp).background(Color.Black, CircleShape))
-                        }
-                    }
-                    Surface(
-                        onClick = {},
-                        shape = CircleShape,
-                        color = Color.White.copy(alpha = 0.5f),
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Box(modifier = Modifier.size(20.dp).background(Color.Black, CircleShape))
-                        }
-                    }
-                }
-            }
+                    .align(
+                        alignment = Alignment.TopEnd
+                    )
+                    .padding(
+                        all = 24.dp
+                    ),
+                onClick = {
 
-            // Dots Indicator
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Share,
+                    contentDescription = Icons.Outlined.Share.name
+                )
+            }
+            //endregion
+
+            //region Dots Indicator
             DotsIndicatorView(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 24.dp),
+                    .align(
+                        alignment = Alignment.BottomCenter
+                    )
+                    .padding(
+                        bottom = 24.dp
+                    ),
                 spaceBetween = 8.dp,
-                dotsCount = 3,
+                dotsCount = 1,
                 currentPage = pagerState.currentPage
             )
+            //endregion
         }
+        //endregion
 
-        // Restaurant Info Card
+        //region Restaurant Info Card
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .offset(y = (-24).dp),
-            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                .offset(
+                    y = (-24).dp
+                ),
+            shape = RoundedCornerShape(
+                topStart = 24.dp,
+                topEnd = 24.dp
+            ),
             color = Color.White
         ) {
             Column(
-                modifier = Modifier.padding(24.dp)
+                modifier = Modifier
+                    .padding(
+                        all = 24.dp
+                    )
             ) {
                 Text(
                     text = "Chocolat' N Spice",
@@ -154,47 +164,139 @@ fun FoodDetailsScreenView(
                         fontSize = 28.sp
                     )
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(modifier = Modifier.size(16.dp).background(GraniteGrayColor, CircleShape))
-                    Spacer(modifier = Modifier.width(8.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 8.dp
+                        )
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(
+                                size = 16.dp
+                            )
+                            .background(
+                                color = GraniteGrayColor,
+                                shape = CircleShape
+                            )
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(
+                                width = 8.dp
+                            )
+                    )
                     Text(
                         text = "03 Jameson Manors Apt. 177",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = Color.Gray
+                        )
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    BadgeItem(text = stringResource(Res.string.key_free_delivery_label), backgroundColor = Butterscotch)
-                    BadgeItem(text = "33 min", backgroundColor = Color.Transparent, textColor = Color.Gray)
-                    BadgeItem(text = "27 miles", backgroundColor = Color.Transparent, textColor = Color.Gray)
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 16.dp
+                        )
+                )
+                Row(
+                    horizontalArrangement = Arrangement
+                        .spacedBy(
+                            space = 12.dp
+                        )
+                ) {
+                    BadgeItem(
+                        text = stringResource(
+                            resource = Res.string.key_free_delivery_label),
+                        backgroundColor = Butterscotch
+                    )
+                    BadgeItem(
+                        text = "33 min",
+                        backgroundColor = Color.Transparent,
+                        textColor = Color.Gray
+                    )
+                    BadgeItem(
+                        text = "27 miles",
+                        backgroundColor = Color.Transparent,
+                        textColor = Color.Gray
+                    )
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 32.dp
+                        )
+                )
 
-                // Stats Row
+                //region Stats Row
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     DetailStatItem(
-                        icon = { Box(modifier = Modifier.size(32.dp).background(Jasmine, CircleShape)) },
-                        label = stringResource(Res.string.key_ratings_label),
+                        icon = {
+                            Box(
+                                modifier = Modifier
+                                    .size(size = 32.dp
+                                    )
+                                    .background(
+                                        color = Jasmine,
+                                        shape = CircleShape
+                                    )
+                            )
+                        },
+                        label = stringResource(
+                            resource = Res.string.key_ratings_label
+                        ),
                         value = "4.5"
                     )
                     DetailStatItem(
-                        icon = { Box(modifier = Modifier.size(32.dp).background(Begonia, CircleShape)) },
-                        label = stringResource(Res.string.key_bookmark_label),
+                        icon = {
+                            Box(
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .background(
+                                        color = Begonia,
+                                        shape = CircleShape
+                                    )
+                            )
+                        },
+                        label = stringResource(
+                            resource = Res.string.key_bookmark_label
+                        ),
                         value = "137k"
                     )
                     DetailStatItem(
-                        icon = { Box(modifier = Modifier.size(32.dp).background(LightPurple, CircleShape)) },
-                        label = stringResource(Res.string.key_photo_label),
+                        icon = {
+                            Box(
+                                modifier = Modifier
+                                    .size(
+                                        size = 32.dp
+                                    )
+                                    .background(
+                                        color = LightPurple,
+                                        shape = CircleShape
+                                    )
+                            )
+                        },
+                        label = stringResource(
+                            resource = Res.string.key_photo_label
+                        ),
                         value = "346"
                     )
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 32.dp
+                        )
+                )
 
                 Text(
                     text = "From the French countryside, to your doorstep. PAUL was founded in 1889 as a family bakery and patisserie. Savour a selection of viennoiserie (croissants etc.)...",
@@ -204,24 +306,53 @@ fun FoodDetailsScreenView(
                     )
                 )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 32.dp
+                        )
+                )
 
                 Text(
-                    text = stringResource(Res.string.key_photo_label),
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                    text = stringResource(
+                        resource = Res.string.key_photo_label
+                    ),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(
+                            height = 16.dp
+                        )
+                )
                 LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 24.dp)
+                    horizontalArrangement = Arrangement
+                        .spacedBy(
+                            space = 12.dp
+                        ),
+                    contentPadding = PaddingValues(
+                        bottom = 24.dp
+                    )
                 ) {
-                    items(5) {
+                    items(
+                        count = 5
+                    ) {
                         Image(
-                            painter = ColorPainter(Color.LightGray),
-                            contentDescription = null,
                             modifier = Modifier
-                                .size(100.dp)
-                                .clip(RoundedCornerShape(16.dp)),
+                                .size(
+                                    size = 100.dp
+                                )
+                                .clip(
+                                    shape = RoundedCornerShape(
+                                        size = 16.dp
+                                    )
+                                ),
+                            painter = ColorPainter(
+                                color = Color.LightGray
+                            ),
+                            contentDescription = null,
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -232,15 +363,32 @@ fun FoodDetailsScreenView(
 }
 
 @Composable
-fun BadgeItem(text: String, backgroundColor: Color, textColor: Color = Color.White) {
+private fun BadgeItem(
+    text: String,
+    backgroundColor: Color,
+    textColor: Color = Color.White
+) {
     Surface(
         color = backgroundColor,
-        shape = RoundedCornerShape(8.dp),
-        border = if (backgroundColor == Color.Transparent) BorderStroke(1.dp, Color.LightGray) else null
+        shape = RoundedCornerShape(
+            size = 8.dp
+        ),
+        border =
+            if (backgroundColor == Color.Transparent)
+                BorderStroke(
+                    width = 1.dp,
+                    color = Color.LightGray
+                )
+            else
+                null
     ) {
         Text(
             text = text,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp,
+                    vertical = 6.dp
+                ),
             style = MaterialTheme.typography.bodySmall.copy(
                 color = textColor,
                 fontWeight = FontWeight.Bold
@@ -250,18 +398,33 @@ fun BadgeItem(text: String, backgroundColor: Color, textColor: Color = Color.Whi
 }
 
 @Composable
-fun DetailStatItem(icon: @Composable () -> Unit, label: String, value: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+private fun DetailStatItem(
+    icon: @Composable () -> Unit,
+    label: String,
+    value: String
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         icon()
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(
+            modifier = Modifier
+                .width(
+                    width = 8.dp
+                )
+        )
         Column {
             Text(
                 text = value,
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold
+                )
             )
             Text(
                 text = label,
-                style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray)
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = Color.Gray
+                )
             )
         }
     }

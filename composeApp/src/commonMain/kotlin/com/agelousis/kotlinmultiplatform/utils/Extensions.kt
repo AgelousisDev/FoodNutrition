@@ -41,3 +41,16 @@ infix fun Double.format(
 
     return "$integerPart.$fractionalPart"
 }
+
+infix fun Context.imageRequest(
+    data: Any?
+) = data?.let {
+    ImageRequest
+        .Builder(
+            context = this
+        )
+        .data(
+            data = it
+        )
+        .build()
+}
