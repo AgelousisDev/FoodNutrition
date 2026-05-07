@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -19,7 +20,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +31,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -89,7 +94,7 @@ private val recommendationList = listOf(
     )
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FoodSearchScreenView(
     modifier: Modifier = Modifier,
@@ -100,6 +105,7 @@ fun FoodSearchScreenView(
     val isOnPreview = LocalInspectionMode.current
     val windowInfo = LocalWindowInfo.current
     val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
+    val loaderState by viewModel.showLoaderStateFlow.collectAsState()
     val (foodNameState, searchFood) = remember {
         mutableStateOf(
             value = ""
@@ -154,7 +160,8 @@ fun FoodSearchScreenView(
                 placeholder = {
                     Text(
                         text = stringResource(
-                            resource = Res.string.key_search_label),
+                            resource = Res.string.key_search_label
+                        ),
                         color = Color.Gray
                     )
                 },
@@ -165,21 +172,29 @@ fun FoodSearchScreenView(
                     )
                 },
                 trailingIcon = {
-                    IconButton(
-                        enabled = foodNameState.isNotEmpty(),
-                        onClick = {
-                            requestFoodNutrition(
-                                viewModel = viewModel,
-                                foodName = foodNameState,
-                                successBlock = foodDetailsRedirection
+                    if (loaderState)
+                        CircularWavyProgressIndicator(
+                            modifier = Modifier
+                                .size(
+                                    size = 32.dp
+                                )
+                        )
+                    else
+                        IconButton(
+                            enabled = foodNameState.isNotEmpty(),
+                            onClick = {
+                                requestFoodNutrition(
+                                    viewModel = viewModel,
+                                    foodName = foodNameState,
+                                    successBlock = foodDetailsRedirection
+                                )
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+                                contentDescription = Icons.AutoMirrored.Outlined.KeyboardArrowRight.name
                             )
                         }
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
-                            contentDescription = Icons.AutoMirrored.Outlined.KeyboardArrowRight.name
-                        )
-                    }
                 },
                 shape = RoundedCornerShape(
                     size = 12.dp
@@ -311,7 +326,11 @@ fun FoodSearchScreenViewPreview() {
                         size = 16.dp
                     )
                 ),
-            viewModel = viewModel(),
+            viewModel = viewModel {
+                FoodNutritionBaseViewModel(
+                    dataStore = null
+                )
+            },
             foodDetailsRedirection = {}
         )
     }
@@ -330,7 +349,11 @@ fun FoodSearchScreenViewInLandscapePreview() {
                         size = 16.dp
                     )
                 ),
-            viewModel = viewModel(),
+            viewModel = viewModel {
+                FoodNutritionBaseViewModel(
+                    dataStore = null
+                )
+            },
             foodDetailsRedirection = {}
         )
     }

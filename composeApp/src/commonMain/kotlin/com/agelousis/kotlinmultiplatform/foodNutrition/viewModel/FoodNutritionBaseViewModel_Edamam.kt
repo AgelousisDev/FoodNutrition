@@ -34,6 +34,7 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
     viewModelScope.launch(
         context = Dispatchers.Default
     ) {
+        isLoading = true
         parseFood(
             product = product,
             successBlock = FoodParserResponseModel@ {
@@ -50,6 +51,7 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                     foodId = foodId,
                     measureUri = measureUri,
                     successBlock = IngredientsDataResponseModel@ {
+                        isLoading = false
                         val modelIngredients = this@IngredientsDataResponseModel?.copy(
                             productImage = image
                         ) ?: return@IngredientsDataResponseModel
@@ -80,6 +82,7 @@ private suspend fun FoodNutritionBaseViewModel.parseFood(
         },
         successModelBlock = successBlock,
         failureBlock = { error ->
+            isLoading = false
             alertPair = error.error to error.message
             showDialog()
         }
@@ -108,6 +111,7 @@ private suspend fun FoodNutritionBaseViewModel.getFullyNutrition(
         },
         successModelBlock = successBlock,
         failureBlock = { error ->
+            isLoading = false
             alertPair = error.error to error.message
             showDialog()
         }

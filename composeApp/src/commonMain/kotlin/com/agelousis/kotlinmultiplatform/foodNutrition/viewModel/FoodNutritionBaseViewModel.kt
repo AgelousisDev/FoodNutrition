@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.agelousis.kotlinmultiplatform.compose.viewModel.UIComposeViewModel
 
 class FoodNutritionBaseViewModel(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>?
 ): UIComposeViewModel() {
 
 }
