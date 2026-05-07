@@ -1,6 +1,5 @@
 package com.agelousis.kotlinmultiplatform.utils
 
-import androidx.compose.ui.unit.round
 import kotlinx.serialization.json.Json
 import kotlin.math.pow
 import kotlin.math.round
@@ -40,17 +39,4 @@ infix fun Double.format(
     val fractionalPart = str.substring(maxOf(0, str.length - decimals)).padStart(decimals, '0')
 
     return "$integerPart.$fractionalPart"
-}
-
-infix fun Context.imageRequest(
-    data: Any?
-) = data?.let {
-    ImageRequest
-        .Builder(
-            context = this
-        )
-        .data(
-            data = it
-        )
-        .build()
 }

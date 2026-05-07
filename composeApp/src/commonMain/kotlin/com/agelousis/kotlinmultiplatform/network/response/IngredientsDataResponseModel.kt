@@ -1,5 +1,8 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import coil3.compose.AsyncImage
 import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
 import com.agelousis.kotlinmultiplatform.network.models.NutrientInfoModel
@@ -132,5 +135,16 @@ data class IngredientsDataResponseModel(
                 third = dailyInfo
             )
         }
+
+    @Composable
+    infix fun Image(
+        modifier: Modifier
+    ) {
+        AsyncImage(
+            modifier = modifier,
+            model = productImage,
+            contentDescription = uri
+        )
+    }
 
 }

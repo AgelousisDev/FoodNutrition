@@ -18,6 +18,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.agelousis.kotlinmultiplatform.compose.extensions.ImageLoaderConfiguration
 import com.agelousis.kotlinmultiplatform.compose.views.ErrorMessage
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
@@ -31,6 +32,7 @@ fun FoodNutritionBaseActivityView(
     viewModel: FoodNutritionBaseViewModel,
     onBackPress: SuccessUnitBlock
 ) {
+    ImageLoaderConfiguration()
     val backStack = remember {
         mutableStateListOf<FoodNutritionNavigationScreen>(
             FoodNutritionNavigationScreen.FoodSearchScreen
