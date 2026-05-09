@@ -2,10 +2,13 @@ package com.agelousis.kotlinmultiplatform.network.response
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
 import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
 import com.agelousis.kotlinmultiplatform.network.models.NutrientInfoModel
+import com.agelousis.kotlinmultiplatform.network.response.enumerations.ServingSizeMetricType
+import com.agelousis.kotlinmultiplatform.utils.format
 import com.agelousis.kotlinmultiplatform.utils.toModel
 import kotlinx.serialization.Serializable
 
@@ -122,7 +125,8 @@ data class IngredientsDataResponseModel(
     val totalNutrients: Map<String, NutrientInfoModel>?,
     val totalDaily: Map<String, NutrientInfoModel>?,
     val ingredients: List<IngredientModel>?,
-    val productImage: String? = null
+    val modelFood: FoodModel? = null,
+    private val measures: List<MeasureModel>? = null
 ) {
 
     val nutrientInfoModelList: List<Triple<NutrientType, NutrientInfoModel?, NutrientInfoModel?>>
@@ -136,14 +140,25 @@ data class IngredientsDataResponseModel(
             )
         }
 
+    val commonMeasures
+        get() = measures?.filter { measure ->
+            val label = measure.label ?: ""
+            label.isNotEmpty() && label !in  ServingSizeMetricType.entries.map(
+                transform = ServingSizeMetricType::value
+            )
+        }?.map { measure ->
+            "${measure.label}: ${measure.weight?.format(decimals = 0)}g"
+        }
+
     @Composable
     infix fun Image(
         modifier: Modifier
     ) {
         AsyncImage(
             modifier = modifier,
-            model = productImage,
-            contentDescription = uri
+            model = modelFood?.image,
+            contentDescription = uri,
+            contentScale = ContentScale.Crop
         )
     }
 

@@ -31,8 +31,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.agelousis.kotlinmultiplatform.network.response.FoodModel
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
+import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.theme.Begonia
 import com.agelousis.kotlinmultiplatform.theme.Butterscotch
@@ -41,7 +43,6 @@ import com.agelousis.kotlinmultiplatform.theme.Jasmine
 import com.agelousis.kotlinmultiplatform.theme.LightPurple
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_bookmark_label
-import kotlinmultiplatform.composeapp.generated.resources.key_free_delivery_label
 import kotlinmultiplatform.composeapp.generated.resources.key_photo_label
 import kotlinmultiplatform.composeapp.generated.resources.key_ratings_label
 import org.jetbrains.compose.resources.stringResource
@@ -62,23 +63,24 @@ fun FoodInfoView(
             modifier = Modifier
                 .padding(
                     all = 24.dp
-                )
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                space = 16.dp
+            )
         ) {
             Text(
-                text = "Chocolat' N Spice",
+                text = ingredientsDataResponseModel.modelFood?.label
+                    ?: "",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 28.sp
                 )
             )
-            Spacer(
-                modifier = Modifier
-                    .height(
-                        height = 8.dp
-                    )
-            )
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 8.dp
+                )
             ) {
                 Box(
                     modifier = Modifier
@@ -90,64 +92,39 @@ fun FoodInfoView(
                             shape = CircleShape
                         )
                 )
-                Spacer(
-                    modifier = Modifier
-                        .width(
-                            width = 8.dp
-                        )
-                )
                 Text(
-                    text = "03 Jameson Manors Apt. 177",
+                    text = ingredientsDataResponseModel.modelFood?.category
+                        ?: "",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color.Gray
                     )
                 )
             }
-            Spacer(
-                modifier = Modifier
-                    .height(
-                        height = 16.dp
-                    )
-            )
             Row(
                 horizontalArrangement = Arrangement
                     .spacedBy(
                         space = 12.dp
                     )
             ) {
-                BadgeItem(
-                    text = stringResource(
-                        resource = Res.string.key_free_delivery_label),
-                    backgroundColor = Butterscotch
-                )
-                BadgeItem(
-                    text = "33 min",
-                    backgroundColor = Color.Transparent,
-                    textColor = Color.Gray
-                )
-                BadgeItem(
-                    text = "27 miles",
-                    backgroundColor = Color.Transparent,
-                    textColor = Color.Gray
-                )
-            }
-
-            Spacer(
-                modifier = Modifier
-                    .height(
-                        height = 32.dp
+                ingredientsDataResponseModel.commonMeasures?.forEachIndexed { index, measure ->
+                    BadgeItem(
+                        text = measure,
+                        backgroundColor =
+                            if (index == 0)
+                                Butterscotch
+                            else
+                                Color.Transparent,
+                        textColor =
+                            if (index == 0)
+                                Color.White
+                            else
+                                Color.Gray,
                     )
-            )
+                }
+            }
 
             NutritionInfoView(
                 ingredientsDataResponseModel = ingredientsDataResponseModel
-            )
-
-            Spacer(
-                modifier = Modifier
-                    .height(
-                        height = 32.dp
-                    )
             )
 
             //region Stats Row
@@ -209,26 +186,12 @@ fun FoodInfoView(
                 )
             }
 
-            Spacer(
-                modifier = Modifier
-                    .height(
-                        height = 32.dp
-                    )
-            )
-
             Text(
                 text = "From the French countryside, to your doorstep. PAUL was founded in 1889 as a family bakery and patisserie. Savour a selection of viennoiserie (croissants etc.)...",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     lineHeight = 24.sp,
                     color = Color.DarkGray
                 )
-            )
-
-            Spacer(
-                modifier = Modifier
-                    .height(
-                        height = 32.dp
-                    )
             )
 
             Text(
@@ -238,12 +201,6 @@ fun FoodInfoView(
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold
                 )
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(
-                        height = 16.dp
-                    )
             )
             LazyRow(
                 horizontalArrangement = Arrangement
@@ -300,12 +257,12 @@ private fun BadgeItem(
                 null
     ) {
         Text(
-            text = text,
             modifier = Modifier
                 .padding(
                     horizontal = 12.dp,
                     vertical = 6.dp
                 ),
+            text = text,
             style = MaterialTheme.typography.bodySmall.copy(
                 color = textColor,
                 fontWeight = FontWeight.Bold
@@ -352,8 +309,29 @@ private fun DetailStatItem(
 fun FoodInfoViewPreview() {
     AppTheme {
         FoodInfoView(
-            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                ?: return@AppTheme
+            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                modelFood = FoodModel(
+                    category = "Generic Foods",
+                    label = "Avocado"
+                ),
+                measures = listOf(
+                    MeasureModel(
+                        uri = null,
+                        label = "Serving",
+                        weight = 100.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Whole",
+                        weight = 10.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Strip",
+                        weight = 10.0
+                    )
+                )
+            ) ?: return@AppTheme
         )
     }
 }

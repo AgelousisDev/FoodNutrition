@@ -13,6 +13,7 @@ import com.agelousis.kotlinmultiplatform.network.request.IngredientsDataRequestM
 import com.agelousis.kotlinmultiplatform.network.response.FoodParserResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.enumerations.ServingSizeMetricType
+import com.agelousis.kotlinmultiplatform.utils.models.Quadruple
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.getValue
@@ -38,14 +39,15 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
         parseFood(
             product = product,
             successBlock = FoodParserResponseModel@ {
-                val (foodId, measureUri, image) =
-                    Triple(
+                val (foodId, measureUri, modelFood, measures) =
+                    Quadruple(
                         first = this@FoodParserResponseModel?.hints?.firstOrNull()?.food?.foodId
                             ?: return@FoodParserResponseModel,
                         second = this@FoodParserResponseModel.hints.firstOrNull()?.measures?.firstOrNull { measureModel ->
                             measureModel.label == ServingSizeMetricType.GRAM.value
                         }?.uri,
-                        third = this@FoodParserResponseModel.hints.firstOrNull()?.food?.image
+                        third = this@FoodParserResponseModel.hints.firstOrNull()?.food,
+                        fourth = this@FoodParserResponseModel.hints.firstOrNull()?.measures
                     )
                 getFullyNutrition(
                     foodId = foodId,
@@ -53,7 +55,8 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                     successBlock = IngredientsDataResponseModel@ {
                         isLoading = false
                         val modelIngredients = this@IngredientsDataResponseModel?.copy(
-                            productImage = image
+                            modelFood = modelFood,
+                            measures = measures
                         ) ?: return@IngredientsDataResponseModel
                         foodDataStateMap[
                                 product

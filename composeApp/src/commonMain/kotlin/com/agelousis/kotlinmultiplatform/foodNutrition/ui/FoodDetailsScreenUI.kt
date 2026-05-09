@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Icon
@@ -32,9 +31,6 @@ fun FoodDetailsScreenView(
     ingredientsDataResponseModel: IngredientsDataResponseModel
 ) {
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
-    val pagerState = rememberPagerState {
-        1
-    }
     LazyColumn(
         modifier = modifier
             .fillMaxSize(),
@@ -77,7 +73,7 @@ fun FoodDetailsScreenView(
             }
         }
         //endregion
-        //region Restaurant Info Card
+        //region Food Info Card
         item {
             FoodInfoView(
                 modifier = Modifier
