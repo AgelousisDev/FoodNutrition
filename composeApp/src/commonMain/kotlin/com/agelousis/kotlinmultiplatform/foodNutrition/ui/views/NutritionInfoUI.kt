@@ -135,7 +135,7 @@ fun NutritionInfoView(
                         nutritionInfoModelPair.first == NutrientType.ENERGY_KCAL
                     }?.second?.let { nutrientInfoModel ->
                         nutrientInfoModel.quantity?.toInt()?.toString()
-                            ?: return@let null
+                            ?: ""
                     } ?: "",
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold

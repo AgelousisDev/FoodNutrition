@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -65,7 +68,8 @@ fun FoodInfoView(
                     all = 24.dp
                 ),
             verticalArrangement = Arrangement.spacedBy(
-                space = 16.dp
+                space = 16.dp,
+                alignment = Alignment.Top
             )
         ) {
             Text(
@@ -100,13 +104,16 @@ fun FoodInfoView(
                     )
                 )
             }
-            Row(
+            LazyRow(
                 horizontalArrangement = Arrangement
                     .spacedBy(
                         space = 12.dp
                     )
             ) {
-                ingredientsDataResponseModel.commonMeasures?.forEachIndexed { index, measure ->
+                itemsIndexed(
+                    items = ingredientsDataResponseModel.commonMeasures
+                        ?: listOf()
+                ) { index, measure ->
                     BadgeItem(
                         text = measure,
                         backgroundColor =
@@ -124,6 +131,8 @@ fun FoodInfoView(
             }
 
             NutritionInfoView(
+                modifier = Modifier
+                    .wrapContentHeight(),
                 ingredientsDataResponseModel = ingredientsDataResponseModel
             )
 
@@ -137,7 +146,8 @@ fun FoodInfoView(
                     icon = {
                         Box(
                             modifier = Modifier
-                                .size(size = 32.dp
+                                .size(
+                                    size = 32.dp
                                 )
                                 .background(
                                     color = Jasmine,
@@ -154,7 +164,9 @@ fun FoodInfoView(
                     icon = {
                         Box(
                             modifier = Modifier
-                                .size(32.dp)
+                                .size(
+                                    size = 32.dp
+                                )
                                 .background(
                                     color = Begonia,
                                     shape = CircleShape

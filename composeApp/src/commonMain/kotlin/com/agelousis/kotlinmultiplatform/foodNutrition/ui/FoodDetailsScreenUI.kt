@@ -21,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.agelousis.kotlinmultiplatform.foodNutrition.ui.views.FoodInfoView
+import com.agelousis.kotlinmultiplatform.network.response.FoodModel
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
+import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 
 @Composable
@@ -42,7 +44,6 @@ fun FoodDetailsScreenView(
         item {
             Box(
                 modifier = Modifier
-
             ) {
                 ingredientsDataResponseModel Image Modifier
                     .fillMaxWidth()
@@ -94,8 +95,29 @@ fun FoodDetailsScreenView(
 fun FoodDetailsScreenViewPreview() {
     AppTheme {
         FoodDetailsScreenView(
-            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                ?: return@AppTheme
+            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                modelFood = FoodModel(
+                    category = "Generic Foods",
+                    label = "Avocado"
+                ),
+                measures = listOf(
+                    MeasureModel(
+                        uri = null,
+                        label = "Serving",
+                        weight = 100.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Whole",
+                        weight = 10.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Strip",
+                        weight = 10.0
+                    )
+                )
+            ) ?: return@AppTheme
         )
     }
 }
@@ -105,8 +127,29 @@ fun FoodDetailsScreenViewPreview() {
 fun FoodDetailsScreenViewInLandscapePreview() {
     AppTheme {
         FoodDetailsScreenView(
-            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-                ?: return@AppTheme
+            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                modelFood = FoodModel(
+                    category = "Generic Foods",
+                    label = "Avocado"
+                ),
+                measures = listOf(
+                    MeasureModel(
+                        uri = null,
+                        label = "Serving",
+                        weight = 100.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Whole",
+                        weight = 10.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Strip",
+                        weight = 10.0
+                    )
+                )
+            ) ?: return@AppTheme
         )
     }
 }
