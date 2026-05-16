@@ -259,7 +259,13 @@ private fun RecentSearchItems(
             modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(
                 space = 16.dp,
-                alignment = Alignment.CenterHorizontally
+                alignment =
+                    if (recentSearches.size.rem(
+                        other = 2
+                    ) == 1)
+                        Alignment.Start
+                    else
+                        Alignment.CenterHorizontally
             ),
             verticalArrangement = Arrangement.spacedBy(
                 space = 16.dp,
@@ -271,7 +277,7 @@ private fun RecentSearchItems(
                 else
                     2
         ) {
-            recentSearches.forEach { recentSearchModel ->
+            recentSearches.reversed().forEach { recentSearchModel ->
                 recentSearchModel.View(
                     modifier = Modifier
                         .width(
@@ -289,7 +295,7 @@ private fun RecentSearchItems(
     else
         lazyGridScope.apply {
             items(
-                items = recentSearches
+                items = recentSearches.reversed()
             ) { recentSearchModel ->
                 recentSearchModel.View(
                     modifier = Modifier

@@ -1,11 +1,9 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.ui.views
 
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -13,8 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -44,7 +40,6 @@ fun FoodSearchTextField(
     val focusRequester = remember {
         FocusRequester()
     }
-    val loaderState by viewModel.showLoaderStateFlow.collectAsState()
     TextField(
         modifier = modifier,
         value = foodName,
@@ -71,28 +66,20 @@ fun FoodSearchTextField(
             }
         },
         trailingIcon = {
-            if (loaderState)
-                CircularWavyProgressIndicator(
-                    modifier = Modifier
-                        .size(
-                            size = 32.dp
-                        )
-                )
-            else
-                IconButton(
-                    enabled = foodName.isNotEmpty(),
-                    onClick = {
-                        viewModel.requestFoodNutrition(
-                            foodName = foodName,
-                            successBlock = foodDetailsRedirection
-                        )
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
-                        contentDescription = Icons.AutoMirrored.Outlined.KeyboardArrowRight.name
+            IconButton(
+                enabled = foodName.isNotEmpty(),
+                onClick = {
+                    viewModel.requestFoodNutrition(
+                        foodName = foodName,
+                        successBlock = foodDetailsRedirection
                     )
                 }
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+                    contentDescription = Icons.AutoMirrored.Outlined.KeyboardArrowRight.name
+                )
+            }
         },
         shape = RoundedCornerShape(
             size = 12.dp

@@ -53,8 +53,20 @@ enum class ServingSizeMetricType(
     SLICE(
         value = "Slice"
     ),
-    @SerialName("Handful")
+    @SerialName(value = "Handful")
     HANDFUL(
         value = "Handful"
+    ),
+    @SerialName(value = "Brownie")
+    BROWNIE(
+        value = "Brownie"
+    ),
+    @SerialName(value = "Kilogram")
+    KILOGRAM(
+        value = "Kilogram"
+    ),
+    @SerialName(value = "Bowl")
+    BOWL(
+        value = "Bowl"
     )
 }

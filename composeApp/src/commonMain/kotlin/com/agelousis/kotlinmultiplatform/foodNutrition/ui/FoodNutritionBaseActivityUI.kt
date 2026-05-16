@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.compose.extensions.ImageLoaderConfiguration
 import com.agelousis.kotlinmultiplatform.compose.views.ErrorMessage
+import com.agelousis.kotlinmultiplatform.compose.views.Loader
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
@@ -75,29 +76,13 @@ fun FoodNutritionBaseActivityView(
                 }
             )
         },
-        /*floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = {
-                    backStack.add(
-                        element = FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen
-                    )
-                }
-            ) {
-                Text(
-                    text = stringResource(
-                        resource = Res.string.key_ketogenic_super_foods_label
-                    ),
-                    style = MaterialTheme.typography.labelLarge
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.End,*/
         content = { contentPadding ->
             Navigation(
                 contentPadding = contentPadding,
                 viewModel = viewModel,
                 backStack = backStack
             )
+            viewModel.Loader()
         }
     )
 }
