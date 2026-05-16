@@ -3,9 +3,26 @@ package com.agelousis.kotlinmultiplatform.foodNutrition.viewModel
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.agelousis.kotlinmultiplatform.compose.viewModel.UIComposeViewModel
+import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
+import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 
 class FoodNutritionBaseViewModel(
-    private val dataStore: DataStore<Preferences>?
+    val dataStore: DataStore<Preferences>?
 ): UIComposeViewModel() {
+
+    //region Request food nutrition
+    fun requestFoodNutrition(
+        foodName: String,
+        successBlock: SuccessBlock<IngredientsDataResponseModel>
+    ) {
+        (this foodData foodName)?.let(
+            block = successBlock
+        ) ?: requestFoodNutrition(
+            product = foodName,
+            successBlock = successBlock
+        )
+
+    }
+    //endregion
 
 }

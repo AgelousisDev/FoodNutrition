@@ -58,6 +58,7 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                             modelFood = modelFood,
                             measures = measures
                         ) ?: return@IngredientsDataResponseModel
+                        this@requestFoodNutrition saveRecentSearch modelIngredients
                         foodDataStateMap[
                                 product
                         ] = modelIngredients

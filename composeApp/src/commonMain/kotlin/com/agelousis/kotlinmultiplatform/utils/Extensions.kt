@@ -11,7 +11,7 @@ val jsonWorker = Json {
     ignoreUnknownKeys = true
     coerceInputValues = true
     isLenient = true
-    encodeDefaults = true // Us
+    encodeDefaults = true
 }
 
 inline fun <reified T> String.toModel(): T? =

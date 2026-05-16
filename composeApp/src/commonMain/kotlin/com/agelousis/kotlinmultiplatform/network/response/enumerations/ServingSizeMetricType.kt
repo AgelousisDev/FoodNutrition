@@ -48,5 +48,13 @@ enum class ServingSizeMetricType(
     @SerialName(value = "Bar")
     BAR(
         value = "Bar"
+    ),
+    @SerialName(value = "Slice")
+    SLICE(
+        value = "Slice"
+    ),
+    @SerialName("Handful")
+    HANDFUL(
+        value = "Handful"
     )
 }
