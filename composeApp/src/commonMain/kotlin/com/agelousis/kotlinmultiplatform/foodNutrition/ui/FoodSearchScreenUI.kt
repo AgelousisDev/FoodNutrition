@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -76,6 +76,8 @@ import org.jetbrains.compose.resources.stringResource
     )
 )*/
 
+private const val LANDSCAPE_GRID_COLUMNS = 3
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FoodSearchScreenView(
@@ -115,11 +117,14 @@ fun FoodSearchScreenView(
         columns = GridCells.Fixed(
             count =
                 if (isLandscape)
-                    2
+                    LANDSCAPE_GRID_COLUMNS
                 else
                     1
         ),
         verticalArrangement = Arrangement.spacedBy(
+            space = 16.dp
+        ),
+        horizontalArrangement = Arrangement.spacedBy(
             space = 16.dp
         ),
         contentPadding = PaddingValues(
@@ -130,7 +135,17 @@ fun FoodSearchScreenView(
         )
     ) LazyGridScope@ {
         //region Search label
-        item {
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan =
+                        if (isLandscape)
+                            LANDSCAPE_GRID_COLUMNS
+                        else
+                            1
+                )
+            }
+        ) {
             Text(
                 modifier = Modifier
                     .animateItem(),
@@ -145,7 +160,17 @@ fun FoodSearchScreenView(
         }
         //endregion
         //region Search Field
-        item {
+        item(
+            span = {
+                GridItemSpan(
+                    currentLineSpan =
+                        if (isLandscape)
+                            2
+                        else
+                            1
+                )
+            }
+        ) {
             FoodSearchTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -165,7 +190,6 @@ fun FoodSearchScreenView(
             item {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .animateItem(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -179,9 +203,7 @@ fun FoodSearchScreenView(
                         )
                     )
                     TextButton(
-                        onClick = {
-                            viewModel.clearRecentSearch()
-                        }
+                        onClick = viewModel::clearRecentSearch
                     ) {
                         Text(
                             text = stringResource(
@@ -196,16 +218,34 @@ fun FoodSearchScreenView(
                 }
             }
         //endregion
-        //region Recent Search List
-        if (recentSearches.isNotEmpty())
+        //region Recent Search List in Portrait
+        if (!isLandscape
+            && recentSearches.isNotEmpty()
+        )
             item {
                 RecentSearchItems(
                     modifier = Modifier
                         .animateItem(),
-                    lazyGridScope = this@LazyGridScope,
                     viewModel = viewModel,
                     recentSearches = recentSearches,
                     foodDetailsRedirection = foodDetailsRedirection
+                )
+            }
+        //endregion
+        //region Recent Search List in Landscape
+        if (isLandscape)
+            items(
+                items = recentSearches
+            ) { recentSearchModel ->
+                recentSearchModel.View(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    recentSearch = RecentSearchModel@ {
+                        viewModel.requestFoodNutrition(
+                            foodName = this@RecentSearchModel.title.lowercase(),
+                            successBlock = foodDetailsRedirection
+                        )
+                    }
                 )
             }
         //endregion
@@ -246,71 +286,44 @@ fun FoodSearchScreenView(
 @Composable
 private fun RecentSearchItems(
     modifier: Modifier,
-    lazyGridScope: LazyGridScope,
     viewModel: FoodNutritionBaseViewModel,
     recentSearches: List<RecentSearchModel>,
     foodDetailsRedirection: SuccessBlock<IngredientsDataResponseModel>
 ) {
-    val windowInfo = LocalWindowInfo.current
-    val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
     val screenWidth = LocalWindowInfo.current.containerDpSize.width
-    if (!isLandscape)
-        FlowRow(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(
-                space = 16.dp,
-                alignment =
-                    if (recentSearches.size.rem(
+    FlowRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = 16.dp,
+            alignment =
+                if (recentSearches.size.rem(
                         other = 2
                     ) == 1)
-                        Alignment.Start
-                    else
-                        Alignment.CenterHorizontally
-            ),
-            verticalArrangement = Arrangement.spacedBy(
-                space = 16.dp,
-                alignment = Alignment.CenterVertically
-            ),
-            maxItemsInEachRow =
-                if (isLandscape)
-                    5
+                    Alignment.Start
                 else
-                    2
-        ) {
-            recentSearches.reversed().forEach { recentSearchModel ->
-                recentSearchModel.View(
-                    modifier = Modifier
-                        .width(
-                            width = (screenWidth / 2) - 32.dp
-                        ),
-                    recentSearch = RecentSearchModel@ {
-                        viewModel.requestFoodNutrition(
-                            foodName = this@RecentSearchModel.title.lowercase(),
-                            successBlock = foodDetailsRedirection
-                        )
-                    }
-                )
-            }
+                    Alignment.CenterHorizontally
+        ),
+        verticalArrangement = Arrangement.spacedBy(
+            space = 16.dp,
+            alignment = Alignment.CenterVertically
+        ),
+        maxItemsInEachRow = 2
+    ) {
+        recentSearches.reversed().forEach { recentSearchModel ->
+            recentSearchModel.View(
+                modifier = Modifier
+                    .width(
+                        width = (screenWidth / 2) - 32.dp
+                    ),
+                recentSearch = RecentSearchModel@ {
+                    viewModel.requestFoodNutrition(
+                        foodName = this@RecentSearchModel.title.lowercase(),
+                        successBlock = foodDetailsRedirection
+                    )
+                }
+            )
         }
-    else
-        lazyGridScope.apply {
-            items(
-                items = recentSearches.reversed()
-            ) { recentSearchModel ->
-                recentSearchModel.View(
-                    modifier = Modifier
-                        .width(
-                            width = (screenWidth / 2) - 32.dp
-                        ),
-                    recentSearch = RecentSearchModel@ {
-                        viewModel.requestFoodNutrition(
-                            foodName = this@RecentSearchModel.title.lowercase(),
-                            successBlock = foodDetailsRedirection
-                        )
-                    }
-                )
-            }
-        }
+    }
 }
 
 @Preview

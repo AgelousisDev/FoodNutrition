@@ -1,10 +1,12 @@
 package com.agelousis.kotlinmultiplatform.theme
 
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 actual fun AppTheme(
     darkTheme: Boolean,
@@ -12,7 +14,7 @@ actual fun AppTheme(
 ) {
     val colorScheme = if (darkTheme) darkColorScheme() else lightColorScheme()
 
-    MaterialTheme(
+    MaterialExpressiveTheme(
         colorScheme = colorScheme,
         content = content
     )

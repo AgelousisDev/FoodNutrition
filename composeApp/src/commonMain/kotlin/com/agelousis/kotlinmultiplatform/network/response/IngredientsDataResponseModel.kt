@@ -1,8 +1,12 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FoodBank
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
 import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
@@ -154,12 +158,20 @@ data class IngredientsDataResponseModel(
     infix fun Image(
         modifier: Modifier
     ) {
-        AsyncImage(
-            modifier = modifier,
-            model = modelFood?.image,
-            contentDescription = uri,
-            contentScale = ContentScale.Crop
-        )
+        val isOnPreview = LocalInspectionMode.current
+        if (isOnPreview)
+            Icon(
+                modifier = modifier,
+                imageVector = Icons.Outlined.FoodBank,
+                contentDescription = Icons.Outlined.FoodBank.name
+            )
+        else
+            AsyncImage(
+                modifier = modifier,
+                model = modelFood?.image,
+                contentDescription = uri,
+                contentScale = ContentScale.Crop
+            )
     }
 
 }

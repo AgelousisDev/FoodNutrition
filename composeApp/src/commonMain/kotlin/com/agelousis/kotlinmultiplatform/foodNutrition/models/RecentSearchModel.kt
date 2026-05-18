@@ -57,6 +57,7 @@ data class RecentSearchModel(
             shape = RoundedCornerShape(
                 size = 16.dp
             ),
+            color = MaterialTheme.colorScheme.secondaryContainer,
             onClick = {
                 recentSearch()
             }
