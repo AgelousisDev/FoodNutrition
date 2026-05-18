@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,6 +57,7 @@ fun FoodInfoView(
     ingredientsDataResponseModel: IngredientsDataResponseModel,
     foodColor: Color = Steel
 ) {
+    val locale = LocalLocale.current
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(
@@ -140,13 +142,12 @@ fun FoodInfoView(
                     )
             ) {
                 items(
-                    items = ingredientsDataResponseModel.healthLabels
-                        ?: emptyList()
+                    items = ingredientsDataResponseModel healthLabelList locale
                 ) { healthLabel ->
                     BadgeItem(
                         text = healthLabel,
                         backgroundColor = foodColor.copy(
-                            alpha = .5f
+                            alpha = .2f
                         ),
                         textColor = DarkGreySecondary
                     )

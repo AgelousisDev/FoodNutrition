@@ -9,6 +9,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toLowerCase
 import coil3.compose.AsyncImage
 import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
@@ -223,6 +226,19 @@ data class IngredientsDataResponseModel(
             )
         }
     }
+
+    infix fun healthLabelList(
+        locale: Locale
+    ) = healthLabels?.map { healthLabel ->
+            healthLabel.replace(
+                oldChar = '_',
+                newChar = ' '
+            ).toLowerCase(
+                locale = locale
+            ).capitalize(
+                locale = locale
+            )
+        } ?: emptyList()
 
     @Composable
     fun Image(
