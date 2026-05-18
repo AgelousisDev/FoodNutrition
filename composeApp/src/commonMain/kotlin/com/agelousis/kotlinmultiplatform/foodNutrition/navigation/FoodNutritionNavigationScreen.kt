@@ -17,6 +17,9 @@ sealed class FoodNutritionNavigationScreen {
 
     abstract suspend fun title(): String
 
+    val appBarTitleInitialVisibility
+        get() = this !is FoodSearchScreen
+
     @OptIn(ExperimentalResourceApi::class)
     suspend infix fun handleTopAppBar(
         viewModel: FoodNutritionBaseViewModel

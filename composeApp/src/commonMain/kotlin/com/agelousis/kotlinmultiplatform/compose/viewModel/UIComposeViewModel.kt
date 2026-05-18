@@ -1,6 +1,7 @@
 package com.agelousis.kotlinmultiplatform.compose.viewModel
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +17,9 @@ open class UIComposeViewModel: ViewModel() {
 
     // AppBar
     var appBarTitle by mutableStateOf<String?>(value = null)
+    var appBarTitleAlpha by mutableFloatStateOf(
+        value = 0f
+    )
     var navigationIcon by mutableStateOf<ImageVector?>(value = null)
     val navigationBarActions = mutableStateListOf<NavigationBarAction>()
 

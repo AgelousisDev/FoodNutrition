@@ -16,6 +16,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +32,7 @@ import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPO
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
+import com.agelousis.kotlinmultiplatform.theme.Steel
 import com.agelousis.kotlinmultiplatform.utils.rememberShareManager
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_copied_clipboard_label
@@ -45,6 +48,11 @@ fun FoodDetailsScreenView(
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
     val scope = rememberCoroutineScope()
     val shareManager = rememberShareManager()
+    val (foodColor, setFoodColor) = remember {
+        mutableStateOf(
+            value = Steel
+        )
+    }
     LazyColumn(
         modifier = modifier
             .fillMaxSize(),
@@ -58,13 +66,15 @@ fun FoodDetailsScreenView(
                 modifier = Modifier
                     .animateItem()
             ) {
-                ingredientsDataResponseModel Image Modifier
-                    .fillMaxWidth()
-                    .height(
-                        height = 300.dp
-                    )
-                    .animateItem()
-
+                ingredientsDataResponseModel.Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(
+                            height = 300.dp
+                        )
+                        .animateItem(),
+                    color = setFoodColor
+                )
                 //region Top Bar Icons
                 IconButton(
                     modifier = Modifier
@@ -107,7 +117,8 @@ fun FoodDetailsScreenView(
                         y = (-24).dp
                     )
                     .animateItem(),
-                ingredientsDataResponseModel = ingredientsDataResponseModel
+                ingredientsDataResponseModel = ingredientsDataResponseModel,
+                foodColor = foodColor
             )
         }
         //endregion

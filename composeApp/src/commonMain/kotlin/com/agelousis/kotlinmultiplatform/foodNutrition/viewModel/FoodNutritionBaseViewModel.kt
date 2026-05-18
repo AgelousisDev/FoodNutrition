@@ -15,10 +15,10 @@ class FoodNutritionBaseViewModel(
         foodName: String,
         successBlock: SuccessBlock<IngredientsDataResponseModel>
     ) {
-        (this foodData foodName)?.let(
+        (this foodData foodName.lowercase())?.let(
             block = successBlock
         ) ?: requestFoodNutrition(
-            product = foodName,
+            product = foodName.lowercase(),
             successBlock = successBlock
         )
 

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,9 +40,10 @@ import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.theme.Begonia
 import com.agelousis.kotlinmultiplatform.theme.Butterscotch
-import com.agelousis.kotlinmultiplatform.theme.GraniteGrayColor
+import com.agelousis.kotlinmultiplatform.theme.DarkGreySecondary
 import com.agelousis.kotlinmultiplatform.theme.Jasmine
 import com.agelousis.kotlinmultiplatform.theme.LightPurple
+import com.agelousis.kotlinmultiplatform.theme.Steel
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_bookmark_label
 import kotlinmultiplatform.composeapp.generated.resources.key_photo_label
@@ -51,7 +53,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun FoodInfoView(
     modifier: Modifier = Modifier,
-    ingredientsDataResponseModel: IngredientsDataResponseModel
+    ingredientsDataResponseModel: IngredientsDataResponseModel,
+    foodColor: Color = Steel
 ) {
     Surface(
         modifier = modifier,
@@ -90,7 +93,7 @@ fun FoodInfoView(
                             size = 16.dp
                         )
                         .background(
-                            color = GraniteGrayColor,
+                            color = foodColor,
                             shape = CircleShape
                         )
                 )
@@ -102,6 +105,7 @@ fun FoodInfoView(
                     )
                 )
             }
+            //region Common measures
             LazyRow(
                 horizontalArrangement = Arrangement
                     .spacedBy(
@@ -127,13 +131,35 @@ fun FoodInfoView(
                     )
                 }
             }
-
+            //endregion
+            //region Health Labels
+            LazyRow(
+                horizontalArrangement = Arrangement
+                    .spacedBy(
+                        space = 12.dp
+                    )
+            ) {
+                items(
+                    items = ingredientsDataResponseModel.healthLabels
+                        ?: emptyList()
+                ) { healthLabel ->
+                    BadgeItem(
+                        text = healthLabel,
+                        backgroundColor = foodColor.copy(
+                            alpha = .5f
+                        ),
+                        textColor = DarkGreySecondary
+                    )
+                }
+            }
+            //endregion
+            //region Nutrition
             NutritionInfoView(
                 modifier = Modifier
                     .wrapContentHeight(),
                 ingredientsDataResponseModel = ingredientsDataResponseModel
             )
-
+            //endregion
             //region Stats Row
             Row(
                 modifier = Modifier

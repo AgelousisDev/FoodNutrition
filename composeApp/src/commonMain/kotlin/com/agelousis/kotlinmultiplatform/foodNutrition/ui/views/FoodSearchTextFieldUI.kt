@@ -1,6 +1,7 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.ui.views
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Search
@@ -24,7 +25,8 @@ import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataRespons
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 import kotlinmultiplatform.composeapp.generated.resources.Res
-import kotlinmultiplatform.composeapp.generated.resources.key_search_label
+import kotlinmultiplatform.composeapp.generated.resources.key_food_nutrition_screen_titles
+import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -46,9 +48,9 @@ fun FoodSearchTextField(
         onValueChange = searchFood,
         placeholder = {
             Text(
-                text = stringResource(
-                    resource = Res.string.key_search_label
-                ),
+                text = stringArrayResource(
+                    resource = Res.array.key_food_nutrition_screen_titles
+                )[0],
                 color = Color.Gray
             )
         },
@@ -90,7 +92,16 @@ fun FoodSearchTextField(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
-        singleLine = true
+        singleLine = true,
+        keyboardActions = KeyboardActions(
+            onDone = {
+                if (foodName.isNotEmpty())
+                    viewModel.requestFoodNutrition(
+                        foodName = foodName,
+                        successBlock = foodDetailsRedirection
+                    )
+            }
+        )
     )
 }
 

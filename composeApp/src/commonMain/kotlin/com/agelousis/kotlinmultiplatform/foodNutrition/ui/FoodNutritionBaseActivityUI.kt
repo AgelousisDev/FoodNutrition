@@ -17,6 +17,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -52,6 +54,14 @@ fun FoodNutritionBaseActivityView(
             TopAppBar(
                 title = {
                     Text(
+                        modifier = Modifier
+                            .alpha(
+                                alpha =
+                                    if (backStack.lastOrNull()?.appBarTitleInitialVisibility == true)
+                                        1f
+                                    else
+                                        viewModel.appBarTitleAlpha
+                            ),
                         text = viewModel.appBarTitle
                             ?: "",
                         style = MaterialTheme.typography.titleLarge,

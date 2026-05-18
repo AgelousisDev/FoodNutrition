@@ -5,6 +5,8 @@ import androidx.compose.material.icons.outlined.FoodBank
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import coil3.compose.AsyncImage
@@ -22,6 +24,8 @@ import kotlinmultiplatform.composeapp.generated.resources.key_image_label
 import kotlinmultiplatform.composeapp.generated.resources.key_nutrition_facts_label
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.getString
+import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
+import com.agelousis.kotlinmultiplatform.utils.toImageBitmap
 
 val INGREDIENTS_DATA_RESPONSE_MOCK_MODEL =
     """
@@ -221,8 +225,9 @@ data class IngredientsDataResponseModel(
     }
 
     @Composable
-    infix fun Image(
-        modifier: Modifier
+    fun Image(
+        modifier: Modifier,
+        color: SuccessBlock<Color>
     ) {
         val isOnPreview = LocalInspectionMode.current
         if (isOnPreview)
@@ -236,7 +241,18 @@ data class IngredientsDataResponseModel(
                 modifier = modifier,
                 model = modelFood?.image,
                 contentDescription = uri,
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                onSuccess = { state ->
+                    val imageBitmap = state.result.image.toImageBitmap()
+                    val width = imageBitmap.width
+                    val height = imageBitmap.height
+                    if (width > 0 && height > 0) {
+                        val pixelMap = imageBitmap.toPixelMap()
+                        color(
+                            pixelMap[width / 2, height / 2]
+                        )
+                    }
+                }
             )
     }
 

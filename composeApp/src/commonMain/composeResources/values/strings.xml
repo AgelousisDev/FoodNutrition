@@ -1,7 +1,7 @@
 <resources>
     <string name="key_app_name_label">Nutrition</string>
     <string-array name="key_food_nutrition_screen_titles">
-        <item>Food search</item>
+        <item>Search food</item>
         <item>Nutrition</item>
         <item>Ketogenic Super Foods</item>
     </string-array>
@@ -60,7 +60,6 @@
         <item>Brand</item>
         <item>Food Contents</item>
     </string-array>
-    <string name="key_search_label">Search</string>
     <string name="key_recent_search_label">Recent search</string>
     <string name="key_clear_all_label">Clear all</string>
     <string name="key_recommend_for_you_label">Recommend for you</string>

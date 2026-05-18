@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -23,12 +25,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalWindowInfo
@@ -50,9 +55,10 @@ import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 import com.agelousis.kotlinmultiplatform.utils.getModels
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_clear_all_label
+import kotlinmultiplatform.composeapp.generated.resources.key_food_nutrition_screen_titles
 import kotlinmultiplatform.composeapp.generated.resources.key_recent_search_label
-import kotlinmultiplatform.composeapp.generated.resources.key_search_label
 import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 
 /*private val recommendationList = listOf(
@@ -90,11 +96,16 @@ fun FoodSearchScreenView(
     val isOnPreview = LocalInspectionMode.current
     val windowInfo = LocalWindowInfo.current
     val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
+    val lazyGridState = rememberLazyGridState()
     val (foodNameState, searchFood) = remember {
         mutableStateOf(
             value = ""
         )
     }
+    val headerAlpha = headerConfiguration(
+        lazyGridState = lazyGridState,
+        viewModel = viewModel
+    )
     //region Recent search
     val recentSearches by remember(
         key1 = viewModel.dataStore
@@ -114,6 +125,7 @@ fun FoodSearchScreenView(
     LazyVerticalGrid(
         modifier = modifier
             .fillMaxSize(),
+        state = lazyGridState,
         columns = GridCells.Fixed(
             count =
                 if (isLandscape)
@@ -148,10 +160,13 @@ fun FoodSearchScreenView(
         ) {
             Text(
                 modifier = Modifier
+                    .alpha(
+                        alpha = 1f - headerAlpha
+                    )
                     .animateItem(),
-                text = stringResource(
-                    resource = Res.string.key_search_label
-                ),
+                text = stringArrayResource(
+                    resource = Res.array.key_food_nutrition_screen_titles
+                )[0],
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 32.sp
@@ -242,7 +257,7 @@ fun FoodSearchScreenView(
                         .fillMaxWidth(),
                     recentSearch = RecentSearchModel@ {
                         viewModel.requestFoodNutrition(
-                            foodName = this@RecentSearchModel.title.lowercase(),
+                            foodName = this@RecentSearchModel.title,
                             successBlock = foodDetailsRedirection
                         )
                     }
@@ -317,13 +332,39 @@ private fun RecentSearchItems(
                     ),
                 recentSearch = RecentSearchModel@ {
                     viewModel.requestFoodNutrition(
-                        foodName = this@RecentSearchModel.title.lowercase(),
+                        foodName = this@RecentSearchModel.title,
                         successBlock = foodDetailsRedirection
                     )
                 }
             )
         }
     }
+}
+
+@Composable
+private fun headerConfiguration(
+    lazyGridState: LazyGridState,
+    viewModel: FoodNutritionBaseViewModel
+): Float {
+    //region Header Configuration
+    val headerAlpha by remember {
+        derivedStateOf {
+            if (lazyGridState.firstVisibleItemIndex > 0)
+                1f
+            else
+                (lazyGridState.firstVisibleItemScrollOffset / 200f).coerceIn(
+                    minimumValue = 0f,
+                    maximumValue = 1f
+                )
+        }
+    }
+    LaunchedEffect(
+        key1 = headerAlpha
+    ) {
+        viewModel.appBarTitleAlpha = headerAlpha
+    }
+    //endregion
+    return headerAlpha
 }
 
 @Preview
