@@ -8,7 +8,7 @@ import platform.UIKit.UIApplication
 class IosShareManager : ShareManager {
     override fun share(
         text: String,
-        completion: () -> Unit = {}
+        completion: () -> Unit
     ) {
         val window = UIApplication.sharedApplication.keyWindow
         val activityController = UIActivityViewController(

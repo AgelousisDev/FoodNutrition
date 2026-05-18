@@ -11,7 +11,7 @@ class AndroidShareManager(
 ) : ShareManager {
     override fun share(
         text: String,
-        completion: () -> Unit = {}
+        completion: () -> Unit
     ) {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
