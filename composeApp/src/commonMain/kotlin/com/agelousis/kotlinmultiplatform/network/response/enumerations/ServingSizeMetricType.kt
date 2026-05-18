@@ -68,5 +68,13 @@ enum class ServingSizeMetricType(
     @SerialName(value = "Bowl")
     BOWL(
         value = "Bowl"
+    ),
+    @SerialName(value = "Can")
+    CAN(
+        value = "Can"
+    ),
+    @SerialName(value = "Container")
+    CONTAINER(
+        value = "Container"
     )
 }

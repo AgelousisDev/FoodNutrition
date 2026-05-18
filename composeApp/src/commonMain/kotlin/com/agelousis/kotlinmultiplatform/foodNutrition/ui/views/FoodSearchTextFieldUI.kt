@@ -95,6 +95,8 @@ fun FoodSearchTextField(
         singleLine = true,
         keyboardActions = KeyboardActions(
             onDone = {
+                focusRequester.freeFocus()
+                keyboardController?.hide()
                 if (foodName.isNotEmpty())
                     viewModel.requestFoodNutrition(
                         foodName = foodName,
