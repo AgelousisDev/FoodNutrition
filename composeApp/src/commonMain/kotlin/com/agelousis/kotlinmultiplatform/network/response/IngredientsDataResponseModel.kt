@@ -14,7 +14,14 @@ import com.agelousis.kotlinmultiplatform.network.models.NutrientInfoModel
 import com.agelousis.kotlinmultiplatform.network.response.enumerations.ServingSizeMetricType
 import com.agelousis.kotlinmultiplatform.utils.format
 import com.agelousis.kotlinmultiplatform.utils.toModel
+import kotlinmultiplatform.composeapp.generated.resources.Res
+import kotlinmultiplatform.composeapp.generated.resources.key_calories_label
+import kotlinmultiplatform.composeapp.generated.resources.key_category_label
+import kotlinmultiplatform.composeapp.generated.resources.key_food_label
+import kotlinmultiplatform.composeapp.generated.resources.key_image_label
+import kotlinmultiplatform.composeapp.generated.resources.key_nutrition_facts_label
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.getString
 
 val INGREDIENTS_DATA_RESPONSE_MOCK_MODEL =
     """
@@ -153,6 +160,65 @@ data class IngredientsDataResponseModel(
         }?.map { measure ->
             "${measure.label}: ${measure.weight?.format(decimals = 0)}g"
         }
+
+    suspend fun shareableDetails() = buildString {
+        modelFood?.label?.let {
+            appendLine(
+                value = "${
+                    getString(
+                        resource = Res.string.key_food_label
+                    )
+                }: $it"
+            )
+        }
+        modelFood?.category?.let {
+            appendLine(
+                value = "${
+                    getString(
+                        resource = Res.string.key_category_label
+                    )
+                }: $it"
+            )
+        }
+        calories?.let {
+            appendLine(
+                value = "${
+                    getString(
+                        resource = Res.string.key_calories_label
+                    )
+                }: ${it.toInt()} kcal"
+            )
+        }
+        appendLine()
+        appendLine(
+            value = "${
+                getString(
+                    resource = Res.string.key_nutrition_facts_label
+                )
+            }:"
+        )
+        nutrientInfoModelList.forEach { (type, info, _) ->
+            info?.let {
+                appendLine(
+                    value = "${type.label}: ${
+                        it.quantity?.format(
+                            decimals = 1
+                        )
+                    } ${it.unit}"
+                )
+            }
+        }
+        modelFood?.image?.let {
+            appendLine()
+            appendLine(
+                value = "${
+                    getString(
+                        resource = Res.string.key_image_label
+                    )
+                }: $it"
+            )
+        }
+    }
 
     @Composable
     infix fun Image(

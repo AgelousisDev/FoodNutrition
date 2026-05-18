@@ -8,6 +8,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.compose.extensions.ImageLoaderConfiguration
 import com.agelousis.kotlinmultiplatform.compose.views.ErrorMessage
 import com.agelousis.kotlinmultiplatform.compose.views.Loader
+import com.agelousis.kotlinmultiplatform.compose.views.SnackBarMessage
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
@@ -39,7 +42,11 @@ fun FoodNutritionBaseActivityView(
             FoodNutritionNavigationScreen.FoodSearchScreen
         )
     }
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
     viewModel.ErrorMessage()
+    viewModel SnackBarMessage snackBarHostState
     Scaffold(
         topBar = {
             TopAppBar(
@@ -74,6 +81,11 @@ fun FoodNutritionBaseActivityView(
                         backStack = backStack
                     )
                 }
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState
             )
         },
         content = { contentPadding ->

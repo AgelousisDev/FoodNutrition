@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
@@ -17,24 +16,35 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.foodNutrition.ui.views.FoodInfoView
+import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.network.response.FoodModel
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
+import com.agelousis.kotlinmultiplatform.utils.rememberShareManager
+import kotlinmultiplatform.composeapp.generated.resources.Res
+import kotlinmultiplatform.composeapp.generated.resources.key_copied_clipboard_label
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
 @Composable
 fun FoodDetailsScreenView(
     modifier: Modifier = Modifier,
+    viewModel: FoodNutritionBaseViewModel,
     ingredientsDataResponseModel: IngredientsDataResponseModel
 ) {
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
+    val scope = rememberCoroutineScope()
+    val shareManager = rememberShareManager()
     LazyColumn(
         modifier = modifier
             .fillMaxSize(),
@@ -60,15 +70,23 @@ fun FoodDetailsScreenView(
                     modifier = Modifier
                         .align(
                             alignment = Alignment.TopEnd
-                        )
-                        .padding(
-                            all = 24.dp
                         ),
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.White
                     ),
                     onClick = {
-
+                        scope.launch {
+                            shareManager.share(
+                                text = ingredientsDataResponseModel.shareableDetails(),
+                                completion = {
+                                    scope.launch {
+                                        viewModel.snackBarMessage = getString(
+                                            resource = Res.string.key_copied_clipboard_label
+                                        )
+                                    }
+                                }
+                            )
+                        }
                     }
                 ) {
                     Icon(
@@ -101,6 +119,11 @@ fun FoodDetailsScreenView(
 fun FoodDetailsScreenViewPreview() {
     AppTheme {
         FoodDetailsScreenView(
+            viewModel = viewModel {
+                FoodNutritionBaseViewModel(
+                    dataStore = null
+                )
+            },
             ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
                 modelFood = FoodModel(
                     category = "Generic Foods",
@@ -133,6 +156,11 @@ fun FoodDetailsScreenViewPreview() {
 fun FoodDetailsScreenViewInLandscapePreview() {
     AppTheme {
         FoodDetailsScreenView(
+            viewModel = viewModel {
+                FoodNutritionBaseViewModel(
+                    dataStore = null
+                )
+            },
             ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
                 modelFood = FoodModel(
                     category = "Generic Foods",

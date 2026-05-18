@@ -70,4 +70,8 @@
     <string name="key_photo_label">Photo</string>
     <string name="key_min_label">min</string>
     <string name="key_miles_label">miles</string>
+    <string name="key_food_label">Food</string>
+    <string name="key_category_label">Category</string>
+    <string name="key_image_label">Image</string>
+    <string name="key_copied_clipboard_label">Copied to clipboard</string>
 </resources>

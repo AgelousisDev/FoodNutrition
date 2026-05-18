@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -114,4 +116,21 @@ fun <T: Any> AppNavigation(
         },
         entryProvider = entryProvider
     )
+}
+
+@Composable
+infix fun UIComposeViewModel.SnackBarMessage(
+    snackBarHostState: SnackbarHostState
+) {
+    LaunchedEffect(
+        key1 = snackBarMessage
+    ) {
+        if (!snackBarMessage.isNullOrEmpty()) {
+            snackBarHostState.showSnackbar(
+                message = snackBarMessage
+                    ?: return@LaunchedEffect
+            )
+            snackBarMessage = null
+        }
+    }
 }

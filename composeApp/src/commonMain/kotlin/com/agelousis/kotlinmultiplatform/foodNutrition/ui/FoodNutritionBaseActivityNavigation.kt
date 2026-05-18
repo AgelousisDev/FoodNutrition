@@ -32,6 +32,7 @@ fun ExpressiveShapesBaseActivityNavigation(
             }
             entry<FoodNutritionNavigationScreen.FoodDetailsScreen> { (ingredientsDataResponseModel) ->
                 FoodDetailsScreenView(
+                    viewModel = viewModel,
                     ingredientsDataResponseModel = ingredientsDataResponseModel
                 )
             }

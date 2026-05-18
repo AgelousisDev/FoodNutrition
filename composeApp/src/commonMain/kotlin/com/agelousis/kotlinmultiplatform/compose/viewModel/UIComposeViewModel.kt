@@ -29,6 +29,12 @@ open class UIComposeViewModel: ViewModel() {
     private val pullToRefreshMutableStateFlow by lazy { MutableStateFlow(value = false) }
     val pullToRefreshStateFlow by lazy { pullToRefreshMutableStateFlow.asStateFlow() }
 
+    //region SnackBar
+    var snackBarMessage by mutableStateOf<String?>(
+        value = null
+    )
+    //endregion
+
     var isLoading: Boolean = false
         set(value) {
             field = value
