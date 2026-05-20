@@ -15,7 +15,11 @@ fun ExpressiveShapesBaseActivityNavigation(
     backStack: SnapshotStateList<FoodNutritionNavigationScreen>
 ) {
     AppNavigation(
-        contentPadding = contentPadding,
+        contentPadding =
+            if (backStack.lastOrNull()?.topAppBar == true)
+                contentPadding
+            else
+                PaddingValues(),
         backStack = backStack,
         entryProvider = entryProvider {
             entry<FoodNutritionNavigationScreen.FoodSearchScreen> {

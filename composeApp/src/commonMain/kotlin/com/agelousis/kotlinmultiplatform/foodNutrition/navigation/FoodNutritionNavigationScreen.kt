@@ -3,7 +3,6 @@ package com.agelousis.kotlinmultiplatform.foodNutrition.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowLeft
 import androidx.compose.material.icons.outlined.Close
-import com.agelousis.kotlinmultiplatform.foodNutrition.enumerations.FoodNutritionBaseActivityNavigationBarAction
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import kotlinmultiplatform.composeapp.generated.resources.Res
@@ -17,6 +16,9 @@ sealed class FoodNutritionNavigationScreen {
 
     abstract suspend fun title(): String
 
+    val topAppBar
+        get() = this is FoodSearchScreen
+                || this is KetogenicSuperFoodsScreen
     val appBarTitleInitialVisibility
         get() = this !is FoodSearchScreen
                 && this !is FoodDetailsScreen
@@ -25,20 +27,14 @@ sealed class FoodNutritionNavigationScreen {
     suspend infix fun handleTopAppBar(
         viewModel: FoodNutritionBaseViewModel
     ) {
-        viewModel.appBarTitle = when(this) {
-            is FoodDetailsScreen ->
-                viewModel.currentIngredientsDataResponseModel?.modelFood?.label
-                    ?: ""
-            else ->
-                title()
-        }
+        viewModel.appBarTitle = title()
         when(this) {
             is FoodSearchScreen -> {
                 viewModel.navigationIcon = Icons.Outlined.Close
             }
 
             is FoodDetailsScreen -> {
-                viewModel.navigationIcon = Icons.AutoMirrored.Outlined.KeyboardArrowLeft
+                viewModel.navigationIcon = null
             }
 
             is KetogenicSuperFoodsScreen -> {
@@ -46,12 +42,6 @@ sealed class FoodNutritionNavigationScreen {
             }
         }
         viewModel.navigationBarActions.clear()
-        viewModel.navigationBarActions.addAll(
-          elements = listOf(
-              FoodNutritionBaseActivityNavigationBarAction.SHARE,
-              FoodNutritionBaseActivityNavigationBarAction.KETOGENIC_SUPER_FOODS
-          )
-        )
     }
 
     @Serializable

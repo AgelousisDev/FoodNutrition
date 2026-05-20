@@ -48,8 +48,7 @@ fun FoodInfoView(
         shape = RoundedCornerShape(
             topStart = 24.dp,
             topEnd = 24.dp
-        ),
-        tonalElevation = 2.dp
+        )
     ) {
         Column(
             modifier = Modifier
