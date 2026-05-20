@@ -1,34 +1,28 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.ui.views
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,23 +33,14 @@ import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPO
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
-import com.agelousis.kotlinmultiplatform.theme.Begonia
-import com.agelousis.kotlinmultiplatform.theme.Butterscotch
-import com.agelousis.kotlinmultiplatform.theme.DarkGreySecondary
-import com.agelousis.kotlinmultiplatform.theme.Jasmine
-import com.agelousis.kotlinmultiplatform.theme.LightPurple
 import com.agelousis.kotlinmultiplatform.theme.Steel
-import kotlinmultiplatform.composeapp.generated.resources.Res
-import kotlinmultiplatform.composeapp.generated.resources.key_bookmark_label
-import kotlinmultiplatform.composeapp.generated.resources.key_photo_label
-import kotlinmultiplatform.composeapp.generated.resources.key_ratings_label
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FoodInfoView(
     modifier: Modifier = Modifier,
     ingredientsDataResponseModel: IngredientsDataResponseModel,
-    foodColor: Color = Steel
+    foodColor: Color = Steel,
+    headerAlpha: Float = 1f
 ) {
     val locale = LocalLocale.current
     Surface(
@@ -63,7 +48,8 @@ fun FoodInfoView(
         shape = RoundedCornerShape(
             topStart = 24.dp,
             topEnd = 24.dp
-        )
+        ),
+        tonalElevation = 2.dp
     ) {
         Column(
             modifier = Modifier
@@ -71,11 +57,14 @@ fun FoodInfoView(
                     all = 24.dp
                 ),
             verticalArrangement = Arrangement.spacedBy(
-                space = 16.dp,
-                alignment = Alignment.Top
+                space = 16.dp
             )
         ) {
             Text(
+                modifier = Modifier
+                    .alpha(
+                        alpha = 1f - headerAlpha
+                    ),
                 text = ingredientsDataResponseModel.modelFood?.label
                     ?: "",
                 style = MaterialTheme.typography.headlineMedium.copy(
@@ -108,48 +97,21 @@ fun FoodInfoView(
                 )
             }
             //region Common measures
-            LazyRow(
-                horizontalArrangement = Arrangement
-                    .spacedBy(
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(
                         space = 12.dp
-                    )
+                    ),
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 4.dp
+                )
             ) {
-                itemsIndexed(
-                    items = ingredientsDataResponseModel.commonMeasures
-                        ?: listOf()
-                ) { index, measure ->
-                    BadgeItem(
+                ingredientsDataResponseModel.commonMeasures?.forEachIndexed { index, measure ->
+                    ServingSizeChip(
                         text = measure,
-                        backgroundColor =
-                            if (index == 0)
-                                Butterscotch
-                            else
-                                Color.Transparent,
-                        textColor =
-                            if (index == 0)
-                                Color.White
-                            else
-                                Color.Gray,
-                    )
-                }
-            }
-            //endregion
-            //region Health Labels
-            LazyRow(
-                horizontalArrangement = Arrangement
-                    .spacedBy(
-                        space = 12.dp
-                    )
-            ) {
-                items(
-                    items = ingredientsDataResponseModel healthLabelList locale
-                ) { healthLabel ->
-                    BadgeItem(
-                        text = healthLabel,
-                        backgroundColor = foodColor.copy(
-                            alpha = .2f
-                        ),
-                        textColor = DarkGreySecondary
+                        isSelected = index == 0,
+                        onClick = {
+
+                        }
                     )
                 }
             }
@@ -161,184 +123,78 @@ fun FoodInfoView(
                 ingredientsDataResponseModel = ingredientsDataResponseModel
             )
             //endregion
-            //region Stats Row
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                DetailStatItem(
-                    icon = {
-                        Box(
-                            modifier = Modifier
-                                .size(
-                                    size = 32.dp
-                                )
-                                .background(
-                                    color = Jasmine,
-                                    shape = CircleShape
-                                )
-                        )
-                    },
-                    label = stringResource(
-                        resource = Res.string.key_ratings_label
-                    ),
-                    value = "4.5"
-                )
-                DetailStatItem(
-                    icon = {
-                        Box(
-                            modifier = Modifier
-                                .size(
-                                    size = 32.dp
-                                )
-                                .background(
-                                    color = Begonia,
-                                    shape = CircleShape
-                                )
-                        )
-                    },
-                    label = stringResource(
-                        resource = Res.string.key_bookmark_label
-                    ),
-                    value = "137k"
-                )
-                DetailStatItem(
-                    icon = {
-                        Box(
-                            modifier = Modifier
-                                .size(
-                                    size = 32.dp
-                                )
-                                .background(
-                                    color = LightPurple,
-                                    shape = CircleShape
-                                )
-                        )
-                    },
-                    label = stringResource(
-                        resource = Res.string.key_photo_label
-                    ),
-                    value = "346"
-                )
-            }
-
-            Text(
-                text = "From the French countryside, to your doorstep. PAUL was founded in 1889 as a family bakery and patisserie. Savour a selection of viennoiserie (croissants etc.)...",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    lineHeight = 24.sp,
-                    color = Color.DarkGray
-                )
-            )
-
-            Text(
-                text = stringResource(
-                    resource = Res.string.key_photo_label
-                ),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold
-                )
-            )
-            LazyRow(
-                horizontalArrangement = Arrangement
-                    .spacedBy(
-                        space = 12.dp
-                    ),
-                contentPadding = PaddingValues(
-                    bottom = 24.dp
+            //region Health Labels
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 4.dp,
+                    alignment = Alignment.CenterHorizontally
                 )
             ) {
-                items(
-                    count = 5
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .size(
-                                size = 100.dp
-                            )
-                            .clip(
-                                shape = RoundedCornerShape(
-                                    size = 16.dp
-                                )
-                            ),
-                        painter = ColorPainter(
-                            color = Color.LightGray
-                        ),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
+                (ingredientsDataResponseModel healthLabelList locale).forEach { healthLabel ->
+                    ExpressiveHealthLabel(
+                        text = healthLabel,
+                        backgroundColor = foodColor
                     )
                 }
             }
+            //endregion
         }
     }
 }
 
 @Composable
-private fun BadgeItem(
+private fun ExpressiveHealthLabel(
     text: String,
-    backgroundColor: Color,
-    textColor: Color = Color.White
+    backgroundColor: Color
 ) {
-    Surface(
-        color = backgroundColor,
-        shape = RoundedCornerShape(
-            size = 8.dp
-        ),
-        border =
-            if (backgroundColor == Color.Transparent)
-                BorderStroke(
-                    width = 1.dp,
-                    color = Color.LightGray
+    // Material Expressive uses asymmetric or "squircle" shapes
+    val expressiveShape = RoundedCornerShape(
+        topStart = 16.dp,
+        bottomEnd = 16.dp,
+        topEnd = 4.dp,
+        bottomStart = 4.dp
+    )
+
+    SuggestionChip(
+        onClick = { },
+        label = {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.ExtraBold
                 )
-            else
-                null
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(
-                    horizontal = 12.dp,
-                    vertical = 6.dp
-                ),
-            text = text,
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = textColor,
-                fontWeight = FontWeight.Bold
             )
+        },
+        shape = expressiveShape,
+        colors = SuggestionChipDefaults.suggestionChipColors(
+            containerColor = backgroundColor.copy(
+                alpha = 0.2f
+            ),
+            labelColor = backgroundColor
         )
-    }
+    )
 }
 
 @Composable
-private fun DetailStatItem(
-    icon: @Composable () -> Unit,
-    label: String,
-    value: String
+private fun ServingSizeChip(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        icon()
-        Spacer(
-            modifier = Modifier
-                .width(
-                    width = 8.dp
-                )
+    FilterChip(
+        selected = isSelected,
+        onClick = onClick,
+        label = {
+            Text(
+                text = text
+            )
+        },
+        shape = CircleShape,
+        colors = FilterChipDefaults.filterChipColors(
+            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
-        Column {
-            Text(
-                text = value,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold
-                )
-            )
-            Text(
-                text = label,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = Color.Gray
-                )
-            )
-        }
-    }
+    )
 }
 
 @Preview(heightDp = 1600)

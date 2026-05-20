@@ -106,9 +106,7 @@ data class RecentSearchModel(
                 )
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        color = GraniteGrayColor
-                    ),
+                    style = MaterialTheme.typography.bodySmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

@@ -19,12 +19,19 @@ sealed class FoodNutritionNavigationScreen {
 
     val appBarTitleInitialVisibility
         get() = this !is FoodSearchScreen
+                && this !is FoodDetailsScreen
 
     @OptIn(ExperimentalResourceApi::class)
     suspend infix fun handleTopAppBar(
         viewModel: FoodNutritionBaseViewModel
     ) {
-        viewModel.appBarTitle = title()
+        viewModel.appBarTitle = when(this) {
+            is FoodDetailsScreen ->
+                viewModel.currentIngredientsDataResponseModel?.modelFood?.label
+                    ?: ""
+            else ->
+                title()
+        }
         when(this) {
             is FoodSearchScreen -> {
                 viewModel.navigationIcon = Icons.Outlined.Close
@@ -39,8 +46,11 @@ sealed class FoodNutritionNavigationScreen {
             }
         }
         viewModel.navigationBarActions.clear()
-        viewModel.navigationBarActions.add(
-            element = FoodNutritionBaseActivityNavigationBarAction.KETOGENIC_SUPER_FOODS
+        viewModel.navigationBarActions.addAll(
+          elements = listOf(
+              FoodNutritionBaseActivityNavigationBarAction.SHARE,
+              FoodNutritionBaseActivityNavigationBarAction.KETOGENIC_SUPER_FOODS
+          )
         )
     }
 

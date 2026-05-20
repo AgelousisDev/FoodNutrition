@@ -27,6 +27,7 @@ import com.agelousis.kotlinmultiplatform.compose.views.ErrorMessage
 import com.agelousis.kotlinmultiplatform.compose.views.Loader
 import com.agelousis.kotlinmultiplatform.compose.views.SnackBarMessage
 import com.agelousis.kotlinmultiplatform.foodNutrition.navigation.FoodNutritionNavigationScreen
+import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseActivityNavigationBar
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.utils.SuccessUnitBlock
@@ -86,10 +87,7 @@ fun FoodNutritionBaseActivityView(
                     }
                 },
                 actions = {
-                    FoodNutritionBaseActivityNavigationBar(
-                        viewModel = viewModel,
-                        backStack = backStack
-                    )
+                    viewModel FoodNutritionBaseActivityNavigationBar backStack
                 }
             )
         },

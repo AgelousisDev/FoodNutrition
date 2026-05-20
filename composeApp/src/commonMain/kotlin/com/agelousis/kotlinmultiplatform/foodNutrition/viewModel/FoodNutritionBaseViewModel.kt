@@ -10,6 +10,10 @@ class FoodNutritionBaseViewModel(
     val dataStore: DataStore<Preferences>?
 ): UIComposeViewModel() {
 
+    //region Current product details
+    var currentIngredientsDataResponseModel: IngredientsDataResponseModel? = null
+    //endregion
+
     //region Request food nutrition
     fun requestFoodNutrition(
         foodName: String,

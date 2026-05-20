@@ -22,6 +22,7 @@ fun ExpressiveShapesBaseActivityNavigation(
                 FoodSearchScreenView(
                     viewModel = viewModel,
                     foodDetailsRedirection = IngredientsDataResponseModel@ {
+                        viewModel.currentIngredientsDataResponseModel = this@IngredientsDataResponseModel
                         backStack.add(
                             element = FoodNutritionNavigationScreen.FoodDetailsScreen(
                                 ingredientsDataResponseModel = this@IngredientsDataResponseModel

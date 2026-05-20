@@ -1,6 +1,5 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,10 +17,10 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -34,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +40,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.agelousis.kotlinmultiplatform.theme.Butterscotch
 import com.agelousis.kotlinmultiplatform.foodNutrition.models.RecentSearchModel
 import com.agelousis.kotlinmultiplatform.foodNutrition.ui.views.FoodSearchTextField
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
@@ -50,7 +47,6 @@ import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.RECENT_SEARCH_K
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.clearRecentSearch
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
-import com.agelousis.kotlinmultiplatform.theme.WhiteTwo
 import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
 import com.agelousis.kotlinmultiplatform.utils.getModels
 import kotlinmultiplatform.composeapp.generated.resources.Res
@@ -60,27 +56,6 @@ import kotlinmultiplatform.composeapp.generated.resources.key_recent_search_labe
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
-
-/*private val recommendationList = listOf(
-    RecommendationModel(
-        title = "Kellys Cafe and Espresso",
-        address = "882 Swift Courts Apt. 918",
-        rating = 4.8,
-        reviewsCount = 233
-    ),
-    RecommendationModel(
-        title = "Panda Inn Mongolian Bar",
-        address = "441 Bria Flat Apt. 620",
-        rating = 4.8,
-        reviewsCount = 233
-    ),
-    RecommendationModel(
-        title = "Juanito's Taqueria",
-        address = "478 Konopelski Union Apt. 506",
-        rating = 4.8,
-        reviewsCount = 233
-    )
-)*/
 
 private const val LANDSCAPE_GRID_COLUMNS = 3
 
@@ -122,179 +97,152 @@ fun FoodSearchScreenView(
             ?: emptyList()
     )
     //endregion
-    LazyVerticalGrid(
+    Surface(
         modifier = modifier
-            .fillMaxSize(),
-        state = lazyGridState,
-        columns = GridCells.Fixed(
-            count =
-                if (isLandscape)
-                    LANDSCAPE_GRID_COLUMNS
-                else
-                    1
-        ),
-        verticalArrangement = Arrangement.spacedBy(
-            space = 16.dp
-        ),
-        horizontalArrangement = Arrangement.spacedBy(
-            space = 16.dp
-        ),
-        contentPadding = PaddingValues(
-            start = 24.dp,
-            top = 24.dp,
-            end = 24.dp,
-            bottom = if (isOnPreview) 24.dp else navigationBarsPadding.calculateBottomPadding()
-        )
-    ) LazyGridScope@ {
-        //region Search label
-        item(
-            span = {
-                GridItemSpan(
-                    currentLineSpan =
-                        if (isLandscape)
-                            LANDSCAPE_GRID_COLUMNS
-                        else
-                            1
-                )
-            }
-        ) {
-            Text(
-                modifier = Modifier
-                    .alpha(
-                        alpha = 1f - headerAlpha
-                    )
-                    .animateItem(),
-                text = stringArrayResource(
-                    resource = Res.array.key_food_nutrition_screen_titles
-                )[0],
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
-                )
+    ) {
+        LazyVerticalGrid(
+            modifier = Modifier
+                .fillMaxSize(),
+            state = lazyGridState,
+            columns = GridCells.Fixed(
+                count =
+                    if (isLandscape)
+                        LANDSCAPE_GRID_COLUMNS
+                    else
+                        1
+            ),
+            verticalArrangement = Arrangement.spacedBy(
+                space = 16.dp
+            ),
+            horizontalArrangement = Arrangement.spacedBy(
+                space = 16.dp
+            ),
+            contentPadding = PaddingValues(
+                start = 24.dp,
+                top = 24.dp,
+                end = 24.dp,
+                bottom = if (isOnPreview) 24.dp else navigationBarsPadding.calculateBottomPadding()
             )
-        }
-        //endregion
-        //region Search Field
-        item(
-            span = {
-                GridItemSpan(
-                    currentLineSpan =
-                        if (isLandscape)
-                            2
-                        else
-                            1
-                )
-            }
-        ) {
-            FoodSearchTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(
-                        height = 56.dp
+        ) LazyGridScope@ {
+            //region Search label
+            item(
+                span = {
+                    GridItemSpan(
+                        currentLineSpan =
+                            if (isLandscape)
+                                LANDSCAPE_GRID_COLUMNS
+                            else
+                                1
                     )
-                    .animateItem(),
-                viewModel = viewModel,
-                foodName = foodNameState,
-                searchFood = searchFood,
-                foodDetailsRedirection = foodDetailsRedirection
-            )
-        }
-        //endregion
-        //region Recent search label
-        if (recentSearches.isNotEmpty())
-            item {
-                Row(
-                    modifier = Modifier
-                        .animateItem(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(
-                            resource = Res.string.key_recent_search_label
-                        ),
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-                    TextButton(
-                        onClick = viewModel::clearRecentSearch
-                    ) {
-                        Text(
-                            text = stringResource(
-                                resource = Res.string.key_clear_all_label
-                            ),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = Butterscotch,
-                                fontWeight = FontWeight.Medium
-                            )
-                        )
-                    }
                 }
-            }
-        //endregion
-        //region Recent Search List in Portrait
-        if (!isLandscape
-            && recentSearches.isNotEmpty()
-        )
-            item {
-                RecentSearchItems(
+            ) {
+                Text(
                     modifier = Modifier
+                        .alpha(
+                            alpha = 1f - headerAlpha
+                        )
+                        .animateItem(),
+                    text = stringArrayResource(
+                        resource = Res.array.key_food_nutrition_screen_titles
+                    )[0],
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 32.sp
+                    )
+                )
+            }
+            //endregion
+            //region Search Field
+            item(
+                span = {
+                    GridItemSpan(
+                        currentLineSpan =
+                            if (isLandscape)
+                                2
+                            else
+                                1
+                    )
+                }
+            ) {
+                FoodSearchTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(
+                            height = 56.dp
+                        )
                         .animateItem(),
                     viewModel = viewModel,
-                    recentSearches = recentSearches,
+                    foodName = foodNameState,
+                    searchFood = searchFood,
                     foodDetailsRedirection = foodDetailsRedirection
                 )
             }
-        //endregion
-        //region Recent Search List in Landscape
-        if (isLandscape)
-            items(
-                items = recentSearches
-            ) { recentSearchModel ->
-                recentSearchModel.View(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    recentSearch = RecentSearchModel@ {
-                        viewModel.requestFoodNutrition(
-                            foodName = this@RecentSearchModel.title,
-                            successBlock = foodDetailsRedirection
+            //endregion
+            //region Recent search label
+            if (recentSearches.isNotEmpty())
+                item {
+                    Row(
+                        modifier = Modifier
+                            .animateItem(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(
+                                resource = Res.string.key_recent_search_label
+                            ),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold
+                            )
                         )
+                        TextButton(
+                            onClick = viewModel::clearRecentSearch
+                        ) {
+                            Text(
+                                text = stringResource(
+                                    resource = Res.string.key_clear_all_label
+                                ),
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            )
+                        }
                     }
-                )
-            }
-        //endregion
-        //region Recommendations Header
-        /*item {
-            Text(
-                modifier = Modifier
-                    .animateItem(),
-                text = stringResource(
-                    resource = Res.string.key_recommend_for_you_label
-                ),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }*/
-        //endregion
-        //region Recommendations List
-        /*item {
-            Column(
-                modifier = Modifier
-                    .animateItem(),
-                verticalArrangement = Arrangement
-                    .spacedBy(
-                        space = 16.dp
-                    ),
-            ) {
-                recommendationList.forEach { recommendationModel ->
-                    recommendationModel View Modifier
-                        .animateItem()
                 }
-            }
-        }*/
-        //endregion
+            //endregion
+            //region Recent Search List in Portrait
+            if (!isLandscape
+                && recentSearches.isNotEmpty()
+            )
+                item {
+                    RecentSearchItems(
+                        modifier = Modifier
+                            .animateItem(),
+                        viewModel = viewModel,
+                        recentSearches = recentSearches,
+                        foodDetailsRedirection = foodDetailsRedirection
+                    )
+                }
+            //endregion
+            //region Recent Search List in Landscape
+            if (isLandscape)
+                items(
+                    items = recentSearches
+                ) { recentSearchModel ->
+                    recentSearchModel.View(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        recentSearch = RecentSearchModel@ {
+                            viewModel.requestFoodNutrition(
+                                foodName = this@RecentSearchModel.title,
+                                successBlock = foodDetailsRedirection
+                            )
+                        }
+                    )
+                }
+            //endregion
+        }
     }
 }
 
@@ -367,19 +315,13 @@ private fun headerConfiguration(
     return headerAlpha
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun FoodSearchScreenViewPreview() {
     AppTheme {
         FoodSearchScreenView(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(
-                        size = 16.dp
-                    )
-                ),
+                .fillMaxSize(),
             viewModel = viewModel {
                 FoodNutritionBaseViewModel(
                     dataStore = null
@@ -400,19 +342,42 @@ fun FoodSearchScreenViewPreview() {
     }
 }
 
-@Preview(widthDp = 1200, heightDp = 800)
+@Preview(showBackground = true, widthDp = 1200, heightDp = 800)
 @Composable
 fun FoodSearchScreenViewInLandscapePreview() {
     AppTheme {
         FoodSearchScreenView(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = WhiteTwo,
-                    shape = RoundedCornerShape(
-                        size = 16.dp
-                    )
+                .fillMaxSize(),
+            viewModel = viewModel {
+                FoodNutritionBaseViewModel(
+                    dataStore = null
+                )
+            },
+            defaultRecentSearchList = listOf(
+                RecentSearchModel(
+                    title = "Andy & Cindy's Diner",
+                    label = "22 Powlowski Plains"
                 ),
+                RecentSearchModel(
+                    title = "Gado & Grill",
+                    label = "78 Schultz Cape Apt. 132"
+                )
+            ),
+            foodDetailsRedirection = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FoodSearchScreenViewPreviewDarkMode() {
+    AppTheme(
+        darkTheme = true
+    ) {
+        FoodSearchScreenView(
+            modifier = Modifier
+                .fillMaxSize(),
             viewModel = viewModel {
                 FoodNutritionBaseViewModel(
                     dataStore = null

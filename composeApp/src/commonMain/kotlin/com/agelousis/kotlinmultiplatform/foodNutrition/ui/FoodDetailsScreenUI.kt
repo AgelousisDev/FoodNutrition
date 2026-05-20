@@ -10,18 +10,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,11 +32,6 @@ import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataRespons
 import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.theme.Steel
-import com.agelousis.kotlinmultiplatform.utils.rememberShareManager
-import kotlinmultiplatform.composeapp.generated.resources.Res
-import kotlinmultiplatform.composeapp.generated.resources.key_copied_clipboard_label
-import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.getString
 
 @Composable
 fun FoodDetailsScreenView(
@@ -46,83 +40,104 @@ fun FoodDetailsScreenView(
     ingredientsDataResponseModel: IngredientsDataResponseModel
 ) {
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
-    val scope = rememberCoroutineScope()
-    val shareManager = rememberShareManager()
     val (foodColor, setFoodColor) = remember {
         mutableStateOf(
             value = Steel
         )
     }
-    LazyColumn(
+    val lazyListState = rememberLazyListState()
+    val headerAlpha = headerConfiguration(
+        lazyListState = lazyListState,
+        viewModel = viewModel
+    )
+    Surface(
         modifier = modifier
-            .fillMaxSize(),
-        contentPadding = PaddingValues(
-            bottom = navigationBarsPadding.calculateBottomPadding()
-        )
     ) {
-        //region Image
-        item {
-            Box(
-                modifier = Modifier
-                    .animateItem()
-            ) {
-                ingredientsDataResponseModel.Image(
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            state = lazyListState,
+            contentPadding = PaddingValues(
+                bottom = navigationBarsPadding.calculateBottomPadding()
+            )
+        ) {
+            //region Image
+            item {
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(
-                            height = 300.dp
-                        )
-                        .animateItem(),
-                    color = setFoodColor
-                )
-                //region Top Bar Icons
-                IconButton(
-                    modifier = Modifier
-                        .align(
-                            alignment = Alignment.TopEnd
-                        ),
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = Color.White
-                    ),
-                    onClick = {
-                        scope.launch {
-                            shareManager.share(
-                                text = ingredientsDataResponseModel.shareableDetails(),
-                                completion = {
-                                    scope.launch {
-                                        viewModel.snackBarMessage = getString(
-                                            resource = Res.string.key_copied_clipboard_label
-                                        )
-                                    }
-                                }
-                            )
-                        }
-                    }
+                        .animateItem()
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Share,
-                        contentDescription = Icons.Outlined.Share.name
+                    ingredientsDataResponseModel.Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(
+                                height = 300.dp
+                            )
+                            .animateItem(),
+                        color = setFoodColor
                     )
                 }
-                //endregion
+            }
+            //endregion
+            //region Food Info Card
+            item {
+                FoodInfoView(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .offset(
+                            y = (-24).dp
+                        )
+                        .animateItem(),
+                    ingredientsDataResponseModel = ingredientsDataResponseModel,
+                    foodColor = foodColor,
+                    headerAlpha = headerAlpha
+                )
+            }
+            //endregion
+        }
+    }
+}
+
+@Composable
+private fun headerConfiguration(
+    lazyListState: LazyListState,
+    viewModel: FoodNutritionBaseViewModel
+): Float {
+    //region Header Configuration
+    val density = LocalDensity.current
+    // The exact scroll distance where the top of FoodInfoView hits the top of the screen
+    val scrollThreshold = with(
+        receiver = density
+    ) {
+        (400.dp - 32.dp).toPx()
+    }
+    val fadeRange = with(
+        receiver = density
+    ) {
+        100.dp.toPx()
+    }
+
+    val headerAlpha by remember {
+        derivedStateOf {
+            if (lazyListState.firstVisibleItemIndex >= 1) {
+                1f
+            } else {
+                val scrollOffset = lazyListState.firstVisibleItemScrollOffset.toFloat()
+                val progress = ((scrollOffset - (scrollThreshold - fadeRange)) / fadeRange).coerceIn(
+                    minimumValue = 0f,
+                    maximumValue = 1f
+                )
+                progress
             }
         }
-        //endregion
-        //region Food Info Card
-        item {
-            FoodInfoView(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(
-                        y = (-24).dp
-                    )
-                    .animateItem(),
-                ingredientsDataResponseModel = ingredientsDataResponseModel,
-                foodColor = foodColor
-            )
-        }
-        //endregion
     }
+    LaunchedEffect(
+        key1 = headerAlpha
+    ) {
+        viewModel.appBarTitleAlpha = headerAlpha
+    }
+    //endregion
+    return headerAlpha
 }
 
 @Preview(heightDp = 2000)
