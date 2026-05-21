@@ -167,11 +167,9 @@ fun FoodSearchScreenView(
                 FoodSearchTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(
-                            height = 56.dp
-                        )
                         .animateItem(),
                     viewModel = viewModel,
+                    recentSearches = recentSearches,
                     foodName = foodNameState,
                     searchFood = searchFood,
                     foodDetailsRedirection = foodDetailsRedirection

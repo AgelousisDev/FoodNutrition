@@ -213,3 +213,42 @@ fun FoodDetailsScreenViewInLandscapePreview() {
         )
     }
 }
+
+@Preview(showBackground = true, heightDp = 2000)
+@Composable
+fun FoodDetailsScreenViewPreviewDarkMode() {
+    AppTheme(
+        darkTheme = true
+    ) {
+        FoodDetailsScreenView(
+            viewModel = viewModel {
+                FoodNutritionBaseViewModel(
+                    dataStore = null
+                )
+            },
+            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                modelFood = FoodModel(
+                    category = "Generic Foods",
+                    label = "Avocado"
+                ),
+                measures = listOf(
+                    MeasureModel(
+                        uri = null,
+                        label = "Serving",
+                        weight = 100.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Whole",
+                        weight = 10.0
+                    ),
+                    MeasureModel(
+                        uri = null,
+                        label = "Strip",
+                        weight = 10.0
+                    )
+                )
+            ) ?: return@AppTheme
+        )
+    }
+}

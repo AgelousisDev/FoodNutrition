@@ -17,6 +17,8 @@ import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
 import com.agelousis.kotlinmultiplatform.network.models.NutrientInfoModel
 import com.agelousis.kotlinmultiplatform.network.response.enumerations.ServingSizeMetricType
+import com.agelousis.kotlinmultiplatform.theme.AvocadoIcon
+import com.agelousis.kotlinmultiplatform.theme.GoGreen
 import com.agelousis.kotlinmultiplatform.utils.format
 import com.agelousis.kotlinmultiplatform.utils.toModel
 import kotlinmultiplatform.composeapp.generated.resources.Res
@@ -249,8 +251,9 @@ data class IngredientsDataResponseModel(
         if (isOnPreview)
             Icon(
                 modifier = modifier,
-                imageVector = Icons.Outlined.FoodBank,
-                contentDescription = Icons.Outlined.FoodBank.name
+                imageVector = AvocadoIcon,
+                contentDescription = AvocadoIcon.name,
+                tint = GoGreen
             )
         else
             AsyncImage(
