@@ -1,7 +1,5 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FoodBank
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +14,6 @@ import coil3.compose.AsyncImage
 import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
 import com.agelousis.kotlinmultiplatform.network.models.NutrientInfoModel
-import com.agelousis.kotlinmultiplatform.network.response.enumerations.ServingSizeMetricType
 import com.agelousis.kotlinmultiplatform.theme.AvocadoIcon
 import com.agelousis.kotlinmultiplatform.theme.GoGreen
 import com.agelousis.kotlinmultiplatform.utils.format
@@ -163,9 +160,7 @@ data class IngredientsDataResponseModel(
     val commonMeasures
         get() = measures?.filter { measure ->
             val label = measure.label ?: ""
-            label.isNotEmpty() && label !in  ServingSizeMetricType.entries.map(
-                transform = ServingSizeMetricType::value
-            )
+            label.isNotEmpty()
         }?.map { measure ->
             "${measure.label}: ${measure.weight?.format(decimals = 0)}g"
         }

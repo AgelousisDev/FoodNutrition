@@ -98,10 +98,8 @@ fun FoodInfoView(
             //region Common measures
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(
-                        space = 12.dp
-                    ),
-                verticalArrangement = Arrangement.spacedBy(
-                    space = 4.dp
+                    space = 4.dp,
+                    alignment = Alignment.CenterHorizontally
                 )
             ) {
                 ingredientsDataResponseModel.commonMeasures?.forEachIndexed { index, measure ->

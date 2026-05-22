@@ -2,6 +2,7 @@ package com.agelousis.kotlinmultiplatform.foodNutrition.viewModel
 
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.viewModelScope
+import com.agelousis.kotlinmultiplatform.foodNutrition.utils.FoodNutritionConstants
 import com.agelousis.kotlinmultiplatform.network.NetworkHelper
 import com.agelousis.kotlinmultiplatform.network.apis.EdamamAPI
 import com.agelousis.kotlinmultiplatform.network.apis.createEdamamAPI
@@ -12,7 +13,6 @@ import com.agelousis.kotlinmultiplatform.network.repositories.SuspendedSuccessBl
 import com.agelousis.kotlinmultiplatform.network.request.IngredientsDataRequestModel
 import com.agelousis.kotlinmultiplatform.network.response.FoodParserResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
-import com.agelousis.kotlinmultiplatform.network.response.enumerations.ServingSizeMetricType
 import com.agelousis.kotlinmultiplatform.utils.models.Quadruple
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +44,7 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                         first = this@FoodParserResponseModel?.hints?.firstOrNull()?.food?.foodId
                             ?: return@FoodParserResponseModel,
                         second = this@FoodParserResponseModel.hints.firstOrNull()?.measures?.firstOrNull { measureModel ->
-                            measureModel.label == ServingSizeMetricType.GRAM.value
+                            measureModel.label == FoodNutritionConstants.GRAM_VALUE
                         }?.uri,
                         third = this@FoodParserResponseModel.hints.firstOrNull()?.food,
                         fourth = this@FoodParserResponseModel.hints.firstOrNull()?.measures

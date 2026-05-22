@@ -25,7 +25,13 @@ sealed class FoodNutritionNavigationScreen {
     suspend infix fun handleTopAppBar(
         viewModel: FoodNutritionBaseViewModel
     ) {
-        viewModel.appBarTitle = title()
+        viewModel.appBarTitle = when(this) {
+            is FoodDetailsScreen ->
+                viewModel.currentIngredientsDataResponseModel?.modelFood?.label
+                    ?: ""
+            else ->
+                title()
+        }
         when(this) {
             is FoodSearchScreen -> {
                 viewModel.navigationIcon = Icons.Outlined.Close
@@ -41,9 +47,12 @@ sealed class FoodNutritionNavigationScreen {
         }
         viewModel.navigationBarActions.clear()
         viewModel.navigationBarActions.addAll(
-            elements = listOf(
+            elements = listOfNotNull(
                 FoodNutritionBaseActivityNavigationBarAction.KETOGENIC_SUPER_FOODS,
-                FoodNutritionBaseActivityNavigationBarAction.SHARE
+                if (this is FoodDetailsScreen)
+                    FoodNutritionBaseActivityNavigationBarAction.SHARE
+                else
+                    null
             )
         )
     }

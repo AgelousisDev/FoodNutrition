@@ -39,8 +39,6 @@ fun FoodSearchTextField(
     modifier: Modifier = Modifier,
     viewModel: FoodNutritionBaseViewModel,
     recentSearches: List<RecentSearchModel> = emptyList(),
-    foodName: String,
-    searchFood: SuccessBlock<String>,
     foodDetailsRedirection: SuccessBlock<IngredientsDataResponseModel>
 ) {
     val searchBarState = rememberSearchBarState()
@@ -69,9 +67,15 @@ fun FoodSearchTextField(
                     IconButton(
                         onClick = {
                             viewModel.requestFoodNutrition(
-                                foodName = foodName,
+                                foodName = textFieldState.text.toString(),
                                 successBlock = foodDetailsRedirection
                             )
+                            textFieldState.setTextAndPlaceCursorAtEnd(
+                                text = ""
+                            )
+                            scope.launch {
+                                searchBarState.animateToCollapsed()
+                            }
                         },
                         enabled = textFieldState.text.isNotEmpty()
                     ) {
@@ -82,10 +86,15 @@ fun FoodSearchTextField(
                     }
                 },
                 trailingIcon = {
-                    if (foodName.isNotEmpty()) {
+                    if (textFieldState.text.isNotEmpty()) {
                         IconButton(
                             onClick = {
-                                searchFood("")
+                                textFieldState.setTextAndPlaceCursorAtEnd(
+                                    text = ""
+                                )
+                                scope.launch {
+                                    searchBarState.animateToCollapsed()
+                                }
                             }
                         ) {
                             Icon(
@@ -116,7 +125,6 @@ fun FoodSearchTextField(
                         scope.launch {
                             searchBarState.animateToCollapsed()
                         }
-                        searchFood(recentSearch.title)
                         viewModel.requestFoodNutrition(
                             foodName = recentSearch.title,
                             successBlock = foodDetailsRedirection
@@ -153,8 +161,6 @@ fun FoodSearchTextFieldPreview() {
                     dataStore = null
                 )
             },
-            foodName = "Avocado",
-            searchFood = {},
             foodDetailsRedirection = {}
         )
     }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -41,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.kotlinmultiplatform.foodNutrition.models.RecentSearchModel
+import com.agelousis.kotlinmultiplatform.foodNutrition.ui.alert.ClearRecentSearchAlert
 import com.agelousis.kotlinmultiplatform.foodNutrition.ui.views.FoodSearchTextField
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.RECENT_SEARCH_KEY
@@ -72,11 +72,6 @@ fun FoodSearchScreenView(
     val windowInfo = LocalWindowInfo.current
     val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
     val lazyGridState = rememberLazyGridState()
-    val (foodNameState, searchFood) = remember {
-        mutableStateOf(
-            value = ""
-        )
-    }
     val headerAlpha = headerConfiguration(
         lazyGridState = lazyGridState,
         viewModel = viewModel
@@ -95,6 +90,23 @@ fun FoodSearchScreenView(
     }.collectAsState(
         initial = defaultRecentSearchList
             ?: emptyList()
+    )
+    //endregion
+    //region Clear recent search alert
+    val (clearRecentSearchAlert, showClearRecentSearchAlert) = remember {
+        mutableStateOf(
+            value = false
+        )
+    }
+    ClearRecentSearchAlert(
+        state = clearRecentSearchAlert,
+        confirmBlock = {
+            showClearRecentSearchAlert(false)
+            viewModel.clearRecentSearch()
+        },
+        cancelButton = {
+            showClearRecentSearchAlert(false)
+        }
     )
     //endregion
     Surface(
@@ -170,8 +182,6 @@ fun FoodSearchScreenView(
                         .animateItem(),
                     viewModel = viewModel,
                     recentSearches = recentSearches,
-                    foodName = foodNameState,
-                    searchFood = searchFood,
                     foodDetailsRedirection = foodDetailsRedirection
                 )
             }
@@ -194,7 +204,9 @@ fun FoodSearchScreenView(
                             )
                         )
                         TextButton(
-                            onClick = viewModel::clearRecentSearch
+                            onClick = {
+                                showClearRecentSearchAlert(true)
+                            }
                         ) {
                             Text(
                                 text = stringResource(

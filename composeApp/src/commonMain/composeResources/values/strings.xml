@@ -73,4 +73,6 @@
     <string name="key_category_label">Category</string>
     <string name="key_image_label">Image</string>
     <string name="key_copied_clipboard_label">Copied to clipboard</string>
+    <string name="key_clear_recent_search_alert_text">Do you want to clear your recent search?</string>
+    <string name="key_cancel_label">Cancel</string>
 </resources>
