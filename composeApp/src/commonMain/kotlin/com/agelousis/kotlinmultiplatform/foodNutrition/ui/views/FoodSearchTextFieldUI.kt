@@ -50,6 +50,13 @@ fun FoodSearchTextField(
                 textFieldState = textFieldState,
                 searchBarState = searchBarState,
                 onSearch = {
+                    viewModel.requestFoodNutrition(
+                        foodName = textFieldState.text.toString(),
+                        successBlock = foodDetailsRedirection
+                    )
+                    textFieldState.setTextAndPlaceCursorAtEnd(
+                        text = ""
+                    )
                     scope.launch {
                         searchBarState.animateToCollapsed()
                     }
