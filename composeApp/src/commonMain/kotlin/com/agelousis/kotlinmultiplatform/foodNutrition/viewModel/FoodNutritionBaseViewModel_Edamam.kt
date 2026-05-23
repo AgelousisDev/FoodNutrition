@@ -30,6 +30,7 @@ infix fun FoodNutritionBaseViewModel.foodData(
 
 fun FoodNutritionBaseViewModel.requestFoodNutrition(
     product: String,
+    quantity: Int = 100,
     successBlock: SuccessBlock<IngredientsDataResponseModel> = {}
 ) {
     viewModelScope.launch(
@@ -52,12 +53,14 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                 getFullyNutrition(
                     foodId = foodId,
                     measureUri = measureUri,
+                    quantity = quantity,
                     successBlock = IngredientsDataResponseModel@ {
                         isLoading = false
                         val modelIngredients = this@IngredientsDataResponseModel?.copy(
                             modelFood = modelFood,
                             measures = measures
                         ) ?: return@IngredientsDataResponseModel
+                        currentIngredientsDataResponseModelState = modelIngredients
                         this@requestFoodNutrition saveRecentSearch modelIngredients
                         foodDataStateMap[
                                 product
@@ -96,6 +99,7 @@ private suspend fun FoodNutritionBaseViewModel.parseFood(
 private suspend fun FoodNutritionBaseViewModel.getFullyNutrition(
     foodId: String,
     measureUri: String?,
+    quantity: Int,
     successBlock: SuspendedSuccessBlock<IngredientsDataResponseModel?>
 ) {
     GeneralRepository.request<EdamamAPI, IngredientsDataResponseModel?>(
@@ -105,7 +109,7 @@ private suspend fun FoodNutritionBaseViewModel.getFullyNutrition(
                 ingredientsDataRequestModel = IngredientsDataRequestModel(
                     ingredients = listOf(
                         IngredientModel(
-                            quantity = 100,
+                            quantity = quantity,
                             foodId = foodId,
                             measureURI = measureUri
                         )

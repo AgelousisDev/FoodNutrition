@@ -28,7 +28,6 @@ import com.agelousis.kotlinmultiplatform.foodNutrition.ui.views.FoodInfoView
 import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.kotlinmultiplatform.network.response.FoodModel
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.theme.Steel
@@ -36,8 +35,7 @@ import com.agelousis.kotlinmultiplatform.theme.Steel
 @Composable
 fun FoodDetailsScreenView(
     modifier: Modifier = Modifier,
-    viewModel: FoodNutritionBaseViewModel,
-    ingredientsDataResponseModel: IngredientsDataResponseModel
+    viewModel: FoodNutritionBaseViewModel
 ) {
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
     val (foodColor, setFoodColor) = remember {
@@ -67,7 +65,7 @@ fun FoodDetailsScreenView(
                     modifier = Modifier
                         .animateItem()
                 ) {
-                    ingredientsDataResponseModel.Image(
+                    viewModel.currentIngredientsDataResponseModelState?.Image(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(
@@ -88,7 +86,7 @@ fun FoodDetailsScreenView(
                             y = (-24).dp
                         )
                         .animateItem(),
-                    ingredientsDataResponseModel = ingredientsDataResponseModel,
+                    viewModel = viewModel,
                     foodColor = foodColor,
                     headerAlpha = headerAlpha
                 )
@@ -148,31 +146,32 @@ fun FoodDetailsScreenViewPreview() {
             viewModel = viewModel {
                 FoodNutritionBaseViewModel(
                     dataStore = null
-                )
-            },
-            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
-                modelFood = FoodModel(
-                    category = "Generic Foods",
-                    label = "Avocado"
-                ),
-                measures = listOf(
-                    MeasureModel(
-                        uri = null,
-                        label = "Serving",
-                        weight = 100.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Whole",
-                        weight = 10.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Strip",
-                        weight = 10.0
-                    )
-                )
-            ) ?: return@AppTheme
+                ).also { viewModel ->
+                    viewModel.currentIngredientsDataResponseModelState = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                        modelFood = FoodModel(
+                            category = "Generic Foods",
+                            label = "Avocado"
+                        ),
+                        measures = listOf(
+                            MeasureModel(
+                                uri = null,
+                                label = "Serving",
+                                weight = 100.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Whole",
+                                weight = 10.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Strip",
+                                weight = 10.0
+                            )
+                        )
+                    ) ?: return@also
+                }
+            }
         )
     }
 }
@@ -185,31 +184,32 @@ fun FoodDetailsScreenViewInLandscapePreview() {
             viewModel = viewModel {
                 FoodNutritionBaseViewModel(
                     dataStore = null
-                )
-            },
-            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
-                modelFood = FoodModel(
-                    category = "Generic Foods",
-                    label = "Avocado"
-                ),
-                measures = listOf(
-                    MeasureModel(
-                        uri = null,
-                        label = "Serving",
-                        weight = 100.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Whole",
-                        weight = 10.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Strip",
-                        weight = 10.0
-                    )
-                )
-            ) ?: return@AppTheme
+                ).also { viewModel ->
+                    viewModel.currentIngredientsDataResponseModelState = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                        modelFood = FoodModel(
+                            category = "Generic Foods",
+                            label = "Avocado"
+                        ),
+                        measures = listOf(
+                            MeasureModel(
+                                uri = null,
+                                label = "Serving",
+                                weight = 100.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Whole",
+                                weight = 10.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Strip",
+                                weight = 10.0
+                            )
+                        )
+                    ) ?: return@also
+                }
+            }
         )
     }
 }
@@ -224,31 +224,32 @@ fun FoodDetailsScreenViewPreviewDarkMode() {
             viewModel = viewModel {
                 FoodNutritionBaseViewModel(
                     dataStore = null
-                )
-            },
-            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
-                modelFood = FoodModel(
-                    category = "Generic Foods",
-                    label = "Avocado"
-                ),
-                measures = listOf(
-                    MeasureModel(
-                        uri = null,
-                        label = "Serving",
-                        weight = 100.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Whole",
-                        weight = 10.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Strip",
-                        weight = 10.0
-                    )
-                )
-            ) ?: return@AppTheme
+                ).also { viewModel ->
+                    viewModel.currentIngredientsDataResponseModelState = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                        modelFood = FoodModel(
+                            category = "Generic Foods",
+                            label = "Avocado"
+                        ),
+                        measures = listOf(
+                            MeasureModel(
+                                uri = null,
+                                label = "Serving",
+                                weight = 100.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Whole",
+                                weight = 10.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Strip",
+                                weight = 10.0
+                            )
+                        )
+                    ) ?: return@also
+                }
+            }
         )
     }
 }

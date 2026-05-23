@@ -28,17 +28,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastForEach
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.FoodNutritionBaseViewModel
+import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.requestFoodNutrition
 import com.agelousis.kotlinmultiplatform.network.response.FoodModel
 import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPONSE_MOCK_MODEL
-import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.theme.Steel
+import com.agelousis.kotlinmultiplatform.utils.format
 
 @Composable
 fun FoodInfoView(
     modifier: Modifier = Modifier,
-    ingredientsDataResponseModel: IngredientsDataResponseModel,
+    viewModel: FoodNutritionBaseViewModel,
     foodColor: Color = Steel,
     headerAlpha: Float = 1f
 ) {
@@ -64,7 +68,7 @@ fun FoodInfoView(
                     .alpha(
                         alpha = 1f - headerAlpha
                     ),
-                text = ingredientsDataResponseModel.modelFood?.label
+                text = viewModel.currentIngredientsDataResponseModelState?.modelFood?.label
                     ?: "",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
@@ -88,7 +92,7 @@ fun FoodInfoView(
                         )
                 )
                 Text(
-                    text = ingredientsDataResponseModel.modelFood?.category
+                    text = viewModel.currentIngredientsDataResponseModelState?.modelFood?.category
                         ?: "",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color.Gray
@@ -102,23 +106,33 @@ fun FoodInfoView(
                     alignment = Alignment.CenterHorizontally
                 )
             ) {
-                ingredientsDataResponseModel.commonMeasures?.forEachIndexed { index, measure ->
+                viewModel.currentIngredientsDataResponseModelState?.commonMeasures?.fastForEach { measure ->
+                    val label = "${measure.label}: ${measure.weight?.format(decimals = 0)}g"
                     ServingSizeChip(
-                        text = measure,
-                        isSelected = index == 0,
+                        text = label,
+                        isSelected =
+                            viewModel.currentIngredientsDataResponseModelState?.ingredients?.firstOrNull()?.parsed?.firstOrNull()?.quantity == measure.weight,
                         onClick = {
-
+                            requestFoodNutrition(
+                                viewModel = viewModel,
+                                product = viewModel.currentIngredientsDataResponseModelState?.modelFood?.label
+                                    ?: return@ServingSizeChip,
+                                quantity = measure.weight?.toInt()
+                                    ?: return@ServingSizeChip
+                            )
                         }
                     )
                 }
             }
             //endregion
             //region Nutrition
-            NutritionInfoView(
-                modifier = Modifier
-                    .wrapContentHeight(),
-                ingredientsDataResponseModel = ingredientsDataResponseModel
-            )
+            viewModel.currentIngredientsDataResponseModelState?.let {
+                NutritionInfoView(
+                    modifier = Modifier
+                        .wrapContentHeight(),
+                    ingredientsDataResponseModel = it
+                )
+            }
             //endregion
             //region Health Labels
             FlowRow(
@@ -127,7 +141,9 @@ fun FoodInfoView(
                     alignment = Alignment.CenterHorizontally
                 )
             ) {
-                (ingredientsDataResponseModel healthLabelList locale).forEach { healthLabel ->
+                viewModel.currentIngredientsDataResponseModelState?.healthLabelList(
+                    locale = locale
+                )?.forEach { healthLabel ->
                     ExpressiveHealthLabel(
                         text = healthLabel,
                         backgroundColor = foodColor
@@ -194,34 +210,51 @@ private fun ServingSizeChip(
     )
 }
 
+private fun requestFoodNutrition(
+    viewModel: FoodNutritionBaseViewModel,
+    product: String,
+    quantity: Int
+) {
+    viewModel.requestFoodNutrition(
+        product = product.lowercase(),
+        quantity = quantity
+    )
+}
+
 @Preview(heightDp = 1600)
 @Composable
 fun FoodInfoViewPreview() {
     AppTheme {
         FoodInfoView(
-            ingredientsDataResponseModel = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
-                modelFood = FoodModel(
-                    category = "Generic Foods",
-                    label = "Avocado"
-                ),
-                measures = listOf(
-                    MeasureModel(
-                        uri = null,
-                        label = "Serving",
-                        weight = 100.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Whole",
-                        weight = 10.0
-                    ),
-                    MeasureModel(
-                        uri = null,
-                        label = "Strip",
-                        weight = 10.0
-                    )
-                )
-            ) ?: return@AppTheme
+            viewModel = viewModel {
+                FoodNutritionBaseViewModel(
+                    dataStore = null
+                ).also { viewModel ->
+                    viewModel.currentIngredientsDataResponseModelState = INGREDIENTS_DATA_RESPONSE_MOCK_MODEL?.copy(
+                        modelFood = FoodModel(
+                            category = "Generic Foods",
+                            label = "Avocado"
+                        ),
+                        measures = listOf(
+                            MeasureModel(
+                                uri = null,
+                                label = "Serving",
+                                weight = 100.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Whole",
+                                weight = 10.0
+                            ),
+                            MeasureModel(
+                                uri = null,
+                                label = "Strip",
+                                weight = 10.0
+                            )
+                        )
+                    ) ?: return@also
+                }
+            }
         )
     }
 }

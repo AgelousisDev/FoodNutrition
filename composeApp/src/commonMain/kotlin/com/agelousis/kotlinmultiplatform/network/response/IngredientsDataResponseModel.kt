@@ -148,8 +148,12 @@ data class IngredientsDataResponseModel(
 
     val nutrientInfoModelList: List<Triple<NutrientType, NutrientInfoModel?, NutrientInfoModel?>>
         get() = NutrientType.entries.map { nutrientType ->
-            val info = totalNutrients?.get(nutrientType.value)
-            val dailyInfo = totalDaily?.get(nutrientType.value)
+            val info = totalNutrients?.get(
+                key = nutrientType.value
+            )
+            val dailyInfo = totalDaily?.get(
+                key = nutrientType.value
+            )
             Triple(
                 first = nutrientType,
                 second = info,
@@ -161,9 +165,7 @@ data class IngredientsDataResponseModel(
         get() = measures?.filter { measure ->
             val label = measure.label ?: ""
             label.isNotEmpty()
-        }?.map { measure ->
-            "${measure.label}: ${measure.weight?.format(decimals = 0)}g"
-        }
+        } ?: listOf()
 
     suspend fun shareableDetails() = buildString {
         modelFood?.label?.let {

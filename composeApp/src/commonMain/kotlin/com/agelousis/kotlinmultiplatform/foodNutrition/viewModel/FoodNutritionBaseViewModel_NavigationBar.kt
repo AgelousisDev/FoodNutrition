@@ -25,7 +25,7 @@ internal infix fun FoodNutritionBaseViewModel.FoodNutritionBaseActivityNavigatio
                         shareManager = shareManager,
                         data = when(navigationBarAction) {
                             FoodNutritionBaseActivityNavigationBarAction.SHARE ->
-                                currentIngredientsDataResponseModel?.shareableDetails()
+                                currentIngredientsDataResponseModelState?.shareableDetails()
                             else ->
                                 null
                         }

@@ -27,7 +27,7 @@ sealed class FoodNutritionNavigationScreen {
     ) {
         viewModel.appBarTitle = when(this) {
             is FoodDetailsScreen ->
-                viewModel.currentIngredientsDataResponseModel?.modelFood?.label
+                viewModel.currentIngredientsDataResponseModelState?.modelFood?.label
                     ?: ""
             else ->
                 title()
@@ -64,9 +64,7 @@ sealed class FoodNutritionNavigationScreen {
         )[0]
     }
     @Serializable
-    data class FoodDetailsScreen(
-        val ingredientsDataResponseModel: IngredientsDataResponseModel
-    ): FoodNutritionNavigationScreen() {
+    data object FoodDetailsScreen: FoodNutritionNavigationScreen() {
         override suspend fun title() = getStringArray(
             resource = Res.array.key_food_nutrition_screen_titles
         )[1]

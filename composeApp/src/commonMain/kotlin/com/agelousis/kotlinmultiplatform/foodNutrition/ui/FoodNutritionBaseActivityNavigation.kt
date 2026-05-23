@@ -22,19 +22,16 @@ fun ExpressiveShapesBaseActivityNavigation(
                 FoodSearchScreenView(
                     viewModel = viewModel,
                     foodDetailsRedirection = IngredientsDataResponseModel@ {
-                        viewModel.currentIngredientsDataResponseModel = this@IngredientsDataResponseModel
+                        viewModel.currentIngredientsDataResponseModelState = this@IngredientsDataResponseModel
                         backStack.add(
-                            element = FoodNutritionNavigationScreen.FoodDetailsScreen(
-                                ingredientsDataResponseModel = this@IngredientsDataResponseModel
-                            )
+                            element = FoodNutritionNavigationScreen.FoodDetailsScreen
                         )
                     }
                 )
             }
-            entry<FoodNutritionNavigationScreen.FoodDetailsScreen> { (ingredientsDataResponseModel) ->
+            entry<FoodNutritionNavigationScreen.FoodDetailsScreen> {
                 FoodDetailsScreenView(
-                    viewModel = viewModel,
-                    ingredientsDataResponseModel = ingredientsDataResponseModel
+                    viewModel = viewModel
                 )
             }
             entry<FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen> {

@@ -1,5 +1,8 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.viewModel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.agelousis.kotlinmultiplatform.compose.viewModel.UIComposeViewModel
@@ -11,7 +14,9 @@ class FoodNutritionBaseViewModel(
 ): UIComposeViewModel() {
 
     //region Current product details
-    var currentIngredientsDataResponseModel: IngredientsDataResponseModel? = null
+    var currentIngredientsDataResponseModelState by mutableStateOf<IngredientsDataResponseModel?>(
+        value = null
+    )
     //endregion
 
     //region Request food nutrition
