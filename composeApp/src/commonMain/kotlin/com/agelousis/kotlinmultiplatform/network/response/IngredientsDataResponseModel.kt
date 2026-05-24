@@ -1,21 +1,37 @@
 package com.agelousis.kotlinmultiplatform.network.response
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toLowerCase
-import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.compose.SubcomposeAsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.size.Precision
+import com.agelousis.kotlinmultiplatform.compose.extensions.shimmerEffect
 import com.agelousis.kotlinmultiplatform.network.enumerations.NutrientType
 import com.agelousis.kotlinmultiplatform.network.models.IngredientModel
 import com.agelousis.kotlinmultiplatform.network.models.NutrientInfoModel
 import com.agelousis.kotlinmultiplatform.theme.AvocadoIcon
 import com.agelousis.kotlinmultiplatform.theme.GoGreen
+import com.agelousis.kotlinmultiplatform.utils.AIImageManager
 import com.agelousis.kotlinmultiplatform.utils.format
 import com.agelousis.kotlinmultiplatform.utils.toModel
 import kotlinmultiplatform.composeapp.generated.resources.Res
@@ -239,6 +255,7 @@ data class IngredientsDataResponseModel(
             )
         } ?: emptyList()
 
+    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     @Composable
     fun Image(
         modifier: Modifier,
@@ -252,24 +269,66 @@ data class IngredientsDataResponseModel(
                 contentDescription = AvocadoIcon.name,
                 tint = GoGreen
             )
-        else
-            AsyncImage(
+        else {
+            val (aiImage, setAiImage) = rememberSaveable {
+                mutableStateOf(
+                    value = modelFood?.image
+                )
+            }
+            LaunchedEffect(
+                key1 = Unit
+            ) {
+                setAiImage(
+                    AIImageManager generateImageFromKeyword (modelFood?.label ?: return@LaunchedEffect)
+                )
+            }
+            Box(
                 modifier = modifier,
-                model = modelFood?.image,
-                contentDescription = uri,
-                contentScale = ContentScale.Crop,
-                onSuccess = { state ->
-                    val imageBitmap = state.result.image.toImageBitmap()
-                    val width = imageBitmap.width
-                    val height = imageBitmap.height
-                    if (width > 0 && height > 0) {
-                        val pixelMap = imageBitmap.toPixelMap()
-                        color(
-                            pixelMap[width / 2, height / 2]
+                contentAlignment = Alignment.Center
+            ) {
+                SubcomposeAsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    model =
+                        ImageRequest.Builder(
+                            context = LocalPlatformContext.current
+                        ).data(
+                            data = aiImage
+                        ).crossfade(
+                            enable = true
+                        ).precision(
+                            precision = Precision.EXACT
+                        ).build(),
+                    contentDescription = aiImage,
+                    contentScale = ContentScale.Crop,
+                    filterQuality = FilterQuality.High,
+                    loading = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .shimmerEffect()
+                        )
+                    },
+                    onSuccess = { state ->
+                        val imageBitmap = state.result.image.toImageBitmap()
+                        val width = imageBitmap.width
+                        val height = imageBitmap.height
+                        if (width > 0 && height > 0) {
+                            val pixelMap = imageBitmap.toPixelMap()
+                            color(
+                                pixelMap[width / 2, height / 2]
+                            )
+                        }
+                    },
+                    error = {
+                        Icon(
+                            imageVector = Icons.Default.Error,
+                            contentDescription = Icons.Default.Error.name
                         )
                     }
-                }
-            )
+                )
+            }
+        }
     }
 
 }
