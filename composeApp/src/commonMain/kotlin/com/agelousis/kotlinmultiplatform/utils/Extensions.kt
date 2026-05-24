@@ -36,7 +36,15 @@ infix fun Double.format(
     if (decimals <= 0) return str
 
     val integerPart = if (str.length <= decimals) "0" else str.substring(0, str.length - decimals)
-    val fractionalPart = str.substring(maxOf(0, str.length - decimals)).padStart(decimals, '0')
+    val fractionalPart = str.substring(
+        startIndex = maxOf(
+            a = 0,
+            b = str.length - decimals
+        )
+    ).padStart(
+        length = decimals,
+        padChar = '0'
+    )
 
     return "$integerPart.$fractionalPart"
 }

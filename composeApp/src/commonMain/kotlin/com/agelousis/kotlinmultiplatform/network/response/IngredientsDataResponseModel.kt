@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toLowerCase
@@ -270,6 +271,7 @@ data class IngredientsDataResponseModel(
                 tint = GoGreen
             )
         else {
+            val locale = LocalLocale.current
             val (aiImage, setAiImage) = rememberSaveable {
                 mutableStateOf(
                     value = modelFood?.image
@@ -279,7 +281,11 @@ data class IngredientsDataResponseModel(
                 key1 = Unit
             ) {
                 setAiImage(
-                    AIImageManager generateImageFromKeyword (modelFood?.label ?: return@LaunchedEffect)
+                    AIImageManager generateImageFromKeyword (modelFood?.label?.toLowerCase(
+                        locale = locale
+                    )?.capitalize(
+                        locale = locale
+                    ) ?: return@LaunchedEffect)
                 )
             }
             Box(

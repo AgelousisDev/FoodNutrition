@@ -1,5 +1,6 @@
 package com.agelousis.kotlinmultiplatform.foodNutrition.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
@@ -48,6 +49,7 @@ import com.agelousis.kotlinmultiplatform.foodNutrition.viewModel.clearRecentSear
 import com.agelousis.kotlinmultiplatform.network.response.IngredientsDataResponseModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.utils.SuccessBlock
+import com.agelousis.kotlinmultiplatform.utils.SystemAppearance
 import com.agelousis.kotlinmultiplatform.utils.getModels
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_clear_all_label
@@ -75,6 +77,9 @@ fun FoodSearchScreenView(
     val headerAlpha = headerConfiguration(
         lazyGridState = lazyGridState,
         viewModel = viewModel
+    )
+    SystemAppearance(
+        isLight = !isSystemInDarkTheme()
     )
     //region Recent search
     val recentSearches by remember(

@@ -75,7 +75,7 @@ fun UIComposeViewModel.Loader() {
 
 @Composable
 fun <T: Any> AppNavigation(
-    contentPadding: PaddingValues,
+    contentPadding: PaddingValues = PaddingValues(),
     backStack: SnapshotStateList<T>,
     entryProvider: (key: T) -> NavEntry<T>
 ) {

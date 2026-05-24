@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,7 @@ import com.agelousis.kotlinmultiplatform.network.response.INGREDIENTS_DATA_RESPO
 import com.agelousis.kotlinmultiplatform.network.response.MeasureModel
 import com.agelousis.kotlinmultiplatform.theme.AppTheme
 import com.agelousis.kotlinmultiplatform.theme.Steel
+import com.agelousis.kotlinmultiplatform.utils.SystemAppearance
 
 @Composable
 fun FoodDetailsScreenView(
@@ -47,6 +49,9 @@ fun FoodDetailsScreenView(
     val headerAlpha = headerConfiguration(
         lazyListState = lazyListState,
         viewModel = viewModel
+    )
+    SystemAppearance(
+        isLight = foodColor.luminance() > .5f
     )
     Surface(
         modifier = modifier
