@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -36,6 +37,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.google.ai.generative)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -50,7 +52,6 @@ kotlin {
             implementation(libs.androidx.datastore.preferences)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
-            implementation(libs.google.ai.generative)
 
             implementation(libs.jetbrains.navigation3.ui)
             implementation(libs.jetbrains.lifecycle.viewmodel.navigation3)
@@ -91,7 +92,7 @@ kotlin {
     }
 }
 
-android {
+extensions.configure<ApplicationExtension>("android") {
     namespace = "com.agelousis.foodnutrition"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -118,10 +119,6 @@ android {
     }
 }
 
-dependencies {
-    debugImplementation(libs.compose.uiTooling)
-}
-
 compose.desktop {
     application {
         mainClass = "com.agelousis.foodnutrition.MainKt"
@@ -136,9 +133,4 @@ compose.desktop {
 
 ksp {
     arg("ktorfit.errors", "1")
-}
-
-dependencies {
-    implementation(libs.ktorfit.lib)
-    add("ksp", libs.ktorfit.ksp)
 }
