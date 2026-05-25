@@ -1,0 +1,33 @@
+package com.agelousis.foodnutrition.network.repositories
+
+import com.agelousis.foodnutrition.network.response.ErrorModel
+
+typealias SuccessUnitBlock = () -> Unit
+typealias SuccessBlock<T> = T.() -> Unit
+typealias SuspendedSuccessBlock<T> = suspend T.() -> Unit
+typealias FailureBlock = (ErrorModel) -> Unit
+
+typealias RequestInitializationBlock <I, R> = suspend I.() -> R
+
+object GeneralRepository {
+
+    suspend inline fun <reified I, R> request(
+        api: I,
+        crossinline requestInitializationBlock: RequestInitializationBlock<I, R>,
+        noinline successModelBlock: SuspendedSuccessBlock<R>,
+        noinline failureBlock: FailureBlock
+    ) {
+        try {
+            val response = api.requestInitializationBlock()
+            successModelBlock(response)
+        } catch (e: Throwable) {
+            failureBlock(
+                ErrorModel(
+                    message = e.message
+                        ?: "Network error"
+                )
+            )
+        }
+    }
+
+}

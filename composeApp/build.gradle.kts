@@ -92,11 +92,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.agelousis.kotlinmultiplatform"
+    namespace = "com.agelousis.foodnutrition"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.agelousis.kotlinmultiplatform"
+        applicationId = "com.agelousis.foodnutrition"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -124,11 +124,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.agelousis.kotlinmultiplatform.MainKt"
+        mainClass = "com.agelousis.foodnutrition.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.agelousis.kotlinmultiplatform"
+            packageName = "com.agelousis.foodnutrition"
             packageVersion = "1.0.0"
         }
     }
