@@ -1,5 +1,6 @@
 package com.agelousis.foodnutrition.foodNutrition.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -10,18 +11,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -46,12 +44,17 @@ fun FoodDetailsScreenView(
         )
     }
     val lazyListState = rememberLazyListState()
-    val headerAlpha = headerConfiguration(
-        lazyListState = lazyListState,
-        viewModel = viewModel
-    )
+    val headerImageIsNotVisible by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex > 0
+        }
+    }
     SystemAppearance(
-        isLight = foodColor.luminance() > .5f
+        isLight =
+            if (headerImageIsNotVisible)
+                !isSystemInDarkTheme()
+            else
+                foodColor.luminance() > .5f
     )
     Surface(
         modifier = modifier
@@ -92,55 +95,12 @@ fun FoodDetailsScreenView(
                         )
                         .animateItem(),
                     viewModel = viewModel,
-                    foodColor = foodColor,
-                    headerAlpha = headerAlpha
+                    foodColor = foodColor
                 )
             }
             //endregion
         }
     }
-}
-
-@Composable
-private fun headerConfiguration(
-    lazyListState: LazyListState,
-    viewModel: FoodNutritionBaseViewModel
-): Float {
-    //region Header Configuration
-    val density = LocalDensity.current
-    // The exact scroll distance where the top of FoodInfoView hits the top of the screen
-    val scrollThreshold = with(
-        receiver = density
-    ) {
-        (400.dp - 32.dp).toPx()
-    }
-    val fadeRange = with(
-        receiver = density
-    ) {
-        100.dp.toPx()
-    }
-
-    val headerAlpha by remember {
-        derivedStateOf {
-            if (lazyListState.firstVisibleItemIndex >= 1) {
-                1f
-            } else {
-                val scrollOffset = lazyListState.firstVisibleItemScrollOffset.toFloat()
-                val progress = ((scrollOffset - (scrollThreshold - fadeRange)) / fadeRange).coerceIn(
-                    minimumValue = 0f,
-                    maximumValue = 1f
-                )
-                progress
-            }
-        }
-    }
-    LaunchedEffect(
-        key1 = headerAlpha
-    ) {
-        viewModel.appBarTitleAlpha = headerAlpha
-    }
-    //endregion
-    return headerAlpha
 }
 
 @Preview(heightDp = 2000)

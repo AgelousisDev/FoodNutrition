@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -24,15 +23,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
@@ -74,10 +70,6 @@ fun FoodSearchScreenView(
     val windowInfo = LocalWindowInfo.current
     val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
     val lazyGridState = rememberLazyGridState()
-    val headerAlpha = headerConfiguration(
-        lazyGridState = lazyGridState,
-        viewModel = viewModel
-    )
     SystemAppearance(
         isLight = !isSystemInDarkTheme()
     )
@@ -155,9 +147,6 @@ fun FoodSearchScreenView(
             ) {
                 Text(
                     modifier = Modifier
-                        .alpha(
-                            alpha = 1f - headerAlpha
-                        )
                         .animateItem(),
                     text = stringArrayResource(
                         resource = Res.array.key_food_nutrition_screen_titles
@@ -302,32 +291,6 @@ private fun RecentSearchItems(
             )
         }
     }
-}
-
-@Composable
-private fun headerConfiguration(
-    lazyGridState: LazyGridState,
-    viewModel: FoodNutritionBaseViewModel
-): Float {
-    //region Header Configuration
-    val headerAlpha by remember {
-        derivedStateOf {
-            if (lazyGridState.firstVisibleItemIndex > 0)
-                1f
-            else
-                (lazyGridState.firstVisibleItemScrollOffset / 200f).coerceIn(
-                    minimumValue = 0f,
-                    maximumValue = 1f
-                )
-        }
-    }
-    LaunchedEffect(
-        key1 = headerAlpha
-    ) {
-        viewModel.appBarTitleAlpha = headerAlpha
-    }
-    //endregion
-    return headerAlpha
 }
 
 @Preview(showBackground = true)
