@@ -105,8 +105,10 @@ fun FoodInfoView(
                     ServingSizeChip(
                         text = label,
                         isSelected =
-                            viewModel.currentIngredientsDataResponseModelState?.ingredients?.firstOrNull()?.parsed?.firstOrNull()?.quantity == measure.weight,
+                            viewModel.currentIngredientsDataResponseModelState?.ingredients?.firstOrNull()?.parsed?.firstOrNull()?.quantity?.toInt() == measure.weight?.toInt(),
                         onClick = {
+                            if (viewModel.currentIngredientsDataResponseModelState?.ingredients?.firstOrNull()?.parsed?.firstOrNull()?.quantity?.toInt() == measure.weight?.toInt())
+                                return@ServingSizeChip
                             requestFoodNutrition(
                                 viewModel = viewModel,
                                 product = viewModel.currentIngredientsDataResponseModelState?.modelFood?.label
