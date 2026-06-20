@@ -1,6 +1,8 @@
 import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,6 +13,16 @@ plugins {
     alias(libs.plugins.ktorfit)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.googleKsp)
+    alias(libs.plugins.codingFelineBuildConfig)
+}
+
+fun getGoogleAiStudioKey(): Pair<String, String> {
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        properties.load(localPropertiesFile.inputStream())
+    }
+    return (properties.getProperty("GOOGLE_AI_STUDIO_API_KEY") ?: "") to (properties.getProperty("GOOGLE_AI_STUDIO_PROJECT_NUMBER") ?: "")
 }
 
 kotlin {
@@ -89,8 +101,36 @@ kotlin {
         kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
     }
     sourceSets.androidMain.configure {
-        kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        kotlin.srcDir("build/generated/ksp/android/androidDebug/kotlin")
     }
+    sourceSets.jvmMain.configure {
+        kotlin.srcDir("build/generated/ksp/jvm/jvmMain/kotlin")
+    }
+}
+
+buildkonfig {
+    packageName = "com.yourdomain.foodnutrition"
+    defaultConfigs {
+        val (googleAiStudioKey, googleAiProjectNumber) = getGoogleAiStudioKey()
+        buildConfigField(
+            type = STRING,
+            name = "GOOGLE_AI_STUDIO_API_KEY",
+            value = googleAiStudioKey
+        )
+        buildConfigField(
+            type = STRING,
+            name = "GOOGLE_AI_STUDIO_PROJECT_NUMBER",
+            value = googleAiProjectNumber
+        )
+    }
+}
+
+dependencies {
+    add("kspCommonMainMetadata", libs.ktorfit.ksp)
+    add("kspAndroid", libs.ktorfit.ksp)
+    add("kspIosArm64", libs.ktorfit.ksp)
+    add("kspIosSimulatorArm64", libs.ktorfit.ksp)
+    add("kspJvm", libs.ktorfit.ksp)
 }
 
 extensions.configure<ApplicationExtension>("android") {
@@ -124,14 +164,45 @@ compose.desktop {
     application {
         mainClass = "com.agelousis.foodnutrition.MainKt"
 
+        val jvmRuntimeArgs = arrayOf(
+            "--add-opens=java.base/java.lang=ALL-UNNAMED",
+            "--add-opens=java.desktop/sun.awt=ALL-UNNAMED",
+            "--add-opens=java.desktop/sun.font=ALL-UNNAMED",
+            "--add-opens=java.desktop/sun.java2d=ALL-UNNAMED",
+            "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED",
+            "--add-opens=java.base/java.util=ALL-UNNAMED",
+            "--add-opens=java.desktop/java.awt.event=ALL-UNNAMED"
+        )
+
+        jvmArgs(*jvmRuntimeArgs)
+
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.agelousis.foodnutrition"
+            packageName = "Food Nutrition"
             packageVersion = "1.0.0"
+            description = "Search & display food nutrition"
+            vendor = "Agelousis"
+
+            jvmArgs(*jvmRuntimeArgs)
+
+            linux {
+                shortcut = true
+                menuGroup = "Health"
+                appCategory = "Education"
+                iconFile.set(project.file("app_icon.png"))
+            }
         }
     }
 }
 
 ksp {
     arg("ktorfit.errors", "1")
+}
+
+tasks.matching { it.name == "kspKotlinJvm" }.configureEach {
+    dependsOn(tasks.matching { it.name == "kspCommonMainKotlinMetadata" })
+}
+
+tasks.matching { it.name == "kspKotlinAndroid" }.configureEach {
+    dependsOn(tasks.matching { it.name == "kspCommonMainKotlinMetadata" })
 }

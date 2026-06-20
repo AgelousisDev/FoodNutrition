@@ -1,0 +1,14 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Rounded Background (Squircle-like) -->
+    <rect width="1024" height="1024" rx="220" fill="white"/>
+    
+    <!-- Apple Outline -->
+    <path d="M512 300C450 300 400 340 360 340C320 340 250 280 180 350C110 420 150 750 330 850C410 894 480 840 512 840C544 840 614 894 694 850C874 750 914 420 844 350C774 280 704 340 664 340C624 340 574 300 512 300Z" stroke="black" stroke-width="60" stroke-linejoin="round"/>
+    
+    <!-- Leaf -->
+    <path d="M512 280C512 280 520 150 640 100C640 100 660 220 540 290" fill="black"/>
+    
+    <!-- Seeds -->
+    <ellipse cx="430" cy="560" rx="40" ry="70" fill="black"/>
+    <ellipse cx="594" cy="560" rx="40" ry="70" fill="black"/>
+</svg>

@@ -17,6 +17,7 @@ kotlinx-serialization = "1.11.0"
 androidxDatastorePreferencesVersion = "1.2.1"
 coilVersion = "3.4.0"
 googleAiGenerativeVersion = "0.9.0"
+codingFelineBuildConfigVersion = "0.21.2"
 ktor = "3.5.0"
 ktorfit = "2.7.3"
 kotlin = "2.1.20"
@@ -63,3 +64,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 googleKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+codingFelineBuildConfig = { id = "com.codingfeline.buildkonfig", version.ref = "codingFelineBuildConfigVersion" }
