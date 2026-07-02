@@ -21,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +44,7 @@ import com.agelousis.foodnutrition.utils.format
 fun FoodInfoView(
     modifier: Modifier = Modifier,
     viewModel: FoodNutritionBaseViewModel,
+    headerAlpha: Float = 0f,
     foodColor: Color = Steel
 ) {
     val locale = LocalLocale.current
@@ -62,6 +65,10 @@ fun FoodInfoView(
             )
         ) {
             Text(
+                modifier = Modifier
+                    .alpha(
+                        alpha = 1f - headerAlpha
+                    ),
                 text = viewModel.currentIngredientsDataResponseModelState?.modelFood?.label
                     ?: "",
                 style = MaterialTheme.typography.headlineMedium.copy(
@@ -174,13 +181,7 @@ private fun ExpressiveHealthLabel(
                 )
             )
         },
-        shape = expressiveShape,
-        colors = SuggestionChipDefaults.suggestionChipColors(
-            containerColor = backgroundColor.copy(
-                alpha = 0.2f
-            ),
-            labelColor = backgroundColor
-        )
+        shape = expressiveShape
     )
 }
 

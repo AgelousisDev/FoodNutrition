@@ -1,7 +1,7 @@
 package com.agelousis.foodnutrition.foodNutrition.viewModel
 
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
@@ -16,7 +16,7 @@ internal infix fun FoodNutritionBaseViewModel.FoodNutritionBaseActivityNavigatio
 ) {
     val shareManager = rememberShareManager()
     navigationBarActions.filterIsInstance<FoodNutritionBaseActivityNavigationBarAction>().forEach { navigationBarAction ->
-        IconButton(
+        FilledTonalIconButton(
             onClick = {
                 viewModelScope.launch {
                     navigationBarAction.action(
@@ -35,7 +35,7 @@ internal infix fun FoodNutritionBaseViewModel.FoodNutritionBaseActivityNavigatio
         ) {
             Icon(
                 imageVector = navigationBarAction.icon
-                    ?: return@IconButton,
+                    ?: return@FilledTonalIconButton,
                 contentDescription = navigationBarAction.icon?.name
             )
         }

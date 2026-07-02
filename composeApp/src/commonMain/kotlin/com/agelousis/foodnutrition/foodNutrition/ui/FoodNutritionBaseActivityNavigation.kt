@@ -36,11 +36,19 @@ fun ExpressiveShapesBaseActivityNavigation(
             }
             entry<FoodNutritionNavigationScreen.FoodDetailsScreen> {
                 FoodDetailsScreenView(
+                    modifier = Modifier
+                        .padding(
+                            top = contentPadding.calculateTopPadding()
+                        ),
                     viewModel = viewModel
                 )
             }
             entry<FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen> {
                 KetogenicSuperFoodsScreenView(
+                    modifier = Modifier
+                        .padding(
+                            top = contentPadding.calculateTopPadding()
+                        ),
                     viewModel = viewModel
                 )
             }
