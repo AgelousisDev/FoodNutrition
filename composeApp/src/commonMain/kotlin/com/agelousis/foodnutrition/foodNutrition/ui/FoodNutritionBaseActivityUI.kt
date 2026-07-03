@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.foodnutrition.compose.extensions.ImageLoaderConfiguration
 import com.agelousis.foodnutrition.compose.views.ErrorMessage
 import com.agelousis.foodnutrition.compose.views.Loader
+import com.agelousis.foodnutrition.compose.views.MaterialTopBar
 import com.agelousis.foodnutrition.compose.views.SnackBarMessage
 import com.agelousis.foodnutrition.foodNutrition.navigation.FoodNutritionNavigationScreen
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseActivityNavigationBar
@@ -50,49 +51,20 @@ fun FoodNutritionBaseActivityView(
     }
     viewModel.ErrorMessage()
     viewModel SnackBarMessage snackBarHostState
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        modifier = Modifier
-                            .alpha(
-                                alpha =
-                                    if (backStack.lastOrNull()?.appBarTitleInitialVisibility == true)
-                                        1f
-                                    else
-                                        viewModel.appBarTitleAlpha
-                            ),
-                        text = viewModel.appBarTitle
-                            ?: "",
-                        style = MaterialTheme.typography.titleLarge,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    if (viewModel.navigationIcon != null)
-                        FilledTonalIconButton(
-                            onClick = {
-                                if (backStack.size > 1)
-                                    backStack.removeLastOrNull()
-                                else
-                                    onBackPress()
-                            }
-                        ) {
-                            Icon(
-                                imageVector = viewModel.navigationIcon
-                                    ?: Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = viewModel.navigationIcon?.name,
-                            )
-                        }
-                },
-                actions = {
-                    viewModel FoodNutritionBaseActivityNavigationBar backStack
-                }
-            )
+    MaterialTopBar(
+        title = viewModel.appBarTitle,
+        appBarTitleAlpha = viewModel.appBarTitleAlpha,
+        navigationIcon = viewModel.navigationIcon,
+        navigationIconBlock = {
+            if (backStack.size > 1)
+                backStack.removeLastOrNull()
+            else
+                onBackPress()
         },
-        snackbarHost = {
+        actions = {
+            viewModel FoodNutritionBaseActivityNavigationBar backStack
+        },
+        snackBarHost = {
             SnackbarHost(
                 hostState = snackBarHostState
             )
@@ -106,6 +78,7 @@ fun FoodNutritionBaseActivityView(
             viewModel.Loader()
         }
     )
+
 }
 
 @OptIn(ExperimentalResourceApi::class)
