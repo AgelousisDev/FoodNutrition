@@ -15,7 +15,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -148,8 +146,7 @@ fun FoodInfoView(
                     locale = locale
                 )?.forEach { healthLabel ->
                     ExpressiveHealthLabel(
-                        text = healthLabel,
-                        backgroundColor = foodColor
+                        text = healthLabel
                     )
                 }
             }
@@ -160,8 +157,7 @@ fun FoodInfoView(
 
 @Composable
 private fun ExpressiveHealthLabel(
-    text: String,
-    backgroundColor: Color
+    text: String
 ) {
     // Material Expressive uses asymmetric or "squircle" shapes
     val expressiveShape = RoundedCornerShape(

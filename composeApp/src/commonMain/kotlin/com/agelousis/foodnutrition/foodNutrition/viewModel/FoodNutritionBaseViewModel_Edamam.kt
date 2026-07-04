@@ -8,7 +8,6 @@ import com.agelousis.foodnutrition.network.apis.EdamamAPI
 import com.agelousis.foodnutrition.network.apis.createEdamamAPI
 import com.agelousis.foodnutrition.network.models.IngredientModel
 import com.agelousis.foodnutrition.network.repositories.GeneralRepository
-import com.agelousis.foodnutrition.network.repositories.SuccessBlock
 import com.agelousis.foodnutrition.network.repositories.SuspendedSuccessBlock
 import com.agelousis.foodnutrition.network.request.IngredientsDataRequestModel
 import com.agelousis.foodnutrition.network.response.FoodParserResponseModel
@@ -31,12 +30,10 @@ infix fun FoodNutritionBaseViewModel.foodData(
 fun FoodNutritionBaseViewModel.requestFoodNutrition(
     product: String,
     quantity: Int = 100,
-    successBlock: SuccessBlock<IngredientsDataResponseModel> = {}
 ) {
     viewModelScope.launch(
         context = Dispatchers.Default
     ) {
-        isLoading = true
         parseFood(
             product = product,
             successBlock = FoodParserResponseModel@ {
@@ -55,7 +52,6 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                     measureUri = measureUri,
                     quantity = quantity,
                     successBlock = IngredientsDataResponseModel@ {
-                        isLoading = false
                         val modelIngredients = this@IngredientsDataResponseModel?.copy(
                             modelFood = modelFood,
                             measures = measures
@@ -65,9 +61,6 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                         foodDataStateMap[
                                 product
                         ] = modelIngredients
-                        successBlock(
-                            modelIngredients
-                        )
                     }
                 )
             }
@@ -89,7 +82,6 @@ private suspend fun FoodNutritionBaseViewModel.parseFood(
         },
         successModelBlock = successBlock,
         failureBlock = { error ->
-            isLoading = false
             alertPair = error.error to error.message
             showDialog()
         }
@@ -119,7 +111,6 @@ private suspend fun FoodNutritionBaseViewModel.getFullyNutrition(
         },
         successModelBlock = successBlock,
         failureBlock = { error ->
-            isLoading = false
             alertPair = error.error to error.message
             showDialog()
         }

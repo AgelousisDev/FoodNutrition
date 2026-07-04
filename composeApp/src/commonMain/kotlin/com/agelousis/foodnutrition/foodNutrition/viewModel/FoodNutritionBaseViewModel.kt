@@ -7,7 +7,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.agelousis.foodnutrition.compose.viewModel.UIComposeViewModel
 import com.agelousis.foodnutrition.network.response.IngredientsDataResponseModel
-import com.agelousis.foodnutrition.utils.SuccessBlock
 
 class FoodNutritionBaseViewModel(
     val dataStore: DataStore<Preferences>?
@@ -20,15 +19,18 @@ class FoodNutritionBaseViewModel(
     //endregion
 
     //region Request food nutrition
-    fun requestFoodNutrition(
-        foodName: String,
-        successBlock: SuccessBlock<IngredientsDataResponseModel>
+
+    fun clearCurrentFood() {
+        currentIngredientsDataResponseModelState = null
+    }
+
+    infix fun requestFoodNutrition(
+        foodName: String
     ) {
-        (this foodData foodName.lowercase())?.let(
-            block = successBlock
-        ) ?: requestFoodNutrition(
-            product = foodName.lowercase(),
-            successBlock = successBlock
+        (this foodData foodName.lowercase())?.let { ingredientsDataResponseModel ->
+            currentIngredientsDataResponseModelState = ingredientsDataResponseModel
+        } ?: requestFoodNutrition(
+            product = foodName.lowercase()
         )
 
     }

@@ -26,21 +26,24 @@ fun FoodNutritionBaseActivityNavigation(
                             top = contentPadding.calculateTopPadding()
                         ),
                     viewModel = viewModel,
-                    foodDetailsRedirection = IngredientsDataResponseModel@ {
-                        viewModel.currentIngredientsDataResponseModelState = this@IngredientsDataResponseModel
+                    foodDetailsRedirection = FoodName@ {
+                        //viewModel.currentIngredientsDataResponseModelState = this@IngredientsDataResponseModel
                         backStack.add(
-                            element = FoodNutritionNavigationScreen.FoodDetailsScreen
+                            element = FoodNutritionNavigationScreen.FoodDetailsScreen(
+                                foodName = this@FoodName
+                            )
                         )
                     }
                 )
             }
-            entry<FoodNutritionNavigationScreen.FoodDetailsScreen> {
+            entry<FoodNutritionNavigationScreen.FoodDetailsScreen> { (foodName) ->
                 FoodDetailsScreenView(
                     modifier = Modifier
                         .padding(
                             top = contentPadding.calculateTopPadding()
                         ),
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    foodName = foodName
                 )
             }
             entry<FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen> {

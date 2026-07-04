@@ -22,10 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.foodnutrition.foodNutrition.models.RecentSearchModel
-import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
-import com.agelousis.foodnutrition.network.response.IngredientsDataResponseModel
 import com.agelousis.foodnutrition.theme.AppTheme
 import com.agelousis.foodnutrition.utils.SuccessBlock
 import kotlinmultiplatform.composeapp.generated.resources.Res
@@ -37,9 +34,8 @@ import org.jetbrains.compose.resources.stringArrayResource
 @Composable
 fun FoodSearchTextField(
     modifier: Modifier = Modifier,
-    viewModel: FoodNutritionBaseViewModel,
     recentSearches: List<RecentSearchModel> = emptyList(),
-    foodDetailsRedirection: SuccessBlock<IngredientsDataResponseModel>
+    foodDetailsRedirection: SuccessBlock<String>
 ) {
     val searchBarState = rememberSearchBarState()
     val textFieldState = rememberTextFieldState()
@@ -50,15 +46,13 @@ fun FoodSearchTextField(
                 textFieldState = textFieldState,
                 searchBarState = searchBarState,
                 onSearch = {
-                    viewModel.requestFoodNutrition(
-                        foodName = textFieldState.text.toString(),
-                        successBlock = foodDetailsRedirection
-                    )
+                    val foodName = textFieldState.text.toString()
                     textFieldState.setTextAndPlaceCursorAtEnd(
                         text = ""
                     )
                     scope.launch {
                         searchBarState.animateToCollapsed()
+                        foodDetailsRedirection(foodName)
                     }
                 },
                 placeholder = {
@@ -73,15 +67,13 @@ fun FoodSearchTextField(
                 leadingIcon = {
                     IconButton(
                         onClick = {
-                            viewModel.requestFoodNutrition(
-                                foodName = textFieldState.text.toString(),
-                                successBlock = foodDetailsRedirection
-                            )
+                            val foodName = textFieldState.text.toString()
                             textFieldState.setTextAndPlaceCursorAtEnd(
                                 text = ""
                             )
                             scope.launch {
                                 searchBarState.animateToCollapsed()
+                                foodDetailsRedirection(foodName)
                             }
                         },
                         enabled = textFieldState.text.isNotEmpty()
@@ -131,11 +123,10 @@ fun FoodSearchTextField(
                         )
                         scope.launch {
                             searchBarState.animateToCollapsed()
+                            foodDetailsRedirection(
+                                recentSearch.title
+                            )
                         }
-                        viewModel.requestFoodNutrition(
-                            foodName = recentSearch.title,
-                            successBlock = foodDetailsRedirection
-                        )
                     },
                 headlineContent = {
                     Text(
@@ -163,11 +154,6 @@ fun FoodSearchTextField(
 fun FoodSearchTextFieldPreview() {
     AppTheme {
         FoodSearchTextField(
-            viewModel = viewModel {
-                FoodNutritionBaseViewModel(
-                    dataStore = null
-                )
-            },
             foodDetailsRedirection = {}
         )
     }

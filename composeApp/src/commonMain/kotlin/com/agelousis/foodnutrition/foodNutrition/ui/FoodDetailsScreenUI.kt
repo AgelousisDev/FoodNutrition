@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.agelousis.foodnutrition.compose.extensions.shimmerEffect
 import com.agelousis.foodnutrition.foodNutrition.ui.views.FoodInfoView
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.foodnutrition.network.response.FoodModel
@@ -34,7 +35,8 @@ import com.agelousis.foodnutrition.theme.Steel
 @Composable
 fun FoodDetailsScreenView(
     modifier: Modifier = Modifier,
-    viewModel: FoodNutritionBaseViewModel
+    viewModel: FoodNutritionBaseViewModel,
+    foodName: String
 ) {
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
     val (foodColor, setFoodColor) = remember {
@@ -59,6 +61,12 @@ fun FoodDetailsScreenView(
             else
                 foodColor.luminance() > .5f
     )*/
+    //region Request food nutrition
+    RequestFoodNutrition(
+        viewModel = viewModel,
+        foodName = foodName
+    )
+    //endregion
     Surface(
         modifier = modifier
     ) {
@@ -71,38 +79,42 @@ fun FoodDetailsScreenView(
             )
         ) {
             //region Image
-            if (!viewModel.currentIngredientsDataResponseModelState?.modelFood?.image.isNullOrEmpty())
-                item {
-                    Box(
-                        modifier = Modifier
-                            .animateItem()
-                    ) {
-                        viewModel.currentIngredientsDataResponseModelState?.FoodImage(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(
-                                    height = 300.dp
-                                )
-                                .animateItem(),
-                            color = setFoodColor
+            item {
+                Box(
+                    modifier = Modifier
+                        .animateItem()
+                ) {
+                    val modifier = Modifier
+                        .fillMaxWidth()
+                        .height(
+                            height = 300.dp
                         )
-                    }
+                        .animateItem()
+                    viewModel.currentIngredientsDataResponseModelState?.FoodImage(
+                        modifier = modifier,
+                        color = setFoodColor
+                    ) ?: Box(
+                        modifier = modifier
+                            .shimmerEffect()
+                    )
                 }
+            }
             //endregion
             //region Food Info Card
-            item {
-                FoodInfoView(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(
-                            y = (-24).dp
-                        )
-                        .animateItem(),
-                    viewModel = viewModel,
-                    headerAlpha = headerAlpha,
-                    foodColor = foodColor
-                )
-            }
+            if (viewModel.currentIngredientsDataResponseModelState != null)
+                item {
+                    FoodInfoView(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(
+                                y = (-24).dp
+                            )
+                            .animateItem(),
+                        viewModel = viewModel,
+                        headerAlpha = headerAlpha,
+                        foodColor = foodColor
+                    )
+                }
             //endregion
         }
     }
@@ -132,6 +144,20 @@ private fun headerConfiguration(
     }
     //endregion
     return headerAlpha
+}
+
+@Composable
+private fun RequestFoodNutrition(
+    viewModel: FoodNutritionBaseViewModel,
+    foodName: String
+) {
+    LaunchedEffect(
+        key1 = Unit
+    ) {
+        viewModel.requestFoodNutrition(
+            foodName = foodName
+        )
+    }
 }
 
 @Preview(heightDp = 2000)
@@ -167,7 +193,8 @@ fun FoodDetailsScreenViewPreview() {
                         )
                     ) ?: return@also
                 }
-            }
+            },
+            foodName = "Avocado"
         )
     }
 }
@@ -205,7 +232,8 @@ fun FoodDetailsScreenViewInLandscapePreview() {
                         )
                     ) ?: return@also
                 }
-            }
+            },
+            foodName = "Avocado"
         )
     }
 }
@@ -245,7 +273,8 @@ fun FoodDetailsScreenViewPreviewDarkMode() {
                         )
                     ) ?: return@also
                 }
-            }
+            },
+            foodName = "Avocado"
         )
     }
 }

@@ -45,7 +45,6 @@ import com.agelousis.foodnutrition.foodNutrition.ui.views.FoodSearchTextField
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.foodnutrition.foodNutrition.viewModel.RECENT_SEARCH_KEY
 import com.agelousis.foodnutrition.foodNutrition.viewModel.clearRecentSearch
-import com.agelousis.foodnutrition.network.response.IngredientsDataResponseModel
 import com.agelousis.foodnutrition.theme.AppTheme
 import com.agelousis.foodnutrition.utils.SuccessBlock
 import com.agelousis.foodnutrition.utils.getModels
@@ -65,7 +64,7 @@ fun FoodSearchScreenView(
     modifier: Modifier = Modifier,
     viewModel: FoodNutritionBaseViewModel,
     defaultRecentSearchList: List<RecentSearchModel>? = null,
-    foodDetailsRedirection: SuccessBlock<IngredientsDataResponseModel>
+    foodDetailsRedirection: SuccessBlock<String>
 ) {
     val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues()
     val isOnPreview = LocalInspectionMode.current
@@ -79,6 +78,11 @@ fun FoodSearchScreenView(
         lazyGridState = lazyGridState,
         viewModel = viewModel
     )
+    //region Data configuration
+    DataConfiguration(
+        viewModel = viewModel
+    )
+    //endregion
     //region Recent search
     val recentSearches by remember(
         key1 = viewModel.dataStore
@@ -183,7 +187,6 @@ fun FoodSearchScreenView(
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateItem(),
-                    viewModel = viewModel,
                     recentSearches = recentSearches,
                     foodDetailsRedirection = foodDetailsRedirection
                 )
@@ -232,7 +235,6 @@ fun FoodSearchScreenView(
                     RecentSearchItems(
                         modifier = Modifier
                             .animateItem(),
-                        viewModel = viewModel,
                         recentSearches = recentSearches,
                         foodDetailsRedirection = foodDetailsRedirection
                     )
@@ -247,9 +249,8 @@ fun FoodSearchScreenView(
                         modifier = Modifier
                             .fillMaxWidth(),
                         recentSearch = RecentSearchModel@ {
-                            viewModel.requestFoodNutrition(
-                                foodName = this@RecentSearchModel.title,
-                                successBlock = foodDetailsRedirection
+                            foodDetailsRedirection(
+                                this@RecentSearchModel.title
                             )
                         }
                     )
@@ -262,9 +263,8 @@ fun FoodSearchScreenView(
 @Composable
 private fun RecentSearchItems(
     modifier: Modifier,
-    viewModel: FoodNutritionBaseViewModel,
     recentSearches: List<RecentSearchModel>,
-    foodDetailsRedirection: SuccessBlock<IngredientsDataResponseModel>
+    foodDetailsRedirection: SuccessBlock<String>
 ) {
     val screenWidth = LocalWindowInfo.current.containerDpSize.width
     FlowRow(
@@ -292,9 +292,8 @@ private fun RecentSearchItems(
                         width = (screenWidth / 2) - 32.dp
                     ),
                 recentSearch = RecentSearchModel@ {
-                    viewModel.requestFoodNutrition(
-                        foodName = this@RecentSearchModel.title,
-                        successBlock = foodDetailsRedirection
+                    foodDetailsRedirection(
+                        this@RecentSearchModel.title
                     )
                 }
             )
@@ -326,6 +325,17 @@ private fun headerConfiguration(
     }
     //endregion
     return headerAlpha
+}
+
+@Composable
+private fun DataConfiguration(
+    viewModel: FoodNutritionBaseViewModel
+) {
+    LaunchedEffect(
+        key1 = Unit
+    ) {
+        viewModel.clearCurrentFood()
+    }
 }
 
 @Preview(showBackground = true)

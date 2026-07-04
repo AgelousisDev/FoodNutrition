@@ -78,7 +78,8 @@ private fun Navigation(
     backStack: SnapshotStateList<FoodNutritionNavigationScreen>
 ) {
     LaunchedEffect(
-        key1 = backStack.size
+        key1 = backStack.size,
+        key2 = viewModel.currentIngredientsDataResponseModelState
     ) {
         backStack.lastOrNull()?.handleTopAppBar(
             viewModel = viewModel

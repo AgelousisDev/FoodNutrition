@@ -59,7 +59,9 @@ sealed class FoodNutritionNavigationScreen {
         )[0]
     }
     @Serializable
-    data object FoodDetailsScreen: FoodNutritionNavigationScreen() {
+    data class FoodDetailsScreen(
+        val foodName: String
+    ): FoodNutritionNavigationScreen() {
         override suspend fun title() = getStringArray(
             resource = Res.array.key_food_nutrition_screen_titles
         )[1]
