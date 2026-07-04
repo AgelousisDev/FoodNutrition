@@ -8,11 +8,16 @@ import okio.Path.Companion.toPath
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
+import kotlin.native.concurrent.ThreadLocal
+
+@ThreadLocal
+private var dataStore: DataStore<Preferences>? = null
 
 actual class DataStoreProvider {
+
     @OptIn(ExperimentalForeignApi::class)
     actual fun createDataStore(): DataStore<Preferences> {
-        return PreferenceDataStoreFactory.createWithPath(
+        return dataStore ?: PreferenceDataStoreFactory.createWithPath(
             produceFile = {
                 val directory = NSFileManager.defaultManager.URLForDirectory(
                     directory = NSDocumentDirectory,
@@ -23,7 +28,9 @@ actual class DataStoreProvider {
                 )
                 (directory?.path + "/$PREFERENCES_FILENAME").toPath()
             }
-        )
+        ).also {
+            dataStore = it
+        }
     }
 
 }

@@ -11,7 +11,7 @@ import com.agelousis.foodnutrition.foodNutrition.navigation.FoodNutritionNavigat
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
 
 @Composable
-fun ExpressiveShapesBaseActivityNavigation(
+fun FoodNutritionBaseActivityNavigation(
     contentPadding: PaddingValues,
     viewModel: FoodNutritionBaseViewModel,
     backStack: SnapshotStateList<FoodNutritionNavigationScreen>

@@ -10,11 +10,20 @@ actual class DataStoreProvider(
 ) {
 
     actual fun createDataStore(): DataStore<Preferences> {
-        return PreferenceDataStoreFactory.create(
-            produceFile = {
-                context.filesDir.resolve(PREFERENCES_FILENAME)
-            }
-        )
+        return dataStore ?: synchronized(
+            lock = lock
+        ) {
+            dataStore ?: PreferenceDataStoreFactory.create(
+                produceFile = {
+                    context.applicationContext.filesDir.resolve(PREFERENCES_FILENAME)
+                }
+            ).also { dataStore = it }
+        }
+    }
+
+    companion object {
+        private var dataStore: DataStore<Preferences>? = null
+        private val lock = Any()
     }
 
 }
