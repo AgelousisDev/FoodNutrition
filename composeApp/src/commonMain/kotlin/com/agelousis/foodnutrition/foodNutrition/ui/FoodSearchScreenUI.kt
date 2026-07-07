@@ -38,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.foodnutrition.foodNutrition.models.RecentSearchModel
 import com.agelousis.foodnutrition.foodNutrition.ui.alert.ClearRecentSearchAlert
@@ -74,15 +76,15 @@ fun FoodSearchScreenView(
     /*SystemAppearance(
         isLight = !isSystemInDarkTheme()
     )*/
-    val headerAlpha = headerConfiguration(
-        lazyGridState = lazyGridState,
-        viewModel = viewModel
-    )
     //region Data configuration
     DataConfiguration(
         viewModel = viewModel
     )
     //endregion
+    val headerAlpha = headerConfiguration(
+        lazyGridState = lazyGridState,
+        viewModel = viewModel
+    )
     //region Recent search
     val recentSearches by remember(
         key1 = viewModel.dataStore
@@ -331,8 +333,8 @@ private fun headerConfiguration(
 private fun DataConfiguration(
     viewModel: FoodNutritionBaseViewModel
 ) {
-    LaunchedEffect(
-        key1 = Unit
+    LifecycleEventEffect(
+        event = Lifecycle.Event.ON_RESUME
     ) {
         viewModel.clearCurrentFood()
     }

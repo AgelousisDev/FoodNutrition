@@ -101,20 +101,19 @@ fun FoodDetailsScreenView(
             }
             //endregion
             //region Food Info Card
-            if (viewModel.currentIngredientsDataResponseModelState != null)
-                item {
-                    FoodInfoView(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .offset(
-                                y = (-24).dp
-                            )
-                            .animateItem(),
-                        viewModel = viewModel,
-                        headerAlpha = headerAlpha,
-                        foodColor = foodColor
-                    )
-                }
+            item {
+                FoodInfoView(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .offset(
+                            y = (-24).dp
+                        )
+                        .animateItem(),
+                    viewModel = viewModel,
+                    headerAlpha = headerAlpha,
+                    foodColor = foodColor
+                )
+            }
             //endregion
         }
     }

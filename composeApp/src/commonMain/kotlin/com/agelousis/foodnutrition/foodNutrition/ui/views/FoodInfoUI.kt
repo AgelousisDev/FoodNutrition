@@ -74,30 +74,31 @@ fun FoodInfoView(
                     fontSize = 28.sp
                 )
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 8.dp
-                )
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(
-                            size = 16.dp
-                        )
-                        .background(
-                            color = foodColor,
-                            shape = CircleShape
-                        )
-                )
-                Text(
-                    text = viewModel.currentIngredientsDataResponseModelState?.modelFood?.category
-                        ?: "",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.Gray
+            if (viewModel.currentIngredientsDataResponseModelState != null)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = 8.dp
                     )
-                )
-            }
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(
+                                size = 16.dp
+                            )
+                            .background(
+                                color = foodColor,
+                                shape = CircleShape
+                            )
+                    )
+                    Text(
+                        text = viewModel.currentIngredientsDataResponseModelState?.modelFood?.category
+                            ?: "",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = Color.Gray
+                        )
+                    )
+                }
             //region Common measures
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(

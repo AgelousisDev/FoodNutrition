@@ -1,6 +1,9 @@
 package com.agelousis.foodnutrition.foodNutrition.viewModel
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.agelousis.foodnutrition.foodNutrition.utils.FoodNutritionConstants
 import com.agelousis.foodnutrition.network.NetworkHelper
@@ -19,6 +22,10 @@ import kotlin.getValue
 
 //region Edamam APIs
 
+var FoodNutritionBaseViewModel.parseFoodErrorState by mutableStateOf(
+    value = false
+)
+
 val FoodNutritionBaseViewModel.foodDataStateMap by lazy {
     mutableStateMapOf<String, IngredientsDataResponseModel>()
 }
@@ -29,7 +36,7 @@ infix fun FoodNutritionBaseViewModel.foodData(
 
 fun FoodNutritionBaseViewModel.requestFoodNutrition(
     product: String,
-    quantity: Int = 100,
+    quantity: Int = 100
 ) {
     viewModelScope.launch(
         context = Dispatchers.Default
@@ -47,11 +54,16 @@ fun FoodNutritionBaseViewModel.requestFoodNutrition(
                         third = this@FoodParserResponseModel.hints.firstOrNull()?.food,
                         fourth = this@FoodParserResponseModel.hints.firstOrNull()?.measures
                     )
+                if (modelFood?.image.isNullOrEmpty()) {
+                    parseFoodErrorState = true
+                    return@FoodParserResponseModel
+                }
                 getFullyNutrition(
                     foodId = foodId,
                     measureUri = measureUri,
                     quantity = quantity,
                     successBlock = IngredientsDataResponseModel@ {
+                        parseFoodErrorState = false
                         val modelIngredients = this@IngredientsDataResponseModel?.copy(
                             modelFood = modelFood,
                             measures = measures
@@ -82,6 +94,7 @@ private suspend fun FoodNutritionBaseViewModel.parseFood(
         },
         successModelBlock = successBlock,
         failureBlock = { error ->
+            parseFoodErrorState = true
             alertPair = error.error to error.message
             showDialog()
         }
@@ -111,6 +124,7 @@ private suspend fun FoodNutritionBaseViewModel.getFullyNutrition(
         },
         successModelBlock = successBlock,
         failureBlock = { error ->
+            parseFoodErrorState = true
             alertPair = error.error to error.message
             showDialog()
         }

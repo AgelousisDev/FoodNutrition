@@ -3,12 +3,14 @@ package com.agelousis.foodnutrition.foodNutrition.ui
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import com.agelousis.foodnutrition.compose.views.AppNavigation
 import com.agelousis.foodnutrition.foodNutrition.navigation.FoodNutritionNavigationScreen
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
+import com.agelousis.foodnutrition.foodNutrition.viewModel.parseFoodErrorState
 
 @Composable
 fun FoodNutritionBaseActivityNavigation(
@@ -16,6 +18,13 @@ fun FoodNutritionBaseActivityNavigation(
     viewModel: FoodNutritionBaseViewModel,
     backStack: SnapshotStateList<FoodNutritionNavigationScreen>
 ) {
+    with(
+        receiver = viewModel
+    ) {
+        HandleFoodParsingError(
+            backStack = backStack
+        )
+    }
     AppNavigation(
         backStack = backStack,
         entryProvider = entryProvider {
@@ -57,4 +66,19 @@ fun FoodNutritionBaseActivityNavigation(
             }
         }
     )
+}
+
+context(viewModel: FoodNutritionBaseViewModel)
+@Composable
+private fun HandleFoodParsingError(
+    backStack: SnapshotStateList<FoodNutritionNavigationScreen>
+) {
+    LaunchedEffect(
+        key1 = viewModel.parseFoodErrorState
+    ) {
+        if (viewModel.parseFoodErrorState) {
+            backStack.removeLastOrNull()
+            viewModel.parseFoodErrorState = false
+        }
+    }
 }

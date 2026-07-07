@@ -26,9 +26,12 @@ fun getGoogleAiStudioKey(): Pair<String, String> {
 }
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xcontext-parameters")
+    }
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     

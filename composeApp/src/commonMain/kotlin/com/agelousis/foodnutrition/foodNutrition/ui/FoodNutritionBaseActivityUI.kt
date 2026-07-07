@@ -58,9 +58,8 @@ fun FoodNutritionBaseActivityView(
                 hostState = snackBarHostState
             )
         },
-        content = { contentPadding ->
+        content = {
             Navigation(
-                contentPadding = contentPadding,
                 viewModel = viewModel,
                 backStack = backStack
             )
@@ -70,10 +69,10 @@ fun FoodNutritionBaseActivityView(
 
 }
 
+context(paddingValues: PaddingValues)
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Navigation(
-    contentPadding: PaddingValues,
     viewModel: FoodNutritionBaseViewModel,
     backStack: SnapshotStateList<FoodNutritionNavigationScreen>
 ) {
@@ -86,7 +85,7 @@ private fun Navigation(
         )
     }
     FoodNutritionBaseActivityNavigation(
-        contentPadding = contentPadding,
+        contentPadding = paddingValues,
         viewModel = viewModel,
         backStack = backStack
     )

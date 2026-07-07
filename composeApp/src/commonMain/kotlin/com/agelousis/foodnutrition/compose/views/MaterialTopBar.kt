@@ -26,7 +26,7 @@ fun MaterialTopBar(
     navigationIconBlock: () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     snackBarHost: @Composable () -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable PaddingValues.() -> Unit
 ) {
     Scaffold(
         topBar = {
