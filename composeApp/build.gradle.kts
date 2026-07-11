@@ -54,6 +54,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.google.ai.generative)
+            implementation(libs.core.splash.screen)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
