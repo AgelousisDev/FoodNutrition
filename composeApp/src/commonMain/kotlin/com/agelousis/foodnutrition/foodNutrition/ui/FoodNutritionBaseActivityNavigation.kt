@@ -15,18 +15,17 @@ import com.agelousis.foodnutrition.foodNutrition.viewModel.parseFoodErrorState
 @Composable
 fun FoodNutritionBaseActivityNavigation(
     contentPadding: PaddingValues,
-    viewModel: FoodNutritionBaseViewModel,
-    backStack: SnapshotStateList<FoodNutritionNavigationScreen>
+    viewModel: FoodNutritionBaseViewModel
 ) {
     with(
         receiver = viewModel
     ) {
         HandleFoodParsingError(
-            backStack = backStack
+            backStack = viewModel.navigationScreens
         )
     }
     AppNavigation(
-        backStack = backStack,
+        backStack = viewModel.navigationScreens,
         entryProvider = entryProvider {
             entry<FoodNutritionNavigationScreen.FoodSearchScreen> {
                 FoodSearchScreenView(
@@ -37,7 +36,7 @@ fun FoodNutritionBaseActivityNavigation(
                     viewModel = viewModel,
                     foodDetailsRedirection = FoodName@ {
                         //viewModel.currentIngredientsDataResponseModelState = this@IngredientsDataResponseModel
-                        backStack.add(
+                        viewModel.navigationScreens.add(
                             element = FoodNutritionNavigationScreen.FoodDetailsScreen(
                                 foodName = this@FoodName
                             )

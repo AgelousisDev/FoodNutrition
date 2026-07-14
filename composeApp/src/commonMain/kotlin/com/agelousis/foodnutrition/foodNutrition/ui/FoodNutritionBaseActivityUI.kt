@@ -1,27 +1,26 @@
 package com.agelousis.foodnutrition.foodNutrition.ui
 
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.foodnutrition.compose.extensions.ImageLoaderConfiguration
+import com.agelousis.foodnutrition.compose.models.AppBarUiState
 import com.agelousis.foodnutrition.compose.views.ErrorMessage
 import com.agelousis.foodnutrition.compose.views.Loader
 import com.agelousis.foodnutrition.compose.views.MaterialTopBar
 import com.agelousis.foodnutrition.compose.views.SnackBarMessage
-import com.agelousis.foodnutrition.foodNutrition.navigation.FoodNutritionNavigationScreen
-import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseActivityNavigationBar
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.foodnutrition.theme.AppTheme
 import com.agelousis.foodnutrition.utils.SuccessUnitBlock
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,65 +29,62 @@ fun FoodNutritionBaseActivityView(
     onBackPress: SuccessUnitBlock
 ) {
     ImageLoaderConfiguration()
-    val backStack = remember {
-        mutableStateListOf<FoodNutritionNavigationScreen>(
-            FoodNutritionNavigationScreen.FoodSearchScreen
-        )
-    }
     val snackBarHostState = remember {
         SnackbarHostState()
     }
     viewModel.ErrorMessage()
     viewModel SnackBarMessage snackBarHostState
+    val currentScreen = viewModel.navigationScreens.lastOrNull()
+    val appBarUiState by produceState(
+        initialValue = AppBarUiState(
+            title = "",
+            navigationIcon = currentScreen?.navigationIcon
+                ?: Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
+            actions = currentScreen?.navigationBarActions
+                ?: emptyList()
+        ),
+        key1 = currentScreen,
+        key2 = viewModel.currentIngredientsDataResponseModelState
+    ) {
+        value = value.copy(
+            title = currentScreen?.title(
+                viewModel = viewModel
+            ) ?: "",
+            navigationIcon = currentScreen?.navigationIcon
+                ?: Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
+            actions = currentScreen?.navigationBarActions
+                ?: emptyList()
+        )
+    }
     MaterialTopBar(
-        title = viewModel.appBarTitle,
+        title = appBarUiState.title,
         appBarTitleAlpha = viewModel.appBarTitleAlpha,
-        navigationIcon = viewModel.navigationIcon,
+        navigationIcon = appBarUiState.navigationIcon,
         navigationIconBlock = {
-            if (backStack.size > 1)
-                backStack.removeLastOrNull()
+            if (viewModel.navigationScreens.size > 1)
+                viewModel.navigationScreens.removeLastOrNull()
             else
                 onBackPress()
         },
         actions = {
-            viewModel FoodNutritionBaseActivityNavigationBar backStack
+            viewModel.navigationScreens.lastOrNull()?.FoodNutritionBaseActivityNavigationBar(
+                viewModel = viewModel
+            )
         },
         snackBarHost = {
             SnackbarHost(
                 hostState = snackBarHostState
             )
         },
-        content = {
-            Navigation(
-                viewModel = viewModel,
-                backStack = backStack
+        content = PaddingValues@ {
+            FoodNutritionBaseActivityNavigation(
+                contentPadding = this@PaddingValues,
+                viewModel = viewModel
             )
             viewModel.Loader()
         }
     )
 
-}
-
-context(paddingValues: PaddingValues)
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-private fun Navigation(
-    viewModel: FoodNutritionBaseViewModel,
-    backStack: SnapshotStateList<FoodNutritionNavigationScreen>
-) {
-    LaunchedEffect(
-        key1 = backStack.size,
-        key2 = viewModel.currentIngredientsDataResponseModelState
-    ) {
-        backStack.lastOrNull()?.handleTopAppBar(
-            viewModel = viewModel
-        )
-    }
-    FoodNutritionBaseActivityNavigation(
-        contentPadding = paddingValues,
-        viewModel = viewModel,
-        backStack = backStack
-    )
 }
 
 @Preview

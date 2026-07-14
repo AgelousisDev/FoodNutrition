@@ -29,9 +29,8 @@ enum class FoodNutritionBaseActivityNavigationBarAction: NavigationBarAction {
 
     //backStack:
 
-    suspend fun action(
+    fun action(
         viewModel: FoodNutritionBaseViewModel,
-        backStack: SnapshotStateList<FoodNutritionNavigationScreen>,
         shareManager: ShareManager,
         data: Any?
     ) {
@@ -51,7 +50,7 @@ enum class FoodNutritionBaseActivityNavigationBarAction: NavigationBarAction {
                     )
                 }
             KETOGENIC_SUPER_FOODS ->
-                backStack.add(
+                viewModel.navigationScreens.add(
                     element = FoodNutritionNavigationScreen.KetogenicSuperFoodsScreen
                 )
         }
