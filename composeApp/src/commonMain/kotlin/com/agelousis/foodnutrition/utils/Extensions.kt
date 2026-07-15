@@ -4,9 +4,6 @@ import kotlinx.serialization.json.Json
 import kotlin.math.pow
 import kotlin.math.round
 
-typealias SuccessUnitBlock = () -> Unit
-typealias SuccessBlock<T> = T.() -> Unit
-
 val jsonWorker = Json {
     ignoreUnknownKeys = true
     coerceInputValues = true

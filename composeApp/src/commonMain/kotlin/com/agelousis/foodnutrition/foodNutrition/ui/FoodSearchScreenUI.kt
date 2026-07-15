@@ -1,7 +1,7 @@
 package com.agelousis.foodnutrition.foodNutrition.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -44,11 +43,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.agelousis.foodnutrition.foodNutrition.models.RecentSearchModel
 import com.agelousis.foodnutrition.foodNutrition.ui.alert.ClearRecentSearchAlert
 import com.agelousis.foodnutrition.foodNutrition.ui.views.FoodSearchTextField
+import com.agelousis.foodnutrition.foodNutrition.ui.views.RecentSearchItemsView
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
 import com.agelousis.foodnutrition.foodNutrition.viewModel.RECENT_SEARCH_KEY
 import com.agelousis.foodnutrition.foodNutrition.viewModel.clearRecentSearch
+import com.agelousis.foodnutrition.network.repositories.SuccessBlock
 import com.agelousis.foodnutrition.theme.AppTheme
-import com.agelousis.foodnutrition.utils.SuccessBlock
+import com.agelousis.foodnutrition.utils.SystemAppearance
 import com.agelousis.foodnutrition.utils.getModels
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_clear_all_label
@@ -73,9 +74,9 @@ fun FoodSearchScreenView(
     val windowInfo = LocalWindowInfo.current
     val isLandscape = windowInfo.containerSize.width > windowInfo.containerSize.height
     val lazyGridState = rememberLazyGridState()
-    /*SystemAppearance(
+    SystemAppearance(
         isLight = !isSystemInDarkTheme()
-    )*/
+    )
     //region Data configuration
     DataConfiguration(
         viewModel = viewModel
@@ -234,7 +235,7 @@ fun FoodSearchScreenView(
                 && recentSearches.isNotEmpty()
             )
                 item {
-                    RecentSearchItems(
+                    RecentSearchItemsView(
                         modifier = Modifier
                             .animateItem(),
                         recentSearches = recentSearches,
@@ -258,47 +259,6 @@ fun FoodSearchScreenView(
                     )
                 }
             //endregion
-        }
-    }
-}
-
-@Composable
-private fun RecentSearchItems(
-    modifier: Modifier,
-    recentSearches: List<RecentSearchModel>,
-    foodDetailsRedirection: SuccessBlock<String>
-) {
-    val screenWidth = LocalWindowInfo.current.containerDpSize.width
-    FlowRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(
-            space = 16.dp,
-            alignment =
-                if (recentSearches.size.rem(
-                        other = 2
-                    ) == 1)
-                    Alignment.Start
-                else
-                    Alignment.CenterHorizontally
-        ),
-        verticalArrangement = Arrangement.spacedBy(
-            space = 16.dp,
-            alignment = Alignment.CenterVertically
-        ),
-        maxItemsInEachRow = 2
-    ) {
-        recentSearches.reversed().forEach { recentSearchModel ->
-            recentSearchModel.View(
-                modifier = Modifier
-                    .width(
-                        width = (screenWidth / 2) - 32.dp
-                    ),
-                recentSearch = RecentSearchModel@ {
-                    foodDetailsRedirection(
-                        this@RecentSearchModel.title
-                    )
-                }
-            )
         }
     }
 }

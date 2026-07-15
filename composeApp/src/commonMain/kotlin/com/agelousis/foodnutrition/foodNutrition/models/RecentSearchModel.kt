@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.agelousis.foodnutrition.utils.SuccessBlock
+import com.agelousis.foodnutrition.network.repositories.SuccessBlock
 import kotlinx.serialization.Serializable
 
 @Serializable

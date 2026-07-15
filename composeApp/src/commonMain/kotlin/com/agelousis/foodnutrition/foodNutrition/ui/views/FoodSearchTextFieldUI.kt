@@ -23,8 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.agelousis.foodnutrition.foodNutrition.models.RecentSearchModel
+import com.agelousis.foodnutrition.network.repositories.SuccessBlock
 import com.agelousis.foodnutrition.theme.AppTheme
-import com.agelousis.foodnutrition.utils.SuccessBlock
 import kotlinmultiplatform.composeapp.generated.resources.Res
 import kotlinmultiplatform.composeapp.generated.resources.key_food_nutrition_screen_titles
 import kotlinx.coroutines.launch

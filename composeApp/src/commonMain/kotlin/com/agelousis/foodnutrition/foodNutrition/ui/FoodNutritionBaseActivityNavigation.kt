@@ -46,10 +46,6 @@ fun FoodNutritionBaseActivityNavigation(
             }
             entry<FoodNutritionNavigationScreen.FoodDetailsScreen> { (foodName) ->
                 FoodDetailsScreenView(
-                    modifier = Modifier
-                        .padding(
-                            top = contentPadding.calculateTopPadding()
-                        ),
                     viewModel = viewModel,
                     foodName = foodName
                 )

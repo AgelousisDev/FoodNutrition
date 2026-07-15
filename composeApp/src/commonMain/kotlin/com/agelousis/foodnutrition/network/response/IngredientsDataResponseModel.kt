@@ -27,6 +27,7 @@ import com.agelousis.foodnutrition.compose.extensions.shimmerEffect
 import com.agelousis.foodnutrition.network.enumerations.NutrientType
 import com.agelousis.foodnutrition.network.models.IngredientModel
 import com.agelousis.foodnutrition.network.models.NutrientInfoModel
+import com.agelousis.foodnutrition.network.repositories.SuccessBlock
 import com.agelousis.foodnutrition.theme.AvocadoIcon
 import com.agelousis.foodnutrition.theme.GoGreen
 import com.agelousis.foodnutrition.utils.AIImageManager
@@ -40,7 +41,6 @@ import kotlinmultiplatform.composeapp.generated.resources.key_image_label
 import kotlinmultiplatform.composeapp.generated.resources.key_nutrition_facts_label
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.getString
-import com.agelousis.foodnutrition.utils.SuccessBlock
 import com.agelousis.foodnutrition.utils.toImageBitmap
 
 val INGREDIENTS_DATA_RESPONSE_MOCK_MODEL =

@@ -20,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.agelousis.foodnutrition.compose.extensions.jumpingDotTransition
+import com.agelousis.foodnutrition.network.repositories.SuccessBlock
 import com.agelousis.foodnutrition.theme.AppTheme
 import com.agelousis.foodnutrition.theme.Butterscotch
 import com.agelousis.foodnutrition.theme.GraniteGrayColor
 import com.agelousis.foodnutrition.theme.Steel
-import com.agelousis.foodnutrition.utils.SuccessBlock
 
 enum class DotIndicatorViewType {
     CIRCLE_DOT,

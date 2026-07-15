@@ -6,7 +6,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -19,8 +18,8 @@ import com.agelousis.foodnutrition.compose.views.Loader
 import com.agelousis.foodnutrition.compose.views.MaterialTopBar
 import com.agelousis.foodnutrition.compose.views.SnackBarMessage
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
+import com.agelousis.foodnutrition.network.repositories.SuccessUnitBlock
 import com.agelousis.foodnutrition.theme.AppTheme
-import com.agelousis.foodnutrition.utils.SuccessUnitBlock
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

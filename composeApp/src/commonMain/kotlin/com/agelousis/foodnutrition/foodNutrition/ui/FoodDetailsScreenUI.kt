@@ -1,5 +1,6 @@
 package com.agelousis.foodnutrition.foodNutrition.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,6 +33,7 @@ import com.agelousis.foodnutrition.network.response.INGREDIENTS_DATA_RESPONSE_MO
 import com.agelousis.foodnutrition.network.response.MeasureModel
 import com.agelousis.foodnutrition.theme.AppTheme
 import com.agelousis.foodnutrition.theme.Steel
+import com.agelousis.foodnutrition.utils.SystemAppearance
 
 @Composable
 fun FoodDetailsScreenView(
@@ -49,7 +52,7 @@ fun FoodDetailsScreenView(
         lazyListState = lazyListState,
         viewModel = viewModel
     )
-    /*val headerImageIsNotVisible by remember {
+    val headerImageIsNotVisible by remember {
         derivedStateOf {
             lazyListState.firstVisibleItemIndex > 0
         }
@@ -60,7 +63,7 @@ fun FoodDetailsScreenView(
                 !isSystemInDarkTheme()
             else
                 foodColor.luminance() > .5f
-    )*/
+    )
     //region Request food nutrition
     RequestFoodNutrition(
         viewModel = viewModel,

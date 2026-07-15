@@ -43,8 +43,8 @@ import com.agelousis.foodnutrition.theme.DarkGreySecondary
 import com.agelousis.foodnutrition.theme.GraniteGrayColor
 import com.agelousis.foodnutrition.compose.util.ScalingHorizontalPagerData
 import com.agelousis.foodnutrition.foodNutrition.enumerations.KetogenicSuperFood
+import com.agelousis.foodnutrition.network.repositories.SuccessBlock
 import com.agelousis.foodnutrition.theme.AppTheme
-import com.agelousis.foodnutrition.utils.SuccessBlock
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
