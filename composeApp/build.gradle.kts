@@ -203,6 +203,10 @@ ksp {
     arg("ktorfit.errors", "1")
 }
 
+ktorfit {
+    compilerPluginVersion.set("2.3.5")
+}
+
 tasks.matching { it.name == "kspKotlinJvm" }.configureEach {
     dependsOn(tasks.matching { it.name == "kspCommonMainKotlinMetadata" })
 }
