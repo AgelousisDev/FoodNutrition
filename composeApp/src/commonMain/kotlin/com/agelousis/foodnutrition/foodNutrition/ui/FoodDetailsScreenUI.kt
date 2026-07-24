@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.agelousis.foodnutrition.compose.extensions.rememberLazyListScrollY
 import com.agelousis.foodnutrition.compose.extensions.shimmerEffect
 import com.agelousis.foodnutrition.foodNutrition.ui.views.FoodInfoView
 import com.agelousis.foodnutrition.foodNutrition.viewModel.FoodNutritionBaseViewModel
@@ -48,18 +49,14 @@ fun FoodDetailsScreenView(
         )
     }
     val lazyListState = rememberLazyListState()
+    val scrolledY = lazyListState.rememberLazyListScrollY
     val headerAlpha = headerConfiguration(
         lazyListState = lazyListState,
         viewModel = viewModel
     )
-    val headerImageIsNotVisible by remember {
-        derivedStateOf {
-            lazyListState.firstVisibleItemIndex > 0
-        }
-    }
     SystemAppearance(
         isLight =
-            if (headerImageIsNotVisible)
+            if (scrolledY >= 100)
                 !isSystemInDarkTheme()
             else
                 foodColor.luminance() > .5f

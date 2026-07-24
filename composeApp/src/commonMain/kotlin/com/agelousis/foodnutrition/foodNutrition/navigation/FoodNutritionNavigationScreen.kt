@@ -37,7 +37,10 @@ sealed class FoodNutritionNavigationScreen {
 
     val navigationBarActions
         get() = listOfNotNull(
-            FoodNutritionBaseActivityNavigationBarAction.KETOGENIC_SUPER_FOODS,
+            if (this !is KetogenicSuperFoodsScreen)
+                FoodNutritionBaseActivityNavigationBarAction.KETOGENIC_SUPER_FOODS
+            else
+                null,
             if (this is FoodDetailsScreen)
                 FoodNutritionBaseActivityNavigationBarAction.SHARE
             else
